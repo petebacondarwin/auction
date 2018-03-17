@@ -1,10 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { AppComponent } from './app.component';
+import { LoginComponent } from 'app/auth/login/login.component';
+import { EmailComponent } from 'app/auth/email/email.component';
+import { SignupComponent } from 'app/auth/signup/signup.component';
+import { AdminComponent } from 'app/admin/admin.component';
+import { AuthGuard } from 'app/auth/auth.guard';
+import { routes } from 'app/app.routes';
+import { AppComponent } from 'app/app.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -17,14 +26,22 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    EmailComponent,
+    SignupComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    routes
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
