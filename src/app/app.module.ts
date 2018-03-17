@@ -18,6 +18,9 @@ import { AppComponent } from 'app/app.component';
 import { RaffleComponent } from './raffle/raffle.component';
 import { AuctionComponent } from './auction/auction.component';
 import { MagicBoxComponent } from './magic-box/magic-box.component';
+import { HowItWorksComponent } from './auction/how-it-works/how-it-works.component';
+import { CategoryListComponent } from './auction/category-list/category-list.component';
+import { BidderInfoComponent } from './auction/bidder-info/bidder-info.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -38,7 +41,10 @@ const firebaseConfig = {
     AdminComponent,
     RaffleComponent,
     AuctionComponent,
-    MagicBoxComponent
+    MagicBoxComponent,
+    HowItWorksComponent,
+    CategoryListComponent,
+    BidderInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,32 @@
+<h3>Your Details</h3>
+<div class="well">
+  <div ng-form name="bidderForm" ng-click="bidder.touched = true"  ng-class="{ touched: bidder.touched }" class="form-inline">
+    <div class="control-group" ng-class="{warning: bidder.touched && bidderForm.fullName.$invalid}" >
+      <input name="fullName" type="text" ng-model="bidder.info.fullName" placeholder="Full Name (required)" required> *
+      <span class="help-inline" ng-show="bidder.touched && bidderForm.fullName.$invalid">Please enter your name</span>
+    </div>
+    <div class="control-group" ng-class="{warning: bidder.touched && bidderForm.email.$invalid}" >
+      <input name="email" type="email" ng-model="bidder.info.email" placeholder="Email (required)" required> *
+      <span class="help-inline" ng-show="bidder.touched && bidderForm.email.$invalid">Please enter a valid email address</span>
+    </div>
+    <div class="control-group" ng-class="{warning: bidder.touched && bidderForm.phone.$invalid}" >
+      <input name="phone" type="tel" ng-model="bidder.info.phoneNumber" placeholder="Phone (required)" required ng-pattern="/^[\d\s\(\)]+(x\d+)?$/"> *
+    <span class="help-inline" ng-show="bidder.touched && bidderForm.phone.$invalid">Please enter a valid phone number</span>
+    </div>
+    <div class="control-group">
+      <input name="schoolClass" type="text" ng-model="bidder.info.schoolClass" placeholder="Child Name and Class (optional)">
+    </div>
+    <div class="control-group">
+      <label class="checkbox">Notify me, by email, about my bids <input name="notify" type="checkbox" ng-model="bidder.info.notify"></label>
+    </div>
+    <div class="control-group">
+      <label class="checkbox">Remember me on this computer <input name="rememberMe" type="checkbox" ng-model="bidder.rememberMe"></label>
+    </div>
+  </div>
+  <div ng-show="bidder.loaded">
+    <p class="muted"><small>
+      This bidder information was stored on this computer from an earlier session.<br/>
+      If this is not you, please <a href="" ng-click="bidder.clear()">clear bidder</a>.
+    </small></p>
+  </div>
+</div>

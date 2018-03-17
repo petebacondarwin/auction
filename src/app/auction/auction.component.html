@@ -13,9 +13,9 @@
 
 <div class="row" ng-class="{ waiting: requests.length > 0 }">
   <div class="span3 left-panel">
-    <!-- <div ng-include="'../assets/templates/auction/categoryList.html'"></div> -->
-    <h3>Your Details</h3> <div bidder-info></div>
-    <!-- <div ng-include="'../assets/templates/auction/howItWorks.html'"></div> -->
+    <app-category-list [categories]="categories" (select)="filter($event)"></app-category-list>
+    <app-bidder-info></app-bidder-info>
+    <app-how-it-works></app-how-it-works>
   </div>
   <!-- <div class="span9" ng-include="currentView()" autoscroll></div> -->
 </div>
