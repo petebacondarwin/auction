@@ -1,0 +1,21 @@
+<div *ngIf="isOpen">
+  <h2>Online Bidding is Now Open!</h2>
+  <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
+  <p><strong>Bidding on the website closes at midday on Friday 23rd June, but will continue at the Fair on 24th June.</strong></p>
+  <p>For more information see <strong>"How It Works..."</strong> below.</p>
+</div>
+<div *ngIf="!isOpen">
+  <h2>Online Bidding is Now Closed!</h2>
+  <p>Please come along to the Summer Fair to continue the bidding</p>
+</div>
+<p><em><strong>Don't forget to bring your cheque books to pay on fair day or if your unable to attend we will email you if you win your lot!</strong></em></p>
+
+
+<div class="row" ng-class="{ waiting: requests.length > 0 }">
+  <div class="span3 left-panel">
+    <!-- <div ng-include="'../assets/templates/auction/categoryList.html'"></div> -->
+    <h3>Your Details</h3> <div bidder-info></div>
+    <!-- <div ng-include="'../assets/templates/auction/howItWorks.html'"></div> -->
+  </div>
+  <!-- <div class="span9" ng-include="currentView()" autoscroll></div> -->
+</div>

@@ -1,9 +1,24 @@
-<router-outlet></router-outlet>
-<table>
+<div class="container">
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+          <ul class="nav">
+            <li ng-class="{ active: activePage == 'home' }"><a routerLink="/">Home</a></li>
+            <li ng-class="{ active: activePage == 'auction'}"><a routerLink="/auction">Auction</a></li>
+            <li ng-class="{ active: activePage == 'raffle'}"><a routerLink="/raffle">Raffle</a></li>
+            <li ng-class="{ active: activePage == 'magic-box'}"><a routerLink="/magic-box">Magic Box</a></li>
+          </ul>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+  <div class="row footer">
+    <div class="copyright muted">&copy; Copyright Coleridge Primary School {{ currentYear }}</div>
+  </div>
+</div>
+<!-- <table>
   <thead>
     <tr><th>Category</th></tr>
   </thead>
   <tbody>
     <tr *ngFor="let category of categories | async"><td>{{ category.name }}</td></tr>
   </tbody>
-</table>
+</table> -->

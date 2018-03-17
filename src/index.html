@@ -2,16 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>AuctionSite</title>
   <base href="/">
 
-  <link media="all" type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation-flex.min.css">
+  <link href="assets/styles/bootstrap-v2.3.2.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.2.2/web-animations.min.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root><div class="loading"></div></app-root>
+<!--[if lte IE 8]>
+<div class="alert alert-error">
+  <h3>Uh oh!</h3>
+  <strong>You are using an old version of Internet Explorer.</strong><br/>
+  <em>This auction site is unlikely to work properly.</em><br/>
+  You can try <a href="windows.microsoft.co.uk/ie">updating your Internet Explorer to version 11</a><br/>
+  <em>(but you won't be able to if you are running Windows XP).</em><br/>
+  Otherwise try a different browser like <a href="http://www.google.com/chrome‎" target="_blank">Google Chrome</a> or <a href="www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a>.
+</div>
+<![endif]-->
+<app-root><div class="loading"></div></app-root>
 </body>
 </html>

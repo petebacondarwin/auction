@@ -7,6 +7,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
 import { EmailComponent } from 'app/auth/email/email.component';
 import { SignupComponent } from 'app/auth/signup/signup.component';
@@ -14,6 +15,9 @@ import { AdminComponent } from 'app/admin/admin.component';
 import { AuthGuard } from 'app/auth/auth.guard';
 import { routes } from 'app/app.routes';
 import { AppComponent } from 'app/app.component';
+import { RaffleComponent } from './raffle/raffle.component';
+import { AuctionComponent } from './auction/auction.component';
+import { MagicBoxComponent } from './magic-box/magic-box.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -27,10 +31,14 @@ const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     LoginComponent,
     EmailComponent,
     SignupComponent,
-    AdminComponent
+    AdminComponent,
+    RaffleComponent,
+    AuctionComponent,
+    MagicBoxComponent
   ],
   imports: [
     BrowserModule,
