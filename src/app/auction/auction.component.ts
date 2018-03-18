@@ -32,10 +32,10 @@ export class AuctionComponent implements OnDestroy {
     app.setPageTitle('Auction');
 
     this.categories = afs.collection<Category>('categories').snapshotChanges().pipe(
-      map(changes => withId(changes))
+      map(changes => withId<Category>(changes))
     );
 
-    const allItems = afs.collection<Item>('items').snapshotChanges().pipe(
+    const allItems = afs.collection<Item>('auction-items').snapshotChanges().pipe(
       map(changes => withId<Item>(changes))
     );
 

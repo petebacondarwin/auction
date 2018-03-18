@@ -1,21 +1,15 @@
-import * as functions from 'firebase-functions';
+import { Event, firestore, config} from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp(config().firebase);
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
-
-export const countItemsPerCategory = functions.firestore.document('items/{itemId}').onWrite(async action => {
+async function updateItemCount(action: Event<firestore.DeltaDocumentSnapshot>) {
   const category = action.data.get('category');
   const db = admin.firestore();
-  const querySnaphshot = await db.collection('items').where('category', '==', category).get();
+  const querySnaphshot = await db.collection('auction-items').where('category', '==', category).get();
   const itemCount = querySnaphshot.size;
-  console.log(`updating ${category} to ${itemCount}`);
+  console.log(`change to ${action.params['itemId']}: updating ${category} to ${itemCount}`);
   return await db.doc(`categories/${category}`).update('itemCount', itemCount);
-});
+}
+
+export const auctionItemAdded = firestore.document('auction-items/{itemId}').onWrite(updateItemCount);
