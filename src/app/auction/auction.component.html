@@ -1,23 +1,13 @@
-<div *ngIf="isOpen">
-  <h2>Online Bidding is Now Open!</h2>
-  <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
-  <p><strong>Bidding on the website closes at midday on Friday 23rd June, but will continue at the Fair on 24th June.</strong></p>
-  <p>For more information see <strong>"How It Works..."</strong> below.</p>
-</div>
-<div *ngIf="!isOpen">
-  <h2>Online Bidding is Now Closed!</h2>
-  <p>Please come along to the Summer Fair to continue the bidding</p>
-</div>
-<p><em><strong>Don't forget to bring your cheque books to pay on fair day or if your unable to attend we will email you if you win your lot!</strong></em></p>
-
-
-<div class="row">
-  <div class="span3 left-panel">
-    <app-category-list [currentCategory]="currentCategory|async" [categories]="categories | async" (select)="filter($event)"></app-category-list>
-    <app-bidder-info></app-bidder-info>
-    <app-how-it-works></app-how-it-works>
-  </div>
-  <div class="span9">
+<mat-toolbar>
+  <h1><button *ngIf="!isWide" mat-button class="hamburger-menu" (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button> Auction Items</h1>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav [mode]="isWide && 'side' || 'over'" [opened]="isWide" #sidenav>
+    <app-category-list [currentCategory]="currentCategory|async" [categories]="categories | async" (select)="setCurrentCategory($event)"></app-category-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <h2>Bidding not yet open!</h2>
+    <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
     <app-item-list [currentCategory]="currentCategory|async" [items]="items|async"></app-item-list>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

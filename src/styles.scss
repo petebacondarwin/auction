@@ -1,5 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-body {
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.mat-drawer-container {
+  background-color: inherit;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* body {
     background:#E2E4E6;
     padding-top:4em;
 }
@@ -94,7 +105,7 @@ h2 {
 }
 
 
-/* 2017 branding - START */
+// 2017 branding - START
 
 body {
     background-color: #fefefe;
@@ -117,7 +128,7 @@ body {
     background-color: #dc3162;
   }
 
-  /* 2017 branding - FINISH */
+  // 2017 branding - FINISH
 
 
   .heading-logo {
@@ -245,3 +256,4 @@ body {
         font-size:1em;
     }
 }
+*/

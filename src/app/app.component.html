@@ -1,16 +1,15 @@
-<div class="container">
-    <div class="navbar navbar-inverse">
-        <div class="navbar-inner">
-          <ul class="nav">
-            <li [ngClass]="{ active: router.isActive('/', true) }"><a routerLink="/">Home</a></li>
-            <li [ngClass]="{ active: router.isActive('auction') }"><a routerLink="/auction">Auction</a></li>
-            <li [ngClass]="{ active: router.isActive('raffle') }"><a routerLink="/raffle">Raffle</a></li>
-            <li [ngClass]="{ active: router.isActive('magic-box') }"><a routerLink="/magic-box">Magic Box</a></li>
-          </ul>
-        </div>
-      </div>
-      <router-outlet></router-outlet>
-  <div class="row footer">
-    <div class="copyright muted">&copy; Copyright Coleridge Primary School {{ currentYear }}</div>
-  </div>
-</div>
+<header>
+  <mat-toolbar color="primary">
+    <nav>
+      <ul role="navigation">
+        <li [class.active]="router.isActive('/', true)"><a routerLink="/">Home</a></li>
+        <li [class.active]="router.isActive('auction')"><a routerLink="/auction">Auction</a></li>
+        <li [class.active]="router.isActive('raffle')"><a routerLink="/raffle">Raffle</a></li>
+        <li [class.active]="router.isActive('magic-box')"><a routerLink="/magic-box">Magic Box</a></li>
+      </ul>
+    </nav>
+  </mat-toolbar>
+</header>
+<article>
+  <router-outlet></router-outlet>
+</article>

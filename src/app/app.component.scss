@@ -1,0 +1,27 @@
+mat-toolbar {
+  ul {
+    padding: 0;
+    display: flex;
+  }
+  li {
+    list-style: none;
+    display: inline-block;
+    padding: 2px 10px;
+
+    &.active {
+      background-color: #fff2;
+      border-radius: 5px;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+article {
+  flex-grow: 1;
+  display: flex;
+  box-shadow: 0 6px 6px rgba(0,0,0,.1);
+}
