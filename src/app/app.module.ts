@@ -21,6 +21,7 @@ import { MagicBoxComponent } from './magic-box/magic-box.component';
 import { HowItWorksComponent } from './auction/how-it-works/how-it-works.component';
 import { CategoryListComponent } from './auction/category-list/category-list.component';
 import { BidderInfoComponent } from './auction/bidder-info/bidder-info.component';
+import { ItemListComponent } from './auction/item-list/item-list.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -44,7 +45,8 @@ const firebaseConfig = {
     MagicBoxComponent,
     HowItWorksComponent,
     CategoryListComponent,
-    BidderInfoComponent
+    BidderInfoComponent,
+    ItemListComponent
   ],
   imports: [
     BrowserModule,

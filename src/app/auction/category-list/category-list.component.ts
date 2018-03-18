@@ -10,7 +10,10 @@ import { Category } from 'app/models';
 export class CategoryListComponent {
 
   @Input()
-  categories: Observable<Category[]>;
+  categories: Category[];
+
+  @Input()
+  currentCategory: Category;
 
   @Output()
   select = new EventEmitter();

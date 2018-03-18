@@ -2,10 +2,10 @@
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
           <ul class="nav">
-            <li ng-class="{ active: activePage == 'home' }"><a routerLink="/">Home</a></li>
-            <li ng-class="{ active: activePage == 'auction'}"><a routerLink="/auction">Auction</a></li>
-            <li ng-class="{ active: activePage == 'raffle'}"><a routerLink="/raffle">Raffle</a></li>
-            <li ng-class="{ active: activePage == 'magic-box'}"><a routerLink="/magic-box">Magic Box</a></li>
+            <li [ngClass]="{ active: router.isActive('/', true) }"><a routerLink="/">Home</a></li>
+            <li [ngClass]="{ active: router.isActive('auction') }"><a routerLink="/auction">Auction</a></li>
+            <li [ngClass]="{ active: router.isActive('raffle') }"><a routerLink="/raffle">Raffle</a></li>
+            <li [ngClass]="{ active: router.isActive('magic-box') }"><a routerLink="/magic-box">Magic Box</a></li>
           </ul>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
+import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit{
 
 
   constructor(
+    public router: Router,
     private titleService: Title,
     private afAuth: AngularFireAuth) {}
 

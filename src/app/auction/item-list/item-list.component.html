@@ -1,0 +1,23 @@
+<h2>{{currentCategory && currentCategory.name || 'All Items'}}</h2>
+<p>
+  <!-- <strong>Bidders: </strong>{{auctionService.stats.bidders}}
+  <strong>Bids: </strong>{{auctionService.stats.bids}}
+  <strong>Total: &pound;</strong>{{auctionService.stats.total}} -->
+</p>
+<table class="table">
+  <tr *ngFor="let item of items">
+    <td title="Click for more information" (click)="showItem(item)" class="auction-item-link">
+      <!-- <img (src)="{{ item | croppedImageUrl : 100 : 100 }}" style="max-width: 100px"> -->
+    </td>
+    <td>
+      <h4 title="Click for more information" (click)="showItem(item)" class="auction-item-link">
+        {{item.title}}
+        <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
+      </h4>
+      <p class="subtitle muted">Lot No: {{item.lot}}</p>
+      <!-- <div bid-widget item="item"></div> -->
+      <!-- <p ng-bind-html-unsafe="item.shortDescription | linky : '_blank' | formatLineBreaks"></p> -->
+      <!-- <div donor item="item"></div> -->
+    </td>
+  </tr>
+</table>

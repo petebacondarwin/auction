@@ -1,6 +1,9 @@
 <h3>Categories</h3>
 <ul class="nav nav-list nav-stacked">
-  <li *ngFor="let category of categories | async" ng-class="{active: category === currentCategory}">
-    <a (click)="onSelect(category)">{{category.name}}  ({{ category.items?.length }})</a>
+  <li [ngClass]="{active: currentCategory === null}">
+      <a (click)="onSelect(null)">All Items</a>
+  </li>
+  <li *ngFor="let category of categories" [ngClass]="{active: category === currentCategory}">
+    <a (click)="onSelect(category)">{{category.name}}  ({{ category.itemCount || 0 }})</a>
   </li>
 </ul>

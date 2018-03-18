@@ -11,11 +11,13 @@
 <p><em><strong>Don't forget to bring your cheque books to pay on fair day or if your unable to attend we will email you if you win your lot!</strong></em></p>
 
 
-<div class="row" ng-class="{ waiting: requests.length > 0 }">
+<div class="row">
   <div class="span3 left-panel">
-    <app-category-list [categories]="categories" (select)="filter($event)"></app-category-list>
+    <app-category-list [currentCategory]="currentCategory|async" [categories]="categories | async" (select)="filter($event)"></app-category-list>
     <app-bidder-info></app-bidder-info>
     <app-how-it-works></app-how-it-works>
   </div>
-  <!-- <div class="span9" ng-include="currentView()" autoscroll></div> -->
+  <div class="span9">
+    <app-item-list [currentCategory]="currentCategory|async" [items]="items|async"></app-item-list>
+  </div>
 </div>
