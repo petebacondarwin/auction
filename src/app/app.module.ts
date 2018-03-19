@@ -1,11 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -16,7 +21,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
-import { EmailComponent } from 'app/auth/email/email.component';
 import { SignupComponent } from 'app/auth/signup/signup.component';
 import { AdminComponent } from 'app/admin/admin.component';
 import { AuthGuard } from 'app/auth/auth.guard';
@@ -44,7 +48,6 @@ const firebaseConfig = {
     AppComponent,
     HomeComponent,
     LoginComponent,
-    EmailComponent,
     SignupComponent,
     AdminComponent,
     RaffleComponent,
@@ -58,17 +61,25 @@ const firebaseConfig = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
+    ReactiveFormsModule,
     LayoutModule,
     MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
+    MatMenuModule,
     MatSidenavModule,
     MatToolbarModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
     routes
+  ],
+  entryComponents: [
+    LoginComponent
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

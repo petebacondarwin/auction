@@ -1,11 +1,22 @@
-<div class="form-container">
-  <img src="assets/images/lock.svg" id="lock">
 
-    <span class="error" *ngIf="error">{{ error }}</span>
+<h1>Login</h1>
 
-  <button (click)="loginFb()" id="fb">Login With Facebook</button><br>
-  <button (click)="loginGoogle()" id="google">Login With Google</button>
-  <button routerLink="/login-email" id="email">Email</button>
+<form [formGroup]="loginForm" (ngSubmit)="loginViaEmail(loginForm)">
 
-  <a routerLink="/signup" routerLinkActive="active" class="alc">No account? <strong>Create one here</strong></a>
-</div>
+  <mat-form-field>
+    <input matInput placeholder="Email address..." formControlName="email">
+    <mat-error *ngIf="firstError('email') == 'required'">Email is required.</mat-error>
+    <mat-error *ngIf="firstError('email') == 'email'">Email must be a valid email address.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="password" placeholder="Password..." formControlName="password">
+    <mat-error *ngIf="firstError('password') == 'required'">Password is required.</mat-error>
+  </mat-form-field>
+
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <button type="submit" [disabled]="!loginForm.valid" id="email">Log in</button>
+  <button type="button" (click)="loginViaGoogle()" id="google">Login With Google</button>
+  <a routerLink="/signup" mat-button><span>No account?</span> <strong>Create one here</strong></a>
+</form>

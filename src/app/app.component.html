@@ -1,13 +1,13 @@
 <header>
   <mat-toolbar color="primary">
-    <nav>
-      <ul role="navigation">
-        <li [class.active]="router.isActive('/', true)"><a routerLink="/">Home</a></li>
-        <li [class.active]="router.isActive('auction')"><a routerLink="/auction">Auction</a></li>
-        <li [class.active]="router.isActive('raffle')"><a routerLink="/raffle">Raffle</a></li>
-        <li [class.active]="router.isActive('magic-box')"><a routerLink="/magic-box">Magic Box</a></li>
-      </ul>
-    </nav>
+    <a routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLinkActive="active" routerLink="/auction">Auction</a>
+    <a routerLinkActive="active" routerLink="/raffle">Raffle</a>
+    <a routerLinkActive="active" routerLink="/magic-box">Magic Box</a>
+    <span class="filler"></span>
+    <a routerLinkActive="active" routerLink="/admin">Admin</a>
+    <a *ngIf="!user" (click)="login()">Login</a>
+    <a *ngIf="user" (click)="logout()">Logout</a>
   </mat-toolbar>
 </header>
 <article>
