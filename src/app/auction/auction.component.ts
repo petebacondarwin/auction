@@ -26,16 +26,16 @@ export class AuctionComponent implements OnDestroy {
 
   constructor(
     app: AppComponent,
-    afs: AngularFirestore,
+    firestore: AngularFirestore,
     breakpoints: BreakpointObserver
   ) {
     app.setPageTitle('Auction');
 
-    this.categories = afs.collection<Category>('categories').snapshotChanges().pipe(
+    this.categories = firestore.collection<Category>('categories').snapshotChanges().pipe(
       map(changes => withId<Category>(changes))
     );
 
-    const allItems = afs.collection<Item>('auction-items').snapshotChanges().pipe(
+    const allItems = firestore.collection<Item>('auction-items').snapshotChanges().pipe(
       map(changes => withId<Item>(changes))
     );
 

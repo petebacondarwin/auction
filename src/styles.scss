@@ -10,6 +10,11 @@ app-root {
   min-height: 100vh;
 }
 
+/* Make sure that all routed components fill the space */
+article > router-outlet + * {
+  width: 100%;
+}
+
 /* body {
     background:#E2E4E6;
     padding-top:4em;

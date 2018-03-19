@@ -23,8 +23,6 @@ import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
 import { SignupComponent } from 'app/auth/signup/signup.component';
 import { AdminComponent } from 'app/admin/admin.component';
-import { AuthGuard } from 'app/auth/auth.guard';
-import { routes } from 'app/app.routes';
 import { AppComponent } from 'app/app.component';
 import { RaffleComponent } from './raffle/raffle.component';
 import { AuctionComponent } from './auction/auction.component';
@@ -33,6 +31,10 @@ import { HowItWorksComponent } from './auction/how-it-works/how-it-works.compone
 import { CategoryListComponent } from './auction/category-list/category-list.component';
 import { BidderInfoComponent } from './auction/bidder-info/bidder-info.component';
 import { ItemListComponent } from './auction/item-list/item-list.component';
+
+import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
+import { Auth } from 'app/auth/auth.service';
+import { routes } from 'app/app.routes';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -81,7 +83,11 @@ const firebaseConfig = {
   entryComponents: [
     LoginComponent
   ],
-  providers: [AuthGuard],
+  providers: [
+    AdminGuard,
+    Auth,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

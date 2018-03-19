@@ -1,11 +1,8 @@
-import { Component, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { AngularFireAuth } from 'angularfire2/auth';
-import { auth } from 'firebase';
-
-import { Destroyable } from 'app/destroyable';
+import { Auth } from 'app/auth/auth.service';
 
 const errorOrder = [
   'required',
@@ -17,7 +14,7 @@ const errorOrder = [
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent extends Destroyable implements OnInit {
+export class LoginComponent {
 
   error: string;
 
@@ -26,27 +23,18 @@ export class LoginComponent extends Destroyable implements OnInit {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private dialog: MatDialogRef<LoginComponent, boolean>, private afAuth: AngularFireAuth) {
-    super();
-  }
+  constructor(private dialog: MatDialogRef<LoginComponent, boolean>, public auth: Auth) {}
 
-  ngOnInit() {
-    this.afAuth.authState
-      .pipe(this.takeUntilDestroyed())
-      .subscribe(user => user && this.dialog.close(true));
+  loginViaEmail() {
+    if(this.loginForm.valid) {
+      this.auth.loginViaEmail(this.loginForm.value.email, this.loginForm.value.password)
+        .then((result) => result && this.dialog.close(), err => this.error = err);
+    }
   }
-
 
   loginViaGoogle() {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())
-      .catch(err => this.error = err)
-  }
-
-  loginViaEmail(formData) {
-    if(formData.valid) {
-      this.afAuth.auth.signInWithEmailAndPassword(formData.value.email, formData.value.password)
-        .catch(err => this.error = err);
-    }
+    this.auth.loginViaGoogle()
+      .then((result) => result && this.dialog.close(), err => this.error = err);
   }
 
   firstError(controlName: string) {

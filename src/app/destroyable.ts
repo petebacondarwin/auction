@@ -9,6 +9,6 @@ export class Destroyable implements OnDestroy {
   }
 
   protected takeUntilDestroyed<T>() {
-    return takeUntil(this.onDestroy);
+    return takeUntil<T>(this.onDestroy);
   }
 }

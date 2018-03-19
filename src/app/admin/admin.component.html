@@ -1,11 +1,5 @@
-<div class="form-container" id="toolbar">
-    <header [@fallIn]="state">
-      <button (click)="logout()" class="basic-btn">Logout</button>
-    </header>
-    <div id="page" [@moveInLeft]="state">
-      <h2>Hey {{ (afAuth.authState | async)?.displayName }}!</h2>
+<mat-toolbar>
+  <h1>Admin</h1>
+</mat-toolbar>
 
-      <img src="assets/images/filler.png" />
-    </div>
-
-</div>
+<p>This year we are introducing Magic Boxes to the fair. Like a lucky dip you are guaranteed to win a prize worth £10 or over for £5 a go. Check out some of the prizes</p>
