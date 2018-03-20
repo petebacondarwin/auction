@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -34,6 +34,7 @@ import { ItemListComponent } from './auction/item-list/item-list.component';
 
 import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 import { Auth } from 'app/auth/auth.service';
+import { Storage } from 'app/storage.service';
 import { routes } from 'app/app.routes';
 
 const firebaseConfig = {
@@ -86,7 +87,8 @@ const firebaseConfig = {
   providers: [
     AdminGuard,
     Auth,
-    AuthGuard
+    AuthGuard,
+    Storage
   ],
   bootstrap: [AppComponent]
 })

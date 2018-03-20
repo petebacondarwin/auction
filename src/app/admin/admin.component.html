@@ -2,4 +2,13 @@
   <h1>Admin</h1>
 </mat-toolbar>
 
-<p>This year we are introducing Magic Boxes to the fair. Like a lucky dip you are guaranteed to win a prize worth £10 or over for £5 a go. Check out some of the prizes</p>
+<p>Upload the spreadsheet:</p>
+
+<input type="file" (change)="onFileChange($event)" multiple="false" />
+
+<div *ngIf="workbook">
+  <h2>Select a sheet</h2>
+  <ul>
+    <li [class.active]="sheet === selectedSheet" *ngFor="let sheet of workbook.SheetNames"><a (click)="selectSheet(sheet)">{{sheet}}</a></li>
+  </ul>
+</div>

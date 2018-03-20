@@ -18,9 +18,8 @@ export interface Category {
 
 export interface Item {
   id: Identifier;
-  lot: string;
+  lot: number;
   category: string;
-  categoryName: string;
   title: string;
   value: number;
   showValue: boolean;
