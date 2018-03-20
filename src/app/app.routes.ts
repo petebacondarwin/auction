@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from 'app/app.component';
 import { HomeComponent } from 'app/home/home.component';
 import { AuctionComponent } from 'app/auction/auction.component';
+import { ItemListComponent } from 'app/auction/item-list/item-list.component';
 import { MagicBoxComponent } from 'app/magic-box/magic-box.component';
 import { RaffleComponent } from 'app/raffle/raffle.component';
 
@@ -13,14 +14,20 @@ import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 import { SignupComponent } from 'app/auth/signup/signup.component';
 
 export const router: Routes = [
-    { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent },
 
-    { path: 'auction', component: AuctionComponent },
-    { path: 'magic-box', component: MagicBoxComponent },
-    { path: 'raffle', component: RaffleComponent },
+  {
+    path: 'auction',
+    component: AuctionComponent,
+    children: [
+      { path: '', component: ItemListComponent },
+      { path: ':category', component: ItemListComponent }
+    ]
+  },
+  { path: 'magic-box', component: MagicBoxComponent },
+  { path: 'raffle', component: RaffleComponent },
 
-    { path: 'admin', component: AdminComponent, canActivate: [AdminGuard, AuthGuard] }
-
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard, AuthGuard] }
 ]
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

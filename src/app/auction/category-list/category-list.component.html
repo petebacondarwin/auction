@@ -1,9 +1,9 @@
 <mat-nav-list dense>
   <h2>Categories</h2>
-  <mat-list-item role="listitem" [class.active]="currentCategory === null" (click)="onSelect(null)">
-    All Items
+  <mat-list-item role="listitem" [class.active]="currentCategory === null">
+    <a routerLink="/auction">All Items</a>
   </mat-list-item>
-  <mat-list-item role="listitem" [class.active]="category === currentCategory" (click)="onSelect(category)" *ngFor="let category of categories">
-    {{category.name}}  ({{ category.itemCount || 0 }})
+  <mat-list-item role="listitem" [class.active]="category === currentCategory" *ngFor="let category of categories" routerLink="/auction/{{category.id}}">
+      {{category.name}}  ({{ category.itemCount || 0 }})
   </mat-list-item>
 </mat-nav-list>

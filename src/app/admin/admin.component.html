@@ -11,4 +11,8 @@
   <ul>
     <li [class.active]="sheet === selectedSheet" *ngFor="let sheet of workbook.SheetNames"><a (click)="selectSheet(sheet)">{{sheet}}</a></li>
   </ul>
+
+  <button *ngIf="selectedSheet" (click)="processSheet(selectedSheet)">Process Sheet</button>
+
+  <button *ngIf="items" (click)="writeItems()">Write Items</button>
 </div>

@@ -37,8 +37,10 @@ export class Storage extends Destroyable {
   addAuctionItems(items: Item[]) {
     const batch = this.afStore.firestore.batch();
     items.forEach(item => {
-      const ref = this.afStore.firestore.collection('auction-items').doc();
-      batch.set(ref, item);
+      if (item.lot) {
+        const ref = this.afStore.firestore.collection('auction-items').doc(item.lot.toString());
+        batch.set(ref, item);
+      }
     });
     return batch.commit();
   }

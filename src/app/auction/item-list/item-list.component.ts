@@ -1,5 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { Category, Item } from 'app/models';
+import { ActivatedRoute } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
+import { map, switchMap } from 'rxjs/operators';
+
+import { Storage } from 'app/storage.service';
+import { Item } from 'app/models';
 
 @Component({
   selector: 'app-item-list',
@@ -8,9 +14,13 @@ import { Category, Item } from 'app/models';
 })
 export class ItemListComponent {
 
-  @Input()
-  currentCategory: Category;
+  currentCategory = this.route.params.pipe(
+    map(params => params['category'])
+  );
 
-  @Input()
-  items: Item[];
+  items = this.currentCategory.pipe(
+    switchMap(category => this.storage.getAuctionItemsByCategory(category))
+  );
+
+  constructor(private route: ActivatedRoute, private storage: Storage) {}
 }

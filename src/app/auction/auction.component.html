@@ -8,6 +8,6 @@
   <mat-sidenav-content>
     <h2>Bidding not yet open!</h2>
     <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
-    <app-item-list [currentCategory]="currentCategory|async" [items]="items|async"></app-item-list>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

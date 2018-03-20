@@ -41,6 +41,7 @@ export class AdminComponent extends Destroyable {
 
   workbook: WorkBook;
   selectedSheet: string;
+  items: Item[];
   messages: string[];
 
   private reader = new ExcelFileReader();
@@ -64,16 +65,21 @@ export class AdminComponent extends Destroyable {
 
   selectSheet(sheetName: string) {
     this.selectedSheet = sheetName;
-    this.processSheet(utils.sheet_to_json(this.workbook.Sheets[sheetName], {blankrows: false, raw: true}));
   }
 
-  async processSheet(data: any[]) {
+  processSheet(sheetName: string) {
+    if (!sheetName) throw new Error('No sheet selected');
+    const data = utils.sheet_to_json(this.workbook.Sheets[sheetName], {blankrows: false, raw: true}));
     const items: Item[] = data.map(convertToItem);
     console.log(items);
+    this.items = items;
+  }
 
+  async writeItems() {
+    if (!this.items) throw new Error('Nothing to write.');
     await this.storage.deleteAllAuctionItems();
     console.log('deleted previous auction items')
-    await this.storage.addAuctionItems(items.filter(item => item.category !== 'Raffle' && item.category !== 'Magic Box'));
+    await this.storage.addAuctionItems(this.items.filter(item => item.category !== 'Raffle' && item.category !== 'Magic Box'));
     console.log('added new auction items');
   }
 }
