@@ -69,7 +69,7 @@ export class AdminComponent extends Destroyable {
 
   processSheet(sheetName: string) {
     if (!sheetName) throw new Error('No sheet selected');
-    const data = utils.sheet_to_json(this.workbook.Sheets[sheetName], {blankrows: false, raw: true}));
+    const data = utils.sheet_to_json(this.workbook.Sheets[sheetName], {blankrows: false, raw: true});
     const items: Item[] = data.map(convertToItem);
     console.log(items);
     this.items = items;
