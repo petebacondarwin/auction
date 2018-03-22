@@ -5,6 +5,7 @@ import { AppComponent } from 'app/app.component';
 import { HomeComponent } from 'app/home/home.component';
 import { AuctionComponent } from 'app/auction/auction.component';
 import { ItemListComponent } from 'app/auction/item-list/item-list.component';
+import { ItemDetailComponent } from 'app/auction/item-detail/item-detail.component';
 import { MagicBoxComponent } from 'app/magic-box/magic-box.component';
 import { RaffleComponent } from 'app/raffle/raffle.component';
 
@@ -21,7 +22,8 @@ export const router: Routes = [
     component: AuctionComponent,
     children: [
       { path: '', component: ItemListComponent },
-      { path: ':category', component: ItemListComponent }
+      { path: ':category', component: ItemListComponent },
+      { path: ':category/:item', component: ItemDetailComponent }
     ]
   },
   { path: 'magic-box', component: MagicBoxComponent },

@@ -29,13 +29,14 @@ import { AuctionComponent } from './auction/auction.component';
 import { MagicBoxComponent } from './magic-box/magic-box.component';
 import { HowItWorksComponent } from './auction/how-it-works/how-it-works.component';
 import { CategoryListComponent } from './auction/category-list/category-list.component';
-import { BidderInfoComponent } from './auction/bidder-info/bidder-info.component';
+import { UserInfoComponent } from './auth/signup/user-info/user-info.component';
 import { ItemListComponent } from './auction/item-list/item-list.component';
 
 import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 import { Auth } from 'app/auth/auth.service';
 import { Storage } from 'app/storage.service';
 import { routes } from 'app/app.routes';
+import { ItemDetailComponent } from './auction/item-detail/item-detail.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -58,8 +59,9 @@ const firebaseConfig = {
     MagicBoxComponent,
     HowItWorksComponent,
     CategoryListComponent,
-    BidderInfoComponent,
-    ItemListComponent
+    UserInfoComponent,
+    ItemListComponent,
+    ItemDetailComponent
   ],
   imports: [
     BrowserModule,
