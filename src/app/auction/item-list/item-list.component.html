@@ -4,20 +4,17 @@
   <strong>Bids: </strong>{{auctionService.stats.bids}}
   <strong>Total: &pound;</strong>{{auctionService.stats.total}} -->
 </p>
-<table class="table">
-  <tr *ngFor="let item of items|async">
-    <td title="Click for more information" (click)="showItem(item)" class="auction-item-link">
-      <img [src]="'assets/images/items/' + item.imageName" style="max-width: 100px">
-    </td>
-    <td>
-      <h4 title="Click for more information" (click)="showItem(item)" class="auction-item-link">
-        {{item.title}}
-        <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
-      </h4>
-      <p class="subtitle muted">Lot No: {{item.lot}}</p>
-      <!-- <div bid-widget item="item"></div> -->
-      <p [innerHTML]="item.shortDescription"></p>
-      <!-- <div donor item="item"></div> -->
-    </td>
-  </tr>
-</table>
+
+<mat-list>
+  <mat-list-item *ngFor="let item of items|async" [routerLink]="item.lot">
+    <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
+    <h3 matLine>
+      {{item.title}}
+      <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
+    </h3>
+    <p matLine>Lot No: {{item.lot}}</p>
+    <!-- <div bid-widget item="item"></div> -->
+    <p matLine [innerHTML]="item.shortDescription"></p>
+    <!-- <div donor item="item"></div> -->
+  </mat-list-item>
+</mat-list>
