@@ -32,6 +32,11 @@ const COLUMN_FIELD_MAPPING = {
   'Image name': 'imageName'
 }
 
+const DEFAULTS = {
+  'Image name': 'Coleridgelogo.jpg',
+  'Website': '',
+};
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -97,8 +102,12 @@ class ExcelFileReader extends FileReader {
 
 function convertToItem(row: any) {
   const item: Item = {} as any;
-  Object.keys(row).forEach(column => {
-    const value = row[column];
+  Object.keys(COLUMN_FIELD_MAPPING).forEach(column => {
+    // if there is no column and no default then ignore this column
+    if (row[column] === undefined && DEFAULTS[column] === undefined) return;
+    // otherwise get the value from the row or the default
+    const value = (row[column] === undefined) ? DEFAULTS[column] : row[column];
+    // parse the mapping to write th value to the property path on the item
     const mapping = COLUMN_FIELD_MAPPING[column];
     if (typeof mapping === 'string') {
       item[mapping] = value;
