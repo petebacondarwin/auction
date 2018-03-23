@@ -6,7 +6,7 @@ import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { combineLatest, map, switchMap, shareReplay, tap , distinctUntilChanged} from 'rxjs/operators';
 
 import { AppComponent } from 'app/app.component';
-import { Category, Item } from 'app/models';
+import { Category, Item, Bid } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
 
@@ -53,8 +53,12 @@ export class AuctionComponent extends Destroyable {
       shareReplay(1)
     );
 
+    const bidInfo = storage.bidInfoChanges;
     this.items = this.category.pipe(
       switchMap(category => storage.getAuctionItemsByCategory(category && category.id)),
+      combineLatest(
+      bidInfo,
+      (items, bidInfo) => items.map(item => ({ ...item, bidInfo: bidInfo[item.id] || { bidCount: 0, winningBids: [] } }))),
       shareReplay(1)
     );
 
@@ -65,4 +69,6 @@ export class AuctionComponent extends Destroyable {
       shareReplay(1)
     );
   }
+
+  bid(bid: Bid) {}
 }

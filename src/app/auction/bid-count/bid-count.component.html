@@ -1,0 +1,5 @@
+<span class="bid-count" [ngPlural]="bidInfo.bidCount">
+  <ng-template ngPluralCase="0">(No bids yet)</ng-template>
+  <ng-template ngPluralCase="one">(1 bid)</ng-template>
+  <ng-template ngPluralCase="other">({{bidInfo.bidCount}} bids)</ng-template>
+</span>

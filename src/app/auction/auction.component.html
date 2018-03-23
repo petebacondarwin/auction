@@ -16,6 +16,10 @@
       <strong>Total: &pound;</strong>{{auctionService.stats.total}} -->
     </p>
 
-    <app-item-list [items]="items | async" [current]="item | async" [category]="category | async"></app-item-list>
+    <app-item-list
+        [items]="items | async"
+        [current]="item | async"
+        [category]="category | async"
+        (bid)="bid($event)"></app-item-list>
   </mat-sidenav-content>
 </mat-sidenav-container>

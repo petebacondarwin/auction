@@ -19,6 +19,22 @@ article > router-outlet + * {
   flex: 1 1 auto;
 }
 
+.mat-list .mat-list-item:focus {
+  outline: none;
+}
+
+.mat-list .selected.mat-list-item .mat-list-item-content {
+  align-items: flex-start;
+}
+
+.mat-list .mat-list-item .mat-list-item-content {
+  transition: all 1s;
+
+  img {
+    transition: all 1s;
+  }
+}
+
 
 /* body {
     background:#E2E4E6;

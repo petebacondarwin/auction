@@ -29,17 +29,22 @@ export interface Item {
   comments: string;
   imageName: string;
   active: boolean;
-  donor: {
-    name: string;
-    address: string;
-    phone: string;
-    email: string;
-    website: string;
-  };
-  bidWinningAmount: number;
-  bidCount: number;
+  donor: Donor;
+  bidInfo?: BidInfo;
 }
 
+export interface Donor {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string;
+}
+
+export interface BidInfo {
+  winningBids: number[];
+  bidCount: number;
+}
 
 export interface Bid {
   id: Identifier;

@@ -1,0 +1,16 @@
+mat-list-item {
+  cursor: pointer;
+}
+
+.lot {
+  color: gray;
+  font-size: 80%;
+}
+
+.selected {
+  .mat-list-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 0;
+  }
+}

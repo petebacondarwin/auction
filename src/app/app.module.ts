@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -31,6 +32,7 @@ import { HowItWorksComponent } from './auction/how-it-works/how-it-works.compone
 import { CategoryListComponent } from './auction/category-list/category-list.component';
 import { UserInfoComponent } from './auth/signup/user-info/user-info.component';
 import { ItemListComponent } from './auction/item-list/item-list.component';
+import { DonorComponent } from './auction/donor/donor.component';
 
 import { ScrollIntoViewDirective } from './scrollIntoView.directive';
 
@@ -38,7 +40,11 @@ import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 import { Auth } from 'app/auth/auth.service';
 import { Storage } from 'app/storage.service';
 import { routes } from 'app/app.routes';
-import { ItemDetailComponent } from './auction/item-detail/item-detail.component';
+import { BidInfoComponent } from './auction/bid-info/bid-info.component';
+import { BidDialogComponent } from './auction/bid-dialog/bid-dialog.component';
+import { WinningBidsComponent } from './auction/winning-bids/winning-bids.component';
+import { PriceToBeatComponent } from './auction/price-to-beat/price-to-beat.component';
+import { BidCountComponent } from './auction/bid-count/bid-count.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
@@ -63,8 +69,13 @@ const firebaseConfig = {
     CategoryListComponent,
     UserInfoComponent,
     ItemListComponent,
-    ItemDetailComponent,
-    ScrollIntoViewDirective
+    ScrollIntoViewDirective,
+    DonorComponent,
+    BidInfoComponent,
+    BidDialogComponent,
+    WinningBidsComponent,
+    PriceToBeatComponent,
+    BidCountComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +85,7 @@ const firebaseConfig = {
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -87,7 +99,8 @@ const firebaseConfig = {
     routes
   ],
   entryComponents: [
-    LoginComponent
+    LoginComponent,
+    BidDialogComponent
   ],
   providers: [
     AdminGuard,

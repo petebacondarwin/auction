@@ -1,0 +1,7 @@
+<div *ngIf="item.quantity > 1">
+  <p><em><b>There are {{item.quantity}} items available.</b> The top {{item.quantity}} bids will win the item.</em></p>
+  <app-winning-bids [bidInfo]="item.bidInfo"></app-winning-bids>
+</div>
+<app-price-to-beat [bidInfo]="item.bidInfo"></app-price-to-beat>
+<app-bid-count [bidInfo]="item.bidInfo"></app-bid-count>
+<p><button mat-raised-button (click)="bidNow()">Bid Now</button></p>

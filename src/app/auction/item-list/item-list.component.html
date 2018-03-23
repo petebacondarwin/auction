@@ -1,16 +1,20 @@
-
 <mat-list>
   <mat-list-item
     *ngFor="let item of items"
+    [app-scroll-into-view-on]="current?.id === item.id"
     [routerLink]="[{category: category?.id, item: item.id}]"
+    [class.selected]="current?.id === item.id"
     >
     <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
     <h3 matLine>
       {{item.title}}
       <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
     </h3>
-    <p matLine>Lot No: {{item.lot}}</p>
+    <p matLine class="lot">Lot No: {{item.lot}}</p>
     <p matLine [innerHTML]="item.shortDescription"></p>
-    <p matLine *ngIf="current.id === item.id" [app-scroll-into-view-on]="current.id === item.id"><br><br><br><br><br><br><br><br><br><br><br><br>SELECTED</p>
+    <app-donor matLine *ngIf="item.donor" [donor]="item.donor"></app-donor>
+    <div matLine *ngIf="current?.id === item.id">
+      <app-bid-info [item]="item" (bid)="bid.emit($event)"></app-bid-info>
+    </div>
   </mat-list-item>
 </mat-list>
