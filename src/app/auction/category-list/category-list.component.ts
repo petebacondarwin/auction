@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Category } from 'app/models';
 
 @Component({
@@ -7,18 +6,18 @@ import { Category } from 'app/models';
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.css']
 })
-export class CategoryListComponent {
-
+export class CategoryListComponent implements OnChanges {
   @Input()
   categories: Category[];
-
   @Input()
-  currentCategory: Category;
+  current: Category
 
-  @Output()
-  select = new EventEmitter();
+  total = 0;
 
-  onSelect(category: Category) {
-    this.select.emit(category);
+  ngOnChanges(changes: SimpleChanges) {
+    const categoryChanges = changes['categories'];
+    if (categoryChanges && categoryChanges.currentValue) {
+      this.total = this.categories.reduce((count, category) => count + category.itemCount, 0);
+    }
   }
 }
