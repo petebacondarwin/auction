@@ -1,20 +1,16 @@
-<h2>{{(currentCategory|async) || 'All Items'}}</h2>
-<p>
-  <!-- <strong>Bidders: </strong>{{auctionService.stats.bidders}}
-  <strong>Bids: </strong>{{auctionService.stats.bids}}
-  <strong>Total: &pound;</strong>{{auctionService.stats.total}} -->
-</p>
 
 <mat-list>
-  <mat-list-item *ngFor="let item of items|async" [routerLink]="item.lot">
+  <mat-list-item
+    *ngFor="let item of items"
+    [routerLink]="[{category: category?.id, item: item.id}]"
+    >
     <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
     <h3 matLine>
       {{item.title}}
       <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
     </h3>
     <p matLine>Lot No: {{item.lot}}</p>
-    <!-- <div bid-widget item="item"></div> -->
     <p matLine [innerHTML]="item.shortDescription"></p>
-    <!-- <div donor item="item"></div> -->
+    <p matLine *ngIf="current.id === item.id" [app-scroll-into-view-on]="current.id === item.id"><br><br><br><br><br><br><br><br><br><br><br><br>SELECTED</p>
   </mat-list-item>
 </mat-list>

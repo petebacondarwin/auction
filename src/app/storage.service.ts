@@ -11,10 +11,15 @@ import { withId } from 'app/utils';
 @Injectable()
 export class Storage extends Destroyable {
 
-  categoriesChanges = this.getChangesWithId<Category>('categories');
-  auctionItemsChanges = this.getChangesWithId<Item>('auction-items');
-  raffleItemsChanges = this.getChangesWithId<Item>('raffle-items');
-  magicBoxItemsChanges = this.getChangesWithId<Item>('magic-box-items');
+  private categoriesCol = this.afStore.collection<Category>('categories', ref => ref.where('itemCount', '>', 0));
+  private auctionItemsCol = this.afStore.collection<Item>('auction-items');
+  private raffleItemsCol = this.afStore.collection<Item>('raffle-items');
+  private magicBoxItemsCol = this.afStore.collection<Item>('magic-box-items');
+
+  categoriesChanges = this.getColChangesWithId<Category>(this.categoriesCol);
+  auctionItemsChanges = this.getColChangesWithId<Item>(this.auctionItemsCol);
+  raffleItemsChanges = this.getColChangesWithId<Item>(this.raffleItemsCol);
+  magicBoxItemsChanges = this.getColChangesWithId<Item>(this.magicBoxItemsCol);
 
   constructor(private afStore: AngularFirestore) {
     super();
@@ -24,6 +29,10 @@ export class Storage extends Destroyable {
     return this.auctionItemsChanges.pipe(
       map(items => items.filter(item => !categoryId || item.category === categoryId))
     );
+  }
+
+  getAuctionItem(itemId: string) {
+    return this.getDocChangesWithId(this.auctionItemsCol, itemId);
   }
 
   deleteAllAuctionItems() {
@@ -45,10 +54,15 @@ export class Storage extends Destroyable {
     return batch.commit();
   }
 
-  private getChangesWithId<T>(collection: string) {
-    return this.afStore.collection<T>(collection).snapshotChanges().pipe(
+  private getColChangesWithId<T>(collection: AngularFirestoreCollection<T>) {
+    return collection.snapshotChanges().pipe(
       map(changes => withId<T>(changes))
     );
   }
 
+  private getDocChangesWithId<T>(collection: AngularFirestoreCollection<T>, id: string): Observable<T> {
+    return collection.doc(id).valueChanges().pipe(
+      map(doc => ({ id, ...doc } as any))
+    );
+  }
 }

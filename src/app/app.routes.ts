@@ -4,8 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from 'app/app.component';
 import { HomeComponent } from 'app/home/home.component';
 import { AuctionComponent } from 'app/auction/auction.component';
-import { ItemListComponent } from 'app/auction/item-list/item-list.component';
-import { ItemDetailComponent } from 'app/auction/item-detail/item-detail.component';
 import { MagicBoxComponent } from 'app/magic-box/magic-box.component';
 import { RaffleComponent } from 'app/raffle/raffle.component';
 
@@ -17,15 +15,7 @@ import { SignupComponent } from 'app/auth/signup/signup.component';
 export const router: Routes = [
   { path: '', component: HomeComponent },
 
-  {
-    path: 'auction',
-    component: AuctionComponent,
-    children: [
-      { path: '', component: ItemListComponent },
-      { path: ':category', component: ItemListComponent },
-      { path: ':category/:item', component: ItemDetailComponent }
-    ]
-  },
+  { path: 'auction', component: AuctionComponent },
   { path: 'magic-box', component: MagicBoxComponent },
   { path: 'raffle', component: RaffleComponent },
 

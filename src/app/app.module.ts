@@ -32,6 +32,8 @@ import { CategoryListComponent } from './auction/category-list/category-list.com
 import { UserInfoComponent } from './auth/signup/user-info/user-info.component';
 import { ItemListComponent } from './auction/item-list/item-list.component';
 
+import { ScrollIntoViewDirective } from './scrollIntoView.directive';
+
 import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 import { Auth } from 'app/auth/auth.service';
 import { Storage } from 'app/storage.service';
@@ -61,7 +63,8 @@ const firebaseConfig = {
     CategoryListComponent,
     UserInfoComponent,
     ItemListComponent,
-    ItemDetailComponent
+    ItemDetailComponent,
+    ScrollIntoViewDirective
   ],
   imports: [
     BrowserModule,

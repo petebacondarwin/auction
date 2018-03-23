@@ -1,13 +1,21 @@
 <mat-toolbar>
-  <h1><button *ngIf="!isWide" mat-button class="hamburger-menu" (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button> Auction Items</h1>
+  <h1><button mat-button class="hamburger-menu" (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button> Auction Items</h1>
+  <span class="filler"></span>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav [mode]="isWide && 'side' || 'over'" [opened]="isWide" #sidenav>
-    <app-category-list [currentCategory]="currentCategory|async" [categories]="categories | async" (select)="setCurrentCategory($event)"></app-category-list>
+    <app-category-list [categories]="categories | async" [current]="category | async"></app-category-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <h2>Bidding not yet open!</h2>
     <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
-    <router-outlet></router-outlet>
+    <h2>{{ (category | async)?.name || 'All Items' }}</h2>
+
+    <p>
+      <!-- <strong>Bidders: </strong>{{auctionService.stats.bidders}}
+      <strong>Bids: </strong>{{auctionService.stats.bids}}
+      <strong>Total: &pound;</strong>{{auctionService.stats.total}} -->
+    </p>
+
+    <app-item-list [items]="items | async" [current]="item | async" [category]="category | async"></app-item-list>
   </mat-sidenav-content>
 </mat-sidenav-container>

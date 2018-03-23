@@ -15,6 +15,11 @@ article > router-outlet + * {
   width: 100%;
 }
 
+.filler {
+  flex: 1 1 auto;
+}
+
+
 /* body {
     background:#E2E4E6;
     padding-top:4em;
