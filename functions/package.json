@@ -11,6 +11,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "firebase-admin": "~5.8.1",
     "firebase-functions": "^0.8.1"
   },

@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Auth } from 'app/auth/auth.service';
-import { LoginComponent } from 'app/auth/login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +15,10 @@ export class AppComponent {
 
   constructor(
     public auth: Auth,
-    private titleService: Title,
-    private dialog: MatDialog
+    private titleService: Title
   ) {}
 
   setPageTitle(title: string) {
     this.titleService.setTitle(`Coleridge Summer Fair ${this.currentYear} - ${title}`);
-  }
-
-  showLogin() {
-    this.dialog.open(LoginComponent);
   }
 }

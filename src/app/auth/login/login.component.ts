@@ -1,13 +1,16 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-
-import { Auth } from 'app/auth/auth.service';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 const errorOrder = [
   'required',
   'email'
 ];
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -16,34 +19,34 @@ const errorOrder = [
 })
 export class LoginComponent {
 
+  message: string;
   error: string;
+
+  emailLogin = new EventEmitter<LoginCredentials>();
+  googleLogin = new EventEmitter();
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private dialog: MatDialogRef<LoginComponent, boolean>, public auth: Auth) {}
-
   loginViaEmail() {
-    if(this.loginForm.valid) {
-      this.auth.loginViaEmail(this.loginForm.value.email, this.loginForm.value.password)
-        .then((result) => result && this.dialog.close(), err => this.error = err);
+    if (this.loginForm.valid) {
+      this.emailLogin.emit(this.loginForm.value as LoginCredentials);
     }
   }
 
   loginViaGoogle() {
-    this.auth.loginViaGoogle()
-      .then((result) => result && this.dialog.close(), err => this.error = err);
+    this.googleLogin.emit();
   }
 
   firstError(controlName: string) {
     const errors = this.loginForm.get(controlName).errors;
     if (errors) {
-      for(let errorCode of errorOrder) {
+      for (const errorCode of errorOrder) {
         if (errors[errorCode]) {
           return errorCode;
-        };
+        }
       }
     }
   }

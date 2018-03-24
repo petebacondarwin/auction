@@ -1,6 +1,7 @@
 
 <h1>Login</h1>
 
+<p *ngIf="message">{{message}}</p>
 <form [formGroup]="loginForm" (ngSubmit)="loginViaEmail(loginForm)">
 
   <mat-form-field>

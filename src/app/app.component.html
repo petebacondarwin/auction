@@ -5,8 +5,8 @@
     <a routerLinkActive="active" routerLink="/raffle">Raffle</a>
     <a routerLinkActive="active" routerLink="/magic-box">Magic Box</a>
     <span class="filler"></span>
-    <a *ngIf="auth.userInfo?.roles.admin" routerLinkActive="active" routerLink="/admin">Admin</a>
-    <a *ngIf="!auth.user" (click)="showLogin()">Login</a>
+    <a *ngIf="auth.userInfo?.roles['admin']" routerLinkActive="active" routerLink="/admin">Admin</a>
+    <a *ngIf="!auth.user" (click)="auth.login('Please choose a method to login.')">Login</a>
     <a *ngIf="auth.user" (click)="auth.logout()">Logout</a>
   </mat-toolbar>
 </header>
