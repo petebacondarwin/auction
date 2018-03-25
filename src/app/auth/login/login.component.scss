@@ -17,15 +17,19 @@ button {
     font-size: 1.3em;
 }
 
-#google {
+#google, #email {
+    display: flex;
+    align-items: center;
     border: 1px solid #95989A;
-    background: #fff  url('/assets/images/google.svg') no-repeat 25px;
-    background-size: 25px;
+    background: #fff;
+    img {
+        margin-right: 10px;
+        width: 25px;
+    }
 }
 
 #email {
-    background: #ECECEC  url('/assets/images/email.svg') no-repeat 25px;
-    background-size: 25px;
+    background: #ECECEC
 }
 
 .error {

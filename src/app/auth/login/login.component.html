@@ -17,7 +17,7 @@
 
   <div class="error" *ngIf="error">{{ error }}</div>
 
-  <button type="submit" [disabled]="!loginForm.valid" id="email">Log in</button>
-  <button type="button" (click)="loginViaGoogle()" id="google">Login With Google</button>
+  <button type="submit" [disabled]="!loginForm.valid" id="email"><img src="/assets/images/email.svg">Log in</button>
+  <button type="button" (click)="loginViaGoogle()" id="google"><img src="/assets/images/google.svg">Login With Google</button>
   <a routerLink="/signup" mat-button><span>No account?</span> <strong>Create one here</strong></a>
 </form>
