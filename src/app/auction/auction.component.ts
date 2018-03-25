@@ -2,8 +2,8 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { combineLatest, map, switchMap, shareReplay, tap , distinctUntilChanged} from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import { combineLatest, map, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
 
 import { AppComponent } from 'app/app.component';
 import { Category, Item, Bid } from 'app/models';
@@ -15,7 +15,7 @@ import { Storage } from 'app/storage.service';
   templateUrl: './auction.component.html',
   styleUrls: ['./auction.component.scss']
 })
-export class AuctionComponent extends Destroyable {
+export class AuctionComponent extends Destroyable implements OnInit {
 
   isWide: boolean;
   categories: Observable<Category[]>;
@@ -24,46 +24,47 @@ export class AuctionComponent extends Destroyable {
   item: Observable<Item>;
 
   constructor(
-    app: AppComponent,
-    activeRoute: ActivatedRoute,
-    router: Router,
-    storage: Storage,
-    breakpoints: BreakpointObserver
+    private app: AppComponent,
+    private activeRoute: ActivatedRoute,
+    private router: Router,
+    private storage: Storage,
+    private breakpoints: BreakpointObserver
   ) {
     super();
+  }
 
-    console.log('AuctionComponent');
+  ngOnInit() {
+    this.app.setPageTitle('Auction');
 
-    app.setPageTitle('Auction');
-
-    breakpoints.observe([Breakpoints.Large, Breakpoints.XLarge])
+    this.breakpoints.observe([Breakpoints.Large, Breakpoints.XLarge])
       .pipe(this.takeUntilDestroyed())
       .subscribe(breakpoint => this.isWide = breakpoint.matches);
 
-    const params = activeRoute.paramMap.pipe(this.takeUntilDestroyed());
+    const params = this.activeRoute.paramMap.pipe(this.takeUntilDestroyed());
 
-    this.categories = storage.categoriesChanges.pipe(
+    this.categories = this.storage.categoriesChanges.pipe(
       shareReplay(1)
     );
 
     this.category = params.pipe(
-      map(params => params.get('category')),
+      map(p => p.get('category')),
       distinctUntilChanged(),
       combineLatest(this.categories, (categoryId, categories) => categories.find(category => category.id === categoryId)),
       shareReplay(1)
     );
 
-    const bidInfo = storage.bidInfoChanges;
+    const bidInfo = this.storage.bidInfoChanges;
+
     this.items = this.category.pipe(
-      switchMap(category => storage.getAuctionItemsByCategory(category && category.id)),
+      switchMap(category => this.storage.getAuctionItemsByCategory(category && category.id)),
       combineLatest(
       bidInfo,
-      (items, bidInfo) => items.map(item => ({ ...item, bidInfo: bidInfo[item.id] || { bidCount: 0, winningBids: [] } }))),
+      (items, info) => items.map(item => ({ ...item, bidInfo: info[item.id] || { bidCount: 0, winningBids: [] } }))),
       shareReplay(1)
     );
 
     this.item = params.pipe(
-      map(params => params.get('item')),
+      map(p => p.get('item')),
       distinctUntilChanged(),
       combineLatest(this.items, (itemId, items) => items.find(item => item.id === itemId)),
       shareReplay(1)

@@ -81,7 +81,6 @@ export class Auth extends Destroyable {
   }
 
   private getUserInfo(user: User): Observable<UserInfo|null> {
-    console.log('getUserInfo', user && user.email);
     if (user) {
       return this.firestore.doc<UserInfo>(`users/${user.uid}`)
         .valueChanges()

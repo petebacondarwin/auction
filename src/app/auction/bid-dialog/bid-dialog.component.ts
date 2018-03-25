@@ -1,11 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
 import { first, switchMap } from 'rxjs/operators';
 
-import { Auth } from 'app/auth/auth.service';
 import { Item } from 'app/models';
 
 @Component({
@@ -15,13 +14,14 @@ import { Item } from 'app/models';
 })
 export class BidDialogComponent {
 
+  minBid = (this.item.bidInfo.winningBids[0] || 0) + 1;
   bidForm = new FormGroup({
-    amount: new FormControl((this.item.bidInfo.winningBids[0] || 0) + 1, [Validators.required]),
+    amount: new FormControl(this.minBid, [Validators.required, Validators.min(this.minBid)]),
   });
 
-  constructor(private auth: Auth, @Inject(MAT_DIALOG_DATA) public item: Item) { }
+  constructor(private dialog: MatDialogRef<BidDialogComponent, number>, @Inject(MAT_DIALOG_DATA) public item: Item) {}
 
   submitBid() {
-    return this.auth.login('Please login to make a bid.');
+    return this.dialog.close(this.bidForm.get('amount').value);
   }
 }

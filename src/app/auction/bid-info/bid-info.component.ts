@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Item, BidInfo } from 'app/models';
+import { Auth } from 'app/auth/auth.service';
 import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component';
 
 @Component({
@@ -16,9 +17,14 @@ export class BidInfoComponent {
   @Output()
   bid = new EventEmitter();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private auth: Auth, private dialog: MatDialog) {}
 
-  bidNow() {
-    this.dialog.open(BidDialogComponent, { data: this.item }).afterClosed().subscribe(this.bid);
+  async bidNow() {
+    await this.auth.login('Please login to bid for this item');
+
+    const bidDialog = this.dialog.open(BidDialogComponent, { data: this.item });
+    bidDialog.afterClosed().subscribe((bidAmount: number|undefined) => {
+      console.log(bidAmount);
+    });
   }
 }

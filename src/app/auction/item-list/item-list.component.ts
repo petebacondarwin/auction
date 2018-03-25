@@ -8,7 +8,6 @@ import { Category, Item } from 'app/models';
   styleUrls: ['./item-list.component.scss']
 })
 export class ItemListComponent {
-
   @Input()
   items: Item[];
 

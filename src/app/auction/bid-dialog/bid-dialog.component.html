@@ -3,19 +3,18 @@
 <div mat-dialog-content>
   <p><b>{{item.title}}</b></p>
   <p class="lot">Lot No: {{item.lot}}</p>
+  <mat-form-field>
+    <input matInput type="number" [min]="minBid" formControlName="amount" required>
+    <span matPrefix>&pound;</span>
+    <mat-error *ngIf="bidForm.get('amount').getError('required')">Bid amount is required.</mat-error>
+    <mat-error *ngIf="bidForm.get('amount').getError('min')">Bid amount is required.</mat-error>
+  </mat-form-field>
   <p>
     <app-price-to-beat [bidInfo]="item.bidInfo"></app-price-to-beat>
     <app-bid-count [bidInfo]="item.bidInfo"></app-bid-count>
   </p>
-  <mat-form-field>
-    <input matInput type="number" class="input-small bid-amount" min="{{(item.bidInfo.winningBids[0]+1) || 1}}" formConrolName="amount">
-    <span matPrefix>&pound;</span>
-    <mat-error *ngIf="bidForm.get('amount').getError('required')">Bid amount is required.</mat-error>
-  </mat-form-field>
-
 </div>
 <div mat-dialog-actions>
-  <button type="submit" mat-button-raised (disabled)="bidForm.invalid" color="primary">Submit Bid</button>
-  <button mat-dialog-close type="button" mat-button-raised>Cancel</button>
+  <button type="submit" mat-raised-button [disabled]="bidForm.invalid" color="primary">Submit Bid</button>
 </div>
 </form>

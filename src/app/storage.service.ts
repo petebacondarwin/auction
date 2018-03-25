@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import { map, takeUntil, shareReplay} from 'rxjs/operators';
 
 import { Destroyable } from 'app/destroyable';
 import { Category, Item, BidInfo } from 'app/models';
@@ -29,7 +29,8 @@ export class Storage extends Destroyable {
 
   getAuctionItemsByCategory(categoryId: string) {
     return this.auctionItemsChanges.pipe(
-      map(items => items.filter(item => !categoryId || item.category === categoryId))
+      map(items => items.filter(item => !categoryId || item.category === categoryId)),
+      shareReplay(1),
     );
   }
 
@@ -54,7 +55,8 @@ export class Storage extends Destroyable {
 
   private getColChangesWithId<T>(collection: AngularFirestoreCollection<T>) {
     return collection.snapshotChanges().pipe(
-      map(changes => withId<T>(changes))
+      map(changes => withId<T>(changes)),
+      shareReplay(1),
     );
   }
 
@@ -64,7 +66,8 @@ export class Storage extends Destroyable {
         const mapping = Object.create(null);
         changes.forEach(change => mapping[change.payload.doc.id] = change.payload.doc.data());
         return mapping;
-      })
+      }),
+      shareReplay(1)
     );
   }
 }
