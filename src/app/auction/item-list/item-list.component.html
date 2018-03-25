@@ -5,6 +5,7 @@
     [routerLink]="[{category: category?.id, item: item.id}]"
     [class.selected]="current?.id === item.id"
     >
+    <mat-divider></mat-divider>
     <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
     <h3 matLine>
       {{item.title}}
