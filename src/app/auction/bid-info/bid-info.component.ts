@@ -20,7 +20,11 @@ export class BidInfoComponent {
   constructor(private auth: Auth, private dialog: MatDialog) {}
 
   async bidNow() {
-    await this.auth.login('Please login to bid for this item');
+    const result = await this.auth.login('Please login to bid for this item');
+
+    if (!result) {
+      return;
+    }
 
     const bidDialog = this.dialog.open(BidDialogComponent, { data: this.item });
     bidDialog.afterClosed().subscribe(bidAmount => {
