@@ -22,7 +22,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
-import { SignupComponent } from 'app/auth/signup/signup.component';
+// import { SignupComponent } from 'app/auth/signup/signup.component';
 import { AdminComponent } from 'app/admin/admin.component';
 import { AppComponent } from 'app/app.component';
 import { RaffleComponent } from './raffle/raffle.component';
@@ -47,12 +47,12 @@ import { PriceToBeatComponent } from './auction/price-to-beat/price-to-beat.comp
 import { BidCountComponent } from './auction/bid-count/bid-count.component';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM",
-  authDomain: "coleridge-summer-fair.firebaseapp.com",
-  databaseURL: "https://coleridge-summer-fair.firebaseio.com",
-  projectId: "coleridge-summer-fair",
-  storageBucket: "coleridge-summer-fair.appspot.com",
-  messagingSenderId: "1052904504519"
+  apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
+  authDomain: 'coleridge-summer-fair.firebaseapp.com',
+  databaseURL: 'https://coleridge-summer-fair.firebaseio.com',
+  projectId: 'coleridge-summer-fair',
+  storageBucket: 'coleridge-summer-fair.appspot.com',
+  messagingSenderId: '1052904504519'
 };
 
 @NgModule({
@@ -60,7 +60,7 @@ const firebaseConfig = {
     AppComponent,
     HomeComponent,
     LoginComponent,
-    SignupComponent,
+    // SignupComponent,
     AdminComponent,
     RaffleComponent,
     AuctionComponent,

@@ -10,7 +10,6 @@ import { RaffleComponent } from 'app/raffle/raffle.component';
 import { LoginComponent } from 'app/auth/login/login.component';
 import { AdminComponent } from 'app/admin/admin.component';
 import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
-import { SignupComponent } from 'app/auth/signup/signup.component';
 
 export const router: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +19,6 @@ export const router: Routes = [
   { path: 'raffle', component: RaffleComponent },
 
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard, AuthGuard] }
-]
+];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);
