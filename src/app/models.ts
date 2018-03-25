@@ -47,9 +47,7 @@ export interface BidInfo {
 }
 
 export interface Bid {
-  id: Identifier;
   bidder: Identifier;
   item: Identifier;
   amount: number;
-  date: Date;
 }

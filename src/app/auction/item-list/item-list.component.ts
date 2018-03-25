@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Category, Item } from 'app/models';
+import { Category, Item, Bid } from 'app/models';
 
 @Component({
   selector: 'app-item-list',
@@ -18,5 +18,5 @@ export class ItemListComponent {
   category: Category;
 
   @Output()
-  bid = new EventEmitter();
+  bid = new EventEmitter<Bid>();
 }

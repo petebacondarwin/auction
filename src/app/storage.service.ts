@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { firestore } from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { map, takeUntil, shareReplay} from 'rxjs/operators';
 
 import { Destroyable } from 'app/destroyable';
-import { Category, Item, BidInfo } from 'app/models';
+import { Category, Item, BidInfo, Bid } from 'app/models';
 import { withId } from 'app/utils';
 
 @Injectable()
@@ -51,6 +52,10 @@ export class Storage extends Destroyable {
       }
     });
     return batch.commit();
+  }
+
+  bidOnItem(bid: Bid) {
+    return this.afStore.collection('bids').ref.add({ ...bid, timestamp: firestore.FieldValue.serverTimestamp() });
   }
 
   private getColChangesWithId<T>(collection: AngularFirestoreCollection<T>) {

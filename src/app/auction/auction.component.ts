@@ -71,5 +71,8 @@ export class AuctionComponent extends Destroyable implements OnInit {
     );
   }
 
-  bid(bid: Bid) {}
+  bid(bid: Bid) {
+    console.log('bid', bid);
+    this.storage.bidOnItem(bid);
+  }
 }
