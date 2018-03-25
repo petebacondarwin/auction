@@ -10,7 +10,7 @@ export class CategoryListComponent implements OnChanges {
   @Input()
   categories: Category[];
   @Input()
-  current: Category
+  current: Category;
 
   total = 0;
 
