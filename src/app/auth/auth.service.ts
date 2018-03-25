@@ -5,14 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
-import { User, GoogleAuthProvider } from '@firebase/auth-types';
+import { User } from '@firebase/auth-types';
 
 import { LoginComponent, LoginCredentials } from 'app/auth/login/login.component';
 import { Destroyable } from 'app/destroyable';
 
 import { Observable } from 'rxjs/Observable';
-import { race } from 'rxjs/observable/race';
-import { first, tap, map, switchMap, takeUntil } from 'rxjs/operators';
+import { first, switchMap, takeUntil } from 'rxjs/operators';
 
 export interface UserInfo {
   roles: { [role: string]: boolean };
@@ -32,20 +31,8 @@ export class Auth extends Destroyable {
     private dialog: MatDialog,
   ) {
     super();
-
-    this.userChanges.pipe(
-      this.takeUntilDestroyed(),
-    ).subscribe(user => {
-      console.log('user', user);
-      this.user = user;
-    });
-
-    this.userInfoChanges.pipe(
-      this.takeUntilDestroyed(),
-    ).subscribe(userInfo => {
-      console.log('userInfo', userInfo);
-      this.userInfo = userInfo;
-    });
+    this.userChanges.pipe(this.takeUntilDestroyed()).subscribe(user => this.user = user);
+    this.userInfoChanges.pipe(this.takeUntilDestroyed()).subscribe(userInfo => this.userInfo = userInfo);
   }
 
   login(message: string) {
@@ -65,7 +52,7 @@ export class Auth extends Destroyable {
     const component = dialog.componentInstance;
     component.message = message;
 
-    const loginHandler = {
+    const loginObserver = {
       next(result) { dialog.close(result); },
       error(error) { dialog.componentInstance.error = error; }
     };
@@ -73,15 +60,17 @@ export class Auth extends Destroyable {
     dialog.componentInstance.googleLogin.pipe(
       switchMap(() => this.doGoogleLogin()),
       takeUntil(dialog.afterClosed())
-    ).subscribe(loginHandler);
+    ).subscribe(loginObserver);
 
     dialog.componentInstance.emailLogin.pipe(
       switchMap(credentials => this.doEmailLogin(credentials)),
       takeUntil(dialog.afterClosed())
-    ).subscribe(loginHandler);
+    ).subscribe(loginObserver);
 
     return dialog.afterClosed();
   }
+
+  private handleGoogleLoginRequest(dialog) {}
 
   private doGoogleLogin() {
     return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
