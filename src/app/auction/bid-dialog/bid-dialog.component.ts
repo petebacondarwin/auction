@@ -14,7 +14,7 @@ import { Item } from 'app/models';
 })
 export class BidDialogComponent {
 
-  minBid = (this.item.bidInfo.winningBids[0] || 0) + 1;
+  minBid = (this.item.bidInfo.winningBids[this.item.bidInfo.winningBids.length - 1] || 0) + 1;
   bidForm = new FormGroup({
     amount: new FormControl(this.minBid, [Validators.required, Validators.min(this.minBid)]),
   });

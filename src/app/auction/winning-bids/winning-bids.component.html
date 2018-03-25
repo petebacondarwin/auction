@@ -1,6 +1,6 @@
 <div *ngIf="bidInfo.winningBids.length > 1">
   <p><b>Current winning bids:</b></p>
   <ul class="winning-bids">
-    <li *ngFor="let bid of bidInfo.winningBids">Item {{$index+1}}: &pound;{{bid}}</li>
+    <li *ngFor="let bid of bidInfo.winningBids; index as i">Item {{i+1}}: &pound;{{bid}}</li>
   </ul>
 </div>

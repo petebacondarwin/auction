@@ -24,12 +24,15 @@ export class BidInfoComponent {
 
     const bidDialog = this.dialog.open(BidDialogComponent, { data: this.item });
     bidDialog.afterClosed().subscribe(bidAmount => {
-      console.log(`bid on ${this.item.title} of £${bidAmount}`);
-      this.bid.emit({
-        bidder: this.auth.user.uid,
-        item: this.item.id,
-        amount: bidAmount
-      });
+      if (bidAmount) {
+        console.log(`bid on ${this.item.title} of £${bidAmount}`);
+
+        this.bid.emit({
+          bidder: this.auth.user.uid,
+          item: this.item.id,
+          amount: bidAmount
+        });
+      }
     });
   }
 }
