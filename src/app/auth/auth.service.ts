@@ -48,7 +48,7 @@ export class Auth extends Destroyable {
   }
 
   private showLogin(message?: string) {
-    const dialog = this.dialog.open(LoginComponent);
+    const dialog = this.dialog.open(LoginComponent, { autoFocus: false });
     const component = dialog.componentInstance;
     component.message = message;
 
