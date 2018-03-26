@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from 'app/app.component';
+import { Storage } from 'app/storage.service';
 
 @Component({
   selector: 'app-raffle',
@@ -8,7 +9,12 @@ import { AppComponent } from 'app/app.component';
 })
 export class RaffleComponent implements OnInit {
 
-  constructor(app: AppComponent) {
+  items = this.storage.raffleItemsChanges;
+
+  constructor(
+    app: AppComponent,
+    private storage: Storage
+  ) {
     app.setPageTitle('Raffle');
   }
 

@@ -1,7 +1,7 @@
 <mat-list>
   <mat-list-item
     *ngFor="let item of items"
-    [app-scroll-into-view-on]="current?.id === item.id"
+    [appScrollIntoView]="current?.id === item.id"
     [routerLink]="[{category: category?.id, item: item.id}]"
     [class.selected]="current?.id === item.id"
     >

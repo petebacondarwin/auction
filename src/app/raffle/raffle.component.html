@@ -5,3 +5,16 @@
 <p>Welcome to the raffle page for the summer fair. We have some really fantastic prizes on offer this year. </p>
 <p>Raffle tickets will be sent home with your child very soon. Make sure you return your sold or unsold raffle tickets to the office at the latest by 9am on Friday 24th June. </p>
 <p>Tickets only cost 50p and will also be sold throughout the fair, please come along to the draw to hear if you've won, 3.20pm in the Main Hall.</p>
+
+<mat-list>
+  <mat-list-item *ngFor="let item of items | async">
+    <mat-divider></mat-divider>
+    <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
+    <h3 matLine>
+      {{item.title}}
+      <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
+    </h3>
+    <p matLine [innerHTML]="item.shortDescription"></p>
+    <app-donor matLine *ngIf="item.donor" [donor]="item.donor"></app-donor>
+  </mat-list-item>
+</mat-list>
