@@ -1,15 +1,29 @@
 <header>
-  <mat-toolbar color="primary">
-    <a routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{exact:true}">Home</a>
-    <a routerLinkActive="active" routerLink="/auction">Auction</a>
-    <a routerLinkActive="active" routerLink="/raffle">Raffle</a>
-    <a routerLinkActive="active" routerLink="/magic-box">Magic Box</a>
-    <span class="filler"></span>
-    <a *ngIf="auth.userInfo?.roles['admin']" routerLinkActive="active" routerLink="/admin">Admin</a>
-    <a *ngIf="!auth.user" (click)="auth.login('Please choose a method to login.')">Login</a>
-    <a *ngIf="auth.user" (click)="auth.logout()">Logout</a>
+  <mat-toolbar color="primary" *ngIf="!isWide">
+    <button mat-button class="hamburger-menu" (click)="sidenav.toggle()" ><mat-icon>menu</mat-icon></button>
+  </mat-toolbar>
+  <mat-toolbar color="primary" *ngIf="isWide">
+    <ng-container *ngTemplateOutlet="navLinks"></ng-container>
   </mat-toolbar>
 </header>
-<article>
-  <router-outlet></router-outlet>
-</article>
+<mat-sidenav-container>
+  <mat-sidenav mode="push" [opened]="false" #sidenav class="main" (click)="sidenav.close()">
+    <ng-container *ngTemplateOutlet="navLinks"></ng-container>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <article>
+      <router-outlet></router-outlet>
+    </article>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #navLinks>
+  <a routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{exact:true}">Home</a>
+  <a routerLinkActive="active" routerLink="/auction">Auction</a>
+  <a routerLinkActive="active" routerLink="/raffle">Raffle</a>
+  <a routerLinkActive="active" routerLink="/magic-box">Magic Box</a>
+  <span class="filler"></span>
+  <a *ngIf="auth.userInfo?.roles['admin']" routerLinkActive="active" routerLink="/admin">Admin</a>
+  <a *ngIf="!auth.user" (click)="auth.login('Please choose a method to login.')">Login</a>
+  <a *ngIf="auth.user" (click)="auth.logout()">Logout</a>
+</ng-template>
