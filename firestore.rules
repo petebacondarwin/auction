@@ -1,16 +1,35 @@
 service cloud.firestore {
+
   match /databases/{database}/documents {
-    match /categories/{category} {
-      allow read;
+
+    function isAdmin() {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)); // .data.roles.admin == true;
     }
-    match /auction-items/{items} {
-      allow read;
-    }
-    match /bid-info/{info} {
-      allow read;
-    }
+
     match /users/{userId} {
       allow read: if request.auth.uid == userId;
+    }
+
+    match /categories/{category} {
+      allow read;
+      allow write: if isAdmin()
+    }
+
+    match /auction-items/{items} {
+      allow read;
+      allow write: if isAdmin()
+    }
+    match /raffle-items/{items} {
+      allow read;
+      allow write: if isAdmin()
+    }
+    match /magic-box-items/{items} {
+      allow read;
+      allow write: if isAdmin()
+    }
+
+    match /bid-info/{info} {
+      allow read;
     }
     match /bids/{bid} {
       allow read: if false;

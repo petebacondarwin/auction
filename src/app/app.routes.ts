@@ -18,7 +18,7 @@ export const router: Routes = [
   { path: 'magic-box', component: MagicBoxComponent },
   { path: 'raffle', component: RaffleComponent },
 
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard, AuthGuard] }
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

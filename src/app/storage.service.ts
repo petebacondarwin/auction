@@ -35,19 +35,19 @@ export class Storage extends Destroyable {
     );
   }
 
-  deleteAllAuctionItems() {
-    return this.afStore.collection<Item>('auction-items').ref.get().then(itemsSnaphot => {
+  deleteAllItems(collection: string) {
+    return this.afStore.collection<Item>(collection).ref.get().then(itemsSnaphot => {
       const batch = this.afStore.firestore.batch();
       itemsSnaphot.docs.forEach(item => batch.delete(item.ref));
       return batch.commit();
     });
   }
 
-  addAuctionItems(items: Item[]) {
+  addItems(collection: string, items: Item[]) {
     const batch = this.afStore.firestore.batch();
     items.forEach(item => {
       if (item.lot) {
-        const ref = this.afStore.firestore.collection('auction-items').doc(item.lot.toString());
+        const ref = this.afStore.firestore.collection(collection).doc(item.lot.toString());
         batch.set(ref, item);
       }
     });

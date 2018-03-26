@@ -30,11 +30,15 @@ const COLUMN_FIELD_MAPPING = {
   'Received donation?': undefined,
   'Location of prize?': undefined,
   'Image name': 'imageName'
-}
+};
 
 const DEFAULTS = {
   'Image name': 'Coleridgelogo.jpg',
   'Website': '',
+};
+
+const TRANSFORMS = {
+  'Show Value': (value: string) => value.toLowerCase() === 'yes'
 };
 
 @Component({
@@ -73,7 +77,9 @@ export class AdminComponent extends Destroyable {
   }
 
   processSheet(sheetName: string) {
-    if (!sheetName) throw new Error('No sheet selected');
+    if (!sheetName) {
+      throw new Error('No sheet selected');
+    }
     const data = utils.sheet_to_json(this.workbook.Sheets[sheetName], {blankrows: false, raw: true});
     const items: Item[] = data.map(convertToItem);
     console.log(items);
@@ -81,11 +87,20 @@ export class AdminComponent extends Destroyable {
   }
 
   async writeItems() {
-    if (!this.items) throw new Error('Nothing to write.');
-    await this.storage.deleteAllAuctionItems();
-    console.log('deleted previous auction items')
-    await this.storage.addAuctionItems(this.items.filter(item => item.category !== 'Raffle' && item.category !== 'Magic Box'));
-    console.log('added new auction items');
+    if (!this.items) {
+      throw new Error('Nothing to write.');
+    }
+
+    await this.replaceItems('auction-items', this.items.filter(item => item.category !== 'Raffle' && item.category !== 'Magic Box'));
+    await this.replaceItems('raffle-items', this.items.filter(item => item.category === 'Raffle'));
+    await this.replaceItems('magic-box-items', this.items.filter(item => item.category === 'Magic Box'));
+  }
+
+  async replaceItems(collection: string, items: Item[]) {
+    await this.storage.deleteAllItems(collection);
+    console.log(`deleted previous ${collection}`);
+    await this.storage.addItems(collection, items);
+    console.log(`added ${items.length} new ${collection}`);
   }
 }
 
@@ -104,9 +119,13 @@ function convertToItem(row: any) {
   const item: Item = {} as any;
   Object.keys(COLUMN_FIELD_MAPPING).forEach(column => {
     // if there is no column and no default then ignore this column
-    if (row[column] === undefined && DEFAULTS[column] === undefined) return;
+    if (row[column] === undefined && DEFAULTS[column] === undefined) {
+      return;
+    }
     // otherwise get the value from the row or the default
-    const value = (row[column] === undefined) ? DEFAULTS[column] : row[column];
+    const rawValue = (row[column] === undefined) ? DEFAULTS[column] : row[column];
+    // and then transform if necessary
+    const value = TRANSFORMS[column] ? TRANSFORMS[column](rawValue) : rawValue;
     // parse the mapping to write th value to the property path on the item
     const mapping = COLUMN_FIELD_MAPPING[column];
     if (typeof mapping === 'string') {
@@ -114,11 +133,11 @@ function convertToItem(row: any) {
     } else if (Array.isArray(mapping)) {
       // expand the array into a property path
       let property = item;
-      for(let i = 0; i < mapping.length - 1; i++) {
+      for (let i = 0; i < mapping.length - 1; i++) {
         const key = mapping[i];
         property = property[key] = property[key] || {};
       }
-      property[mapping[mapping.length-1]] = value;
+      property[mapping[mapping.length - 1]] = value;
     }
   });
   return item;

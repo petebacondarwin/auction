@@ -11,7 +11,7 @@ import { LoginComponent, LoginCredentials } from 'app/auth/login/login.component
 import { Destroyable } from 'app/destroyable';
 
 import { Observable } from 'rxjs/Observable';
-import { first, switchMap, takeUntil } from 'rxjs/operators';
+import { first, switchMap, takeUntil, shareReplay } from 'rxjs/operators';
 
 export interface UserInfo {
   roles: { [role: string]: boolean };
@@ -21,8 +21,14 @@ export interface UserInfo {
 export class Auth extends Destroyable {
   user: User;
   userInfo: UserInfo;
-  userChanges = this.afAuth.authState.pipe(this.takeUntilDestroyed());
-  userInfoChanges = this.userChanges.pipe(switchMap(user => this.getUserInfo(user)));
+  userChanges = this.afAuth.authState.pipe(
+    this.takeUntilDestroyed(),
+    shareReplay(1)
+  );
+  userInfoChanges = this.userChanges.pipe(
+    switchMap(user => this.getUserInfo(user)),
+    shareReplay(1)
+  );
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -31,8 +37,14 @@ export class Auth extends Destroyable {
     private dialog: MatDialog,
   ) {
     super();
-    this.userChanges.pipe(this.takeUntilDestroyed()).subscribe(user => this.user = user);
-    this.userInfoChanges.pipe(this.takeUntilDestroyed()).subscribe(userInfo => this.userInfo = userInfo);
+    this.userChanges.pipe(this.takeUntilDestroyed()).subscribe(user => {
+      console.log('A', user);
+      this.user = user;
+    });
+    this.userInfoChanges.pipe(this.takeUntilDestroyed()).subscribe(userInfo => {
+      console.log('B', userInfo);
+      this.userInfo = userInfo;
+    });
   }
 
   login(message: string) {
