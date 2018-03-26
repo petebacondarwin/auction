@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BidInfo } from 'app/models';
+import { Item } from 'app/models';
 
 @Component({
   selector: 'app-price-to-beat',
@@ -8,5 +8,5 @@ import { BidInfo } from 'app/models';
 })
 export class PriceToBeatComponent {
   @Input()
-  bidInfo: BidInfo;
+  item: Item;
 }

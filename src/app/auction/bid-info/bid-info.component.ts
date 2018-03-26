@@ -31,6 +31,15 @@ export class BidInfoComponent {
       if (bidAmount) {
         console.log(`bid on ${this.item.title} of £${bidAmount}`);
 
+        // temporarily update the local bid info to look like the bid had been made
+        // the cloud functions will do this "officially" shortly after and then the
+        // items list will update automatically.
+        this.item.bidInfo.bidCount++;
+        const winningBids = this.item.bidInfo.winningBids;
+        winningBids.pop();
+        winningBids.push(bidAmount);
+        winningBids.sort((a, b) => b - a);
+
         this.bid.emit({
           bidder: this.auth.user.uid,
           item: this.item.id,

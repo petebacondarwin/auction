@@ -14,9 +14,10 @@ import { Item } from 'app/models';
 })
 export class BidDialogComponent {
 
-  minBid = (this.item.bidInfo.winningBids[this.item.bidInfo.winningBids.length - 1] || 0) + 1;
+  minBid = (this.item.bidInfo.winningBids[this.item.quantity - 1] || 0) + 1;
+  suggestedBid = (this.item.showValue && this.item.value) || this.minBid;
   bidForm = new FormGroup({
-    amount: new FormControl(this.minBid, [Validators.required, Validators.min(this.minBid)]),
+    amount: new FormControl(this.suggestedBid, [Validators.required, Validators.min(this.minBid)]),
   });
 
   constructor(private dialog: MatDialogRef<BidDialogComponent, number>, @Inject(MAT_DIALOG_DATA) public item: Item) {}

@@ -16,14 +16,14 @@ export const bidEntered = firestore.document('bids/{bidId}')
     const db = admin.firestore();
     const itemId = action.data.get('item') as string;
     const item = (await db.collection('auction-items').doc(itemId).get()).data();
-    const winningBids = (await db.collection('bids')
+    const bids = (await db.collection('bids')
                           .where('item', '==', itemId)
                           .orderBy('amount', 'desc')
-                          .orderBy('timestamp')
-                          .limit(item.quantity).get()).docs;
-    console.log(winningBids.map(bid => ({ bidder: bid.get('bidder'), amount: bid.get('amount') })));
+                          .orderBy('timestamp').get()).docs;
+    const winningBids = bids.slice(0, item.quantity);
+    console.log(winningBids.map(bid => bid.data()));
     await db.collection('bid-info').doc(itemId).set({
       winningBids: winningBids.map(bid => bid.get('amount')),
-      bidCount: winningBids.length
+      bidCount: bids.length
     });
   });
