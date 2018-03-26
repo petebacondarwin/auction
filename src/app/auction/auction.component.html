@@ -3,7 +3,7 @@
   <span class="filler"></span>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav [mode]="isWide && 'side' || 'over'" [opened]="isWide" #sidenav>
+  <mat-sidenav [mode]="app.isWide && 'side' || 'over'" [opened]="app.isWide" #sidenav>
     <app-category-list [categories]="categories | async" [current]="category | async"></app-category-list>
   </mat-sidenav>
   <mat-sidenav-content>
