@@ -1,11 +1,11 @@
 export type Identifier = string;
 
-export interface User {
+export interface UserInfo {
   id: Identifier;
-  email: string;
   phone: string;
-  displayName: string;
-  isAdmin: boolean;
+  roles?: {
+    admin?: boolean;
+  };
   childDetails: string;
   notify: boolean;
 }

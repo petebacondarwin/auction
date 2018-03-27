@@ -48,7 +48,7 @@ import { BidCountComponent } from './auction/bid-count/bid-count.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
-  authDomain: 'coleridge-summer-fair.firebaseapp.com',
+  authDomain: 'coleridge-summer-fair.com',
   databaseURL: 'https://coleridge-summer-fair.firebaseio.com',
   projectId: 'coleridge-summer-fair',
   storageBucket: 'coleridge-summer-fair.appspot.com',
