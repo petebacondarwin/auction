@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { firestore } from 'firebase';
 import { Observable } from 'rxjs/Observable';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 import { map, takeUntil, shareReplay} from 'rxjs/operators';
 
 import { Destroyable } from 'app/destroyable';
 import { Category, Item, BidInfo, Bid } from 'app/models';
 import { withId } from 'app/utils';
+
+const emptyBidInfo: BidInfo = { bidCount: 0, winningBids: [] };
 
 @Injectable()
 export class Storage extends Destroyable {
@@ -17,15 +20,24 @@ export class Storage extends Destroyable {
   private bidInfoCol = this.afStore.collection<BidInfo>('bid-info');
   private raffleItemsCol = this.afStore.collection<Item>('raffle-items');
   private magicBoxItemsCol = this.afStore.collection<Item>('magic-box-items');
+  private bidsCol = this.afStore.collection<Bid>('bids');
+
 
   categoriesChanges = this.getColChangesWithId(this.categoriesCol);
-  auctionItemsChanges = this.getColChangesWithId(this.auctionItemsCol);
-  bidInfoChanges = this.getCollectionMap(this.bidInfoCol);
+  auctionItemsChanges = combineLatest(
+    this.getColChangesWithId(this.auctionItemsCol),
+    this.getCollectionMap(this.bidInfoCol),
+    (items, bidInfo) => items.map(item => ({ ...item, bidInfo: (bidInfo[item.id] || emptyBidInfo) }))
+  );
   raffleItemsChanges = this.getColChangesWithId(this.raffleItemsCol);
   magicBoxItemsChanges = this.getColChangesWithId(this.magicBoxItemsCol);
 
   constructor(private afStore: AngularFirestore) {
     super();
+  }
+
+  getBidsForUser(userId: string) {
+    return this.afStore.collection<Bid>('bids', ref => ref.where('bidder', '==', userId)).valueChanges();
   }
 
   getAuctionItemsByCategory(categoryId: string) {
@@ -55,7 +67,7 @@ export class Storage extends Destroyable {
   }
 
   bidOnItem(bid: Bid) {
-    return this.afStore.collection('bids').ref.add({ ...bid, timestamp: firestore.FieldValue.serverTimestamp() });
+    return this.bidsCol.ref.add({ ...bid, timestamp: firestore.FieldValue.serverTimestamp() });
   }
 
   private getColChangesWithId<T>(collection: AngularFirestoreCollection<T>) {

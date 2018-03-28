@@ -42,7 +42,7 @@ export interface Donor {
 }
 
 export interface BidInfo {
-  winningBids: number[];
+  winningBids: { bid: Identifier, amount: number }[];
   bidCount: number;
 }
 

@@ -9,13 +9,11 @@ import { User } from '@firebase/auth-types';
 
 import { LoginComponent, LoginCredentials } from 'app/auth/login/login.component';
 import { Destroyable } from 'app/destroyable';
+import { UserInfo } from 'app/models';
 
 import { Observable } from 'rxjs/Observable';
 import { first, switchMap, takeUntil, shareReplay } from 'rxjs/operators';
 
-export interface UserInfo {
-  roles: { [role: string]: boolean };
-}
 
 @Injectable()
 export class Auth extends Destroyable {
@@ -38,11 +36,9 @@ export class Auth extends Destroyable {
   ) {
     super();
     this.userChanges.pipe(this.takeUntilDestroyed()).subscribe(user => {
-      console.log('A', user);
       this.user = user;
     });
     this.userInfoChanges.pipe(this.takeUntilDestroyed()).subscribe(userInfo => {
-      console.log('B', userInfo);
       this.userInfo = userInfo;
     });
   }

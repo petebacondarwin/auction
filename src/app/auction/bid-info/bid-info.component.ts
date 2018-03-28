@@ -14,6 +14,9 @@ export class BidInfoComponent {
   @Input()
   item: Item;
 
+  @Input()
+  userBids: Bid[];
+
   @Output()
   bid = new EventEmitter<Bid>();
 
@@ -37,8 +40,8 @@ export class BidInfoComponent {
         this.item.bidInfo.bidCount++;
         const winningBids = this.item.bidInfo.winningBids;
         winningBids.pop();
-        winningBids.push(bidAmount);
-        winningBids.sort((a, b) => b - a);
+        winningBids.push({bid: '__temp-bid-id__', amount: bidAmount});
+        winningBids.sort((a, b) => b.amount - a.amount);
 
         this.bid.emit({
           bidder: this.auth.user.uid,

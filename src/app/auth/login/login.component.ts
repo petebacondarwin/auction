@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material';
 
 const errorOrder = [
   'required',

@@ -3,15 +3,22 @@ import * as admin from 'firebase-admin';
 import { sendEmail } from './email';
 
 let db: FirebaseFirestore.Firestore;
+let auth: admin.auth.Auth;
 
 interface Bid {
   id: string;
-  user: string;
+  bidder: string;
   item: string;
   amount: number;
 }
 
+interface BidInfo {
+  winningBids: { bid: string, amount: number }[];
+  bidCount: number;
+}
+
 interface Item {
+  id: string;
   lot: string;
   title: string;
   shortDescription: string;
@@ -40,23 +47,25 @@ export const auctionItemAdded = firestore.document('auction-items/{itemId}')
 export const bidEntered = firestore.document('bids/{bidId}')
   .onWrite(async (action: Event<firestore.DeltaDocumentSnapshot>) => {
     db = db || admin.firestore();
-    const userId = action.data.get('user');
-    const user = await admin.auth().getUser(userId);
-    const userInfo = (await db.collection('users').doc(userId).get()).data() as UserInfo;
+    auth = auth || admin.auth();
     const bid: Bid = action.data.data();
+    console.log(bid);
+    const userId = bid.bidder;
+    const user = await auth.getUser(userId);
+    const userInfo = (await db.collection('users').doc(userId).get()).data() as UserInfo;
     const item = (await db.collection('auction-items').doc(bid.item).get()).data() as Item;
     const bids = (await db.collection('bids')
                           .where('item', '==', bid.item)
                           .orderBy('amount', 'desc')
                           .orderBy('timestamp').get()).docs;
-    const winningBids = bids.slice(0, item.quantity).map(b => b.data()) as Bid[];
+    const winningBids = bids.slice(0, item.quantity).map(b => ({ id: b.id, ...b.data() } as Bid));
 
     // Update the bidInfo for this item
-    await db.collection('bid-info').doc(bid.item).set({
-      winningBids: winningBids.map(b => b.amount),
+    const bidInfo: BidInfo = {
+      winningBids: winningBids.filter(b => b).map(b => ({ bid: b.id, amount: b.amount })),
       bidCount: bids.length
-    });
-
+    };
+    await db.collection('bid-info').doc(bid.item).set(bidInfo);
 
     console.log('bid', bid);
     console.log('winning bids', winningBids);
@@ -65,12 +74,17 @@ export const bidEntered = firestore.document('bids/{bidId}')
     if (winningBids.some(b => b.id === bid.id)) {
       console.log('new bid is one of the winners');
       await sendBidEmail(user, userInfo, item, bid);
+
+      // email the bidder who was outbid
+      const beatenBid = bids[item.quantity].data() as Bid;
+      const beatenUser = await auth.getUser(beatenBid.bidder);
+      const beatenUserInfo = (await db.collection('users').doc(beatenBid.bidder).get()).data() as UserInfo;
+      await sendOutBidEmail(beatenUser, beatenUserInfo, item, bid, beatenBid);
     } else {
       // In the unlikely situation where this bid was outbid just before it was received
       await sendOutBidEmail(user, userInfo, item, winningBids[winningBids.length-1], bid);
     }
   });
-
 
 async function sendBidEmail(user: admin.auth.UserRecord, userInfo: UserInfo, item: Item, bid: Bid) {
   if (userInfo.notify) {

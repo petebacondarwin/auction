@@ -15,7 +15,7 @@
     <p matLine [innerHTML]="item.shortDescription"></p>
     <app-donor matLine *ngIf="item.donor" [donor]="item.donor"></app-donor>
     <div matLine *ngIf="current?.id === item.id">
-      <app-bid-info [item]="item" (bid)="bid.emit($event)"></app-bid-info>
+      <app-bid-info [item]="item" [userBids]="getUserBids(item)" (bid)="bid.emit($event)"></app-bid-info>
     </div>
   </mat-list-item>
 </mat-list>

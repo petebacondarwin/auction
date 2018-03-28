@@ -8,6 +8,7 @@ import { AppComponent } from 'app/app.component';
 import { Category, Item, Bid } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
+import { Auth } from 'app/auth/auth.service';
 
 @Component({
   selector: 'app-auction',
@@ -20,12 +21,14 @@ export class AuctionComponent extends Destroyable implements OnInit {
   category: Observable<Category>;
   items: Observable<Item[]>;
   item: Observable<Item>;
+  userBids: Observable<Bid[]>;
 
   constructor(
     public app: AppComponent,
     private activeRoute: ActivatedRoute,
     private router: Router,
     private storage: Storage,
+    private auth: Auth,
   ) {
     super();
   }
@@ -46,13 +49,12 @@ export class AuctionComponent extends Destroyable implements OnInit {
       shareReplay(1)
     );
 
-    const bidInfo = this.storage.bidInfoChanges;
+    this.userBids = this.auth.userChanges.pipe(
+      switchMap(user => this.storage.getBidsForUser(user.uid))
+    );
 
     this.items = this.category.pipe(
       switchMap(category => this.storage.getAuctionItemsByCategory(category && category.id)),
-      combineLatest(
-      bidInfo,
-      (items, info) => items.map(item => ({ ...item, bidInfo: info[item.id] || { bidCount: 0, winningBids: [] } }))),
       shareReplay(1)
     );
 

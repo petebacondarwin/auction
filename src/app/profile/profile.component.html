@@ -1,0 +1,38 @@
+<mat-toolbar>
+  <h1>Profile</h1>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-title>User Details</mat-card-title>
+  <mat-card-content>
+    <table class="user-details">
+      <tr><th>Email</th><td>{{ auth.user?.email }}</td></tr>
+      <tr><th>Display Name</th><td>{{ auth.user?.displayName }}</td></tr>
+      <ng-container *ngIf="auth.userInfo">
+        <tr><th>Phone</th><td>{{ auth.userInfo.phone }}</td></tr>
+        <tr><th>Class/Child Details</th><td>{{ auth.userInfo.childDetails }}</td></tr>
+        <tr><th>Notify via email</th><td>{{auth.userInfo.notify && 'Yes' || 'No'}}</td></tr>
+        <tr *ngIf="auth.userInfo.roles?.admin"><th>Is Admin</th><td>Yes</td></tr>
+      </ng-container>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>Bidding</mat-card-title>
+  <mat-card-content>
+    <p *ngIf="(bidding | async)?.length == 0; else showBids">You have not yet bid on any item.</p>
+    <ng-template #showBids>
+      <mat-list>
+        <mat-list-item *ngFor="let biddingInfo of bidding | async">
+          <h2 matLine><a [routerLink]="['/auction', { item: biddingInfo.item.id }]">{{ biddingInfo.item.title }}</a></h2>
+          <p matLine>Lot no. {{ biddingInfo.item.lot }}</p>
+          <h3 matLine>Your Bids</h3>
+          <ol matLine class="bid-list">
+            <li *ngFor="let bid of biddingInfo.bids">&pound;{{ bid.amount }}<span *ngIf="biddingInfo.winningBidIds.has(bid.id)"> (winning)</span></li>
+          </ol>
+        </mat-list-item>
+      </mat-list>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

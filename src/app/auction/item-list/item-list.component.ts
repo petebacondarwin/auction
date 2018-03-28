@@ -15,8 +15,15 @@ export class ItemListComponent {
   current: Item;
 
   @Input()
+  userBids: Bid[];
+
+  @Input()
   category: Category;
 
   @Output()
   bid = new EventEmitter<Bid>();
+
+  getUserBids(item: Item) {
+    return this.userBids && this.userBids.filter(bid => bid.item === item.id);
+  }
 }

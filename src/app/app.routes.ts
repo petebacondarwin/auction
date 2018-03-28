@@ -7,8 +7,8 @@ import { AuctionComponent } from 'app/auction/auction.component';
 import { MagicBoxComponent } from 'app/magic-box/magic-box.component';
 import { RaffleComponent } from 'app/raffle/raffle.component';
 
-import { LoginComponent } from 'app/auth/login/login.component';
 import { AdminComponent } from 'app/admin/admin.component';
+import { ProfileComponent } from 'app/profile/profile.component';
 import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 
 export const router: Routes = [
@@ -18,6 +18,7 @@ export const router: Routes = [
   { path: 'magic-box', component: MagicBoxComponent },
   { path: 'raffle', component: RaffleComponent },
 
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }
 ];
 

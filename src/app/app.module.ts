@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,10 +46,11 @@ import { BidDialogComponent } from './auction/bid-dialog/bid-dialog.component';
 import { WinningBidsComponent } from './auction/winning-bids/winning-bids.component';
 import { PriceToBeatComponent } from './auction/price-to-beat/price-to-beat.component';
 import { BidCountComponent } from './auction/bid-count/bid-count.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
-  authDomain: 'coleridge-summer-fair.com',
+  authDomain: 'coleridge-summer-fair.firebaseapp.com',
   databaseURL: 'https://coleridge-summer-fair.firebaseio.com',
   projectId: 'coleridge-summer-fair',
   storageBucket: 'coleridge-summer-fair.appspot.com',
@@ -75,7 +77,8 @@ const firebaseConfig = {
     BidDialogComponent,
     WinningBidsComponent,
     PriceToBeatComponent,
-    BidCountComponent
+    BidCountComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +87,7 @@ const firebaseConfig = {
     LayoutModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,

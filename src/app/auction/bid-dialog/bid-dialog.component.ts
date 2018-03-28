@@ -14,13 +14,16 @@ import { Item } from 'app/models';
 })
 export class BidDialogComponent {
 
-  minBid = (this.item.bidInfo.winningBids[this.item.quantity - 1] || 0) + 1;
-  suggestedBid = (this.item.showValue && this.item.value) || this.minBid;
+  lowestWinningBid = this.item.bidInfo.winningBids[this.item.quantity - 1];
+  minBid = (this.lowestWinningBid ? this.lowestWinningBid.amount : 0) + 1;
+  suggestedBid = Math.max((this.item.showValue && this.item.value), this.minBid);
   bidForm = new FormGroup({
     amount: new FormControl(this.suggestedBid, [Validators.required, Validators.min(this.minBid)]),
   });
 
-  constructor(private dialog: MatDialogRef<BidDialogComponent, number>, @Inject(MAT_DIALOG_DATA) public item: Item) {}
+  constructor(private dialog: MatDialogRef<BidDialogComponent, number>, @Inject(MAT_DIALOG_DATA) public item: Item) {
+    console.log(this.lowestWinningBid, this.minBid, this.suggestedBid);
+  }
 
   submitBid() {
     return this.dialog.close(this.bidForm.get('amount').value);

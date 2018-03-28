@@ -33,3 +33,9 @@ export class SignupComponent implements OnInit {
   }
 
 }
+
+
+  displayName = new FormControl(null, Validators.required);
+  phone = new FormControl(null, Validators.required);
+  schoolClass = new FormControl(null);
+  notify = new FormControl();

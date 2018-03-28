@@ -9,4 +9,9 @@ import { Item } from 'app/models';
 export class PriceToBeatComponent {
   @Input()
   item: Item;
+
+  get priceToBeat() {
+    const lowestWinningBid = this.item.bidInfo.winningBids[this.item.quantity - 1];
+    return lowestWinningBid ? lowestWinningBid.amount : 0;
+  }
 }
