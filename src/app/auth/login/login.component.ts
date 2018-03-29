@@ -9,6 +9,7 @@ const errorOrder = [
 export interface LoginCredentials {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 @Component({

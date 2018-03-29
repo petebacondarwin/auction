@@ -71,7 +71,8 @@ export class Auth extends Destroyable {
     return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 
-  private doEmailLogin(credentials: LoginCredentials) {
-    return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
+  private async doEmailLogin(credentials: LoginCredentials) {
+    await this.afAuth.auth.setPersistence(credentials.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
+    return await this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
   }
 }
