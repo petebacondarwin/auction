@@ -2,18 +2,17 @@
   <h1>Profile</h1>
 </mat-toolbar>
 
+<ng-container *ngIf="(userInfo | async) as userInfo">
 <mat-card>
   <mat-card-title>User Details</mat-card-title>
   <mat-card-content>
     <table class="user-details">
-      <tr><th>Email</th><td>{{ auth.user?.email }}</td></tr>
-      <tr><th>Display Name</th><td>{{ auth.user?.displayName }}</td></tr>
-      <ng-container *ngIf="auth.userInfo">
-        <tr><th>Phone</th><td>{{ auth.userInfo.phone }}</td></tr>
-        <tr><th>Class/Child Details</th><td>{{ auth.userInfo.childDetails }}</td></tr>
-        <tr><th>Notify via email</th><td>{{auth.userInfo.notify && 'Yes' || 'No'}}</td></tr>
-        <tr *ngIf="auth.userInfo.roles?.admin"><th>Is Admin</th><td>Yes</td></tr>
-      </ng-container>
+      <tr><th>Email</th><td>{{ userInfo.user.email }}</td></tr>
+      <tr><th>Display Name</th><td>{{ userInfo.user.displayName }}</td></tr>
+      <tr><th>Phone</th><td>{{ userInfo.phone }}</td></tr>
+      <tr><th>Class/Child Details</th><td>{{ userInfo.childDetails }}</td></tr>
+      <tr><th>Notify via email</th><td>{{userInfo.notify && 'Yes' || 'No'}}</td></tr>
+      <tr *ngIf="userInfo.roles?.admin"><th>Is Admin</th><td>Yes</td></tr>
     </table>
   </mat-card-content>
 </mat-card>
@@ -21,18 +20,26 @@
 <mat-card>
   <mat-card-title>Bidding</mat-card-title>
   <mat-card-content>
-    <p *ngIf="(bidding | async)?.length == 0; else showBids">You have not yet bid on any item.</p>
+    <p *ngIf="userInfo.bidding.length == 0; else showBids">You have not yet bid on any item.</p>
     <ng-template #showBids>
       <mat-list>
-        <mat-list-item *ngFor="let biddingInfo of bidding | async">
-          <h2 matLine><a [routerLink]="['/auction', { item: biddingInfo.item.id }]">{{ biddingInfo.item.title }}</a></h2>
-          <p matLine>Lot no. {{ biddingInfo.item.lot }}</p>
-          <h3 matLine>Your Bids</h3>
-          <ol matLine class="bid-list">
-            <li *ngFor="let bid of biddingInfo.bids">&pound;{{ bid.amount }}<span *ngIf="biddingInfo.winningBidIds.has(bid.id)"> (winning)</span></li>
-          </ol>
+        <mat-list-item *ngFor="let bidding of userInfo.bidding">
+          <h2 matLine><a [routerLink]="['/auction', { item: bidding.item.id }]">{{ bidding.item.title }}</a></h2>
+          <p matLine>Lot no. {{ bidding.item.lot }}</p>
+          <h3 class="winning" matLine *ngIf="bidding.winning; else losing">You are currently winning this item.</h3>
+          <ng-template #losing>
+            <h3 class="losing" matLine>You have been outbid on this item.</h3>
+            <app-price-to-beat matLine [item]="bidding.item"></app-price-to-beat>
+          </ng-template>
+          <mat-expansion-panel matLine>
+            <mat-expansion-panel-header><mat-panel-title>Your Bids</mat-panel-title></mat-expansion-panel-header>
+            <ol matLine class="bid-list">
+              <li *ngFor="let bid of bidding.bids">&pound;{{ bid.amount }}</li>
+            </ol>
+          </mat-expansion-panel>
         </mat-list-item>
       </mat-list>
     </ng-template>
   </mat-card-content>
 </mat-card>
+</ng-container>

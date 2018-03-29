@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
-import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import { User } from '@firebase/auth-types';
@@ -18,28 +17,19 @@ import { first, switchMap, takeUntil, shareReplay } from 'rxjs/operators';
 @Injectable()
 export class Auth extends Destroyable {
   user: User;
-  userInfo: UserInfo;
   userChanges = this.afAuth.authState.pipe(
     this.takeUntilDestroyed(),
-    shareReplay(1)
-  );
-  userInfoChanges = this.userChanges.pipe(
-    switchMap(user => this.getUserInfo(user)),
     shareReplay(1)
   );
 
   constructor(
     private afAuth: AngularFireAuth,
-    private firestore: AngularFirestore,
     private router: Router,
     private dialog: MatDialog,
   ) {
     super();
     this.userChanges.pipe(this.takeUntilDestroyed()).subscribe(user => {
       this.user = user;
-    });
-    this.userInfoChanges.pipe(this.takeUntilDestroyed()).subscribe(userInfo => {
-      this.userInfo = userInfo;
     });
   }
 
@@ -86,15 +76,5 @@ export class Auth extends Destroyable {
 
   private doEmailLogin(credentials: LoginCredentials) {
     return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
-  }
-
-  private getUserInfo(user: User): Observable<UserInfo|null> {
-    if (user) {
-      return this.firestore.doc<UserInfo>(`users/${user.uid}`)
-        .valueChanges()
-        .pipe(this.takeUntilDestroyed());
-    } else {
-      return Observable.of(null);
-    }
   }
 }

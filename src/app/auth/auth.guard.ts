@@ -4,6 +4,7 @@ import { CanActivate } from '@angular/router';
 import { tap, map } from 'rxjs/operators';
 
 import { Auth } from 'app/auth/auth.service';
+import { Storage } from 'app/storage.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,12 +18,10 @@ export class AuthGuard implements CanActivate {
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth, private storage: Storage) {}
 
   canActivate() {
-    console.log('C', this.auth.userInfo);
-    return this.auth.userInfoChanges.pipe(
-      tap(userInfo => console.log('D', userInfo)),
+    return this.storage.userInfoChanges.pipe(
       map(userInfo => userInfo && userInfo.roles && userInfo.roles.admin)
     );
   }

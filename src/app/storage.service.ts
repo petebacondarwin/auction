@@ -2,15 +2,22 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { firestore } from 'firebase';
+import { User } from '@firebase/auth-types';
+
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { map, takeUntil, shareReplay} from 'rxjs/operators';
+import { map, takeUntil, shareReplay, switchMap } from 'rxjs/operators';
 
+import { Auth } from 'app/auth/auth.service';
 import { Destroyable } from 'app/destroyable';
-import { Category, Item, BidInfo, Bid } from 'app/models';
+import { Category, Item, BidInfo, Bid, UserInfo, UserBidding } from 'app/models';
 import { withId } from 'app/utils';
 
 const emptyBidInfo: BidInfo = { bidCount: 0, winningBids: [] };
+
+export interface UserItemBidInfoMap {
+  [itemId: string]: UserBidding;
+}
 
 @Injectable()
 export class Storage extends Destroyable {
@@ -22,7 +29,10 @@ export class Storage extends Destroyable {
   private magicBoxItemsCol = this.afStore.collection<Item>('magic-box-items');
   private bidsCol = this.afStore.collection<Bid>('bids');
 
-
+  userInfoChanges = this.auth.userChanges.pipe(
+    switchMap(user => this.getUserInfo(user)),
+    shareReplay(1)
+  );
   categoriesChanges = this.getColChangesWithId(this.categoriesCol);
   auctionItemsChanges = combineLatest(
     this.getColChangesWithId(this.auctionItemsCol),
@@ -32,13 +42,10 @@ export class Storage extends Destroyable {
   raffleItemsChanges = this.getColChangesWithId(this.raffleItemsCol);
   magicBoxItemsChanges = this.getColChangesWithId(this.magicBoxItemsCol);
 
-  constructor(private afStore: AngularFirestore) {
+  constructor(private afStore: AngularFirestore, private auth: Auth) {
     super();
   }
 
-  getBidsForUser(userId: string) {
-    return this.afStore.collection<Bid>('bids', ref => ref.where('bidder', '==', userId)).valueChanges();
-  }
 
   getAuctionItemsByCategory(categoryId: string) {
     return this.auctionItemsChanges.pipe(
@@ -87,4 +94,37 @@ export class Storage extends Destroyable {
       shareReplay(1)
     );
   }
+
+  private getUserInfo(user: User): Observable<UserInfo|null> {
+    if (user) {
+      return combineLatest(
+        this.afStore.doc<UserInfo>(`users/${user.uid}`).valueChanges(),
+        this.getColChangesWithId(this.afStore.collection<Bid>('bids', ref => ref.where('bidder', '==', user.uid))),
+        this.auctionItemsChanges,
+        (userInfo, userBids, allItems) => {
+          const items: UserItemBidInfoMap = {};
+          userBids.forEach(bid => {
+            const itemBidInfo = items[bid.item] = (items[bid.item] || createUserItemBidInfo(allItems.find(i => i.id === bid.item)));
+            itemBidInfo.bids.push(bid);
+            if (itemBidInfo.item.bidInfo.winningBids.find(b => b.bid === bid.id)) {
+              itemBidInfo.winning = true;
+            }
+          });
+          return ({ user, ...userInfo, bidding: hashToArray(items) });
+        }
+      ).pipe(this.takeUntilDestroyed());
+    } else {
+      return Observable.of(null);
+    }
+  }
+
+}
+
+
+function createUserItemBidInfo(item: Item): UserBidding {
+  return { item, winning: false, bids: [] };
+}
+
+function hashToArray(hash: object) {
+  return Object.keys(hash).map(key => hash[key]);
 }

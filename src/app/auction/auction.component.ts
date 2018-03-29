@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { combineLatest, map, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
 
 import { AppComponent } from 'app/app.component';
-import { Category, Item, Bid } from 'app/models';
+import { Bid, Category, Item, UserInfo } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
 import { Auth } from 'app/auth/auth.service';
@@ -21,7 +21,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
   category: Observable<Category>;
   items: Observable<Item[]>;
   item: Observable<Item>;
-  userBids: Observable<Bid[]>;
+  userInfo: Observable<UserInfo>;
 
   constructor(
     public app: AppComponent,
@@ -49,9 +49,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
       shareReplay(1)
     );
 
-    this.userBids = this.auth.userChanges.pipe(
-      switchMap(user => this.storage.getBidsForUser(user.uid))
-    );
+    this.userInfo = this.storage.userInfoChanges;
 
     this.items = this.category.pipe(
       switchMap(category => this.storage.getAuctionItemsByCategory(category && category.id)),

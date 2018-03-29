@@ -1,13 +1,23 @@
+import { User } from '@firebase/auth-types';
+
 export type Identifier = string;
 
 export interface UserInfo {
   id: Identifier;
+  user: User;
   phone: string;
   roles?: {
     admin?: boolean;
   };
   childDetails: string;
   notify: boolean;
+  bidding: UserBidding[];
+}
+
+export interface UserBidding {
+  item: Item;
+  winning: boolean;
+  bids: Bid[];
 }
 
 export interface Category {
@@ -47,6 +57,7 @@ export interface BidInfo {
 }
 
 export interface Bid {
+  id: Identifier;
   bidder: Identifier;
   item: Identifier;
   amount: number;

@@ -10,6 +10,20 @@ mat-card {
   }
 }
 
+.winning {
+  color: green;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.losing {
+  color: red;
+  font-style: italic;
+  font-weight: bold;
+}
+
 .bid-list {
+  padding: 0;
+  margin: 0;
   list-style: decimal inside;
 }

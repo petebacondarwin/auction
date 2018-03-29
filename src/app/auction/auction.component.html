@@ -20,7 +20,7 @@
         [items]="items | async"
         [current]="item | async"
         [category]="category | async"
-        [userBids]="userBids | async"
+        [userBids]="(userInfo | async)?.userBids"
         (bid)="bid($event)"></app-item-list>
   </mat-sidenav-content>
 </mat-sidenav-container>
