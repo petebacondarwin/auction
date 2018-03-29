@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Auth } from 'app/auth/auth.service';
 import { Storage } from 'app/storage.service';
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private auth: Auth, private storage: Storage) {}
+  constructor(private storage: Storage) {}
 
   canActivate() {
     return this.storage.userInfoChanges.pipe(

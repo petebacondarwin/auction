@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Item, BidInfo, Bid } from 'app/models';
+import { Item, Bid } from 'app/models';
 import { Auth } from 'app/auth/auth.service';
 import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component';
 

@@ -1,7 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppComponent } from 'app/app.component';
 import { HomeComponent } from 'app/home/home.component';
 import { AuctionComponent } from 'app/auction/auction.component';
 import { MagicBoxComponent } from 'app/magic-box/magic-box.component';

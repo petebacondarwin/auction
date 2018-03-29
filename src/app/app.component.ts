@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
-import { MatDialog } from '@angular/material/dialog';
 
 import { Auth } from 'app/auth/auth.service';
+import { Storage } from 'app/storage.service';
 import { Destroyable } from 'app/destroyable';
 
 @Component({
@@ -15,9 +15,11 @@ export class AppComponent extends Destroyable implements OnInit {
 
   readonly currentYear = new Date().getFullYear();
   isWide: boolean;
+  userInfo = this.storage.userInfoChanges;
 
   constructor(
     public auth: Auth,
+    public storage: Storage,
     private breakpoints: BreakpointObserver,
     private titleService: Title
   ) {

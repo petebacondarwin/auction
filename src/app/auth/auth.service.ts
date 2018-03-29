@@ -8,7 +8,6 @@ import { User } from '@firebase/auth-types';
 
 import { LoginComponent, LoginCredentials } from 'app/auth/login/login.component';
 import { Destroyable } from 'app/destroyable';
-import { UserInfo } from 'app/models';
 
 import { Observable } from 'rxjs/Observable';
 import { first, switchMap, takeUntil, shareReplay } from 'rxjs/operators';
@@ -67,8 +66,6 @@ export class Auth extends Destroyable {
 
     return dialog.afterClosed();
   }
-
-  private handleGoogleLoginRequest(dialog) {}
 
   private doGoogleLogin() {
     return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());

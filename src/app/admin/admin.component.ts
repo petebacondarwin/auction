@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 
-import { WorkBook, WorkSheet, read, utils } from 'xlsx';
+import { WorkBook, read, utils } from 'xlsx';
 
 import { Destroyable } from 'app/destroyable';
-import { Category, Item } from 'app/models';
+import { Item } from 'app/models';
 import { Storage } from 'app/storage.service';
 
 const COLUMN_FIELD_MAPPING = {
@@ -40,6 +39,16 @@ const DEFAULTS = {
 const TRANSFORMS = {
   'Show Value': (value: string) => value.toLowerCase() === 'yes'
 };
+
+class ExcelFileReader extends FileReader {
+  private _workbook = new Subject<WorkBook>();
+  get workbook() { return this._workbook.asObservable(); }
+
+  constructor() {
+    super();
+    this.onload = (e: Event) => this._workbook.next(read((e.target as any).result, {type: 'binary'}));
+  }
+}
 
 @Component({
   selector: 'app-admin',
@@ -104,16 +113,6 @@ export class AdminComponent extends Destroyable {
   }
 }
 
-
-class ExcelFileReader extends FileReader {
-  private _workbook = new Subject<WorkBook>();
-  get workbook() { return this._workbook.asObservable(); }
-
-  constructor() {
-    super();
-    this.onload = (e: Event) => this._workbook.next(read((e.target as any).result, {type: 'binary'}));
-  }
-}
 
 function convertToItem(row: any) {
   const item: Item = {} as any;

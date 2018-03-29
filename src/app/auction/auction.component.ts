@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -26,9 +26,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
   constructor(
     public app: AppComponent,
     private activeRoute: ActivatedRoute,
-    private router: Router,
     private storage: Storage,
-    private auth: Auth,
   ) {
     super();
   }

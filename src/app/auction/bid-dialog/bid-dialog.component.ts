@@ -2,9 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { Observable } from 'rxjs/Observable';
-import { first, switchMap } from 'rxjs/operators';
-
 import { Item } from 'app/models';
 
 @Component({
