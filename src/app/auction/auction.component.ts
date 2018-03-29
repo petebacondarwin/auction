@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { combineLatest, map, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { AppComponent } from 'app/app.component';
 import { Bid, Category, Item, UserInfo } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
-import { Auth } from 'app/auth/auth.service';
 
 @Component({
   selector: 'app-auction',
