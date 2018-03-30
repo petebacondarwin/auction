@@ -23,7 +23,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
-// import { SignupComponent } from 'app/auth/signup/signup.component';
+import { SignupComponent } from 'app/auth/signup/signup.component';
 import { AdminComponent } from 'app/admin/admin.component';
 import { AppComponent } from 'app/app.component';
 import { RaffleComponent } from './raffle/raffle.component';
@@ -62,7 +62,7 @@ const firebaseConfig = {
     AppComponent,
     HomeComponent,
     LoginComponent,
-    // SignupComponent,
+    SignupComponent,
     AdminComponent,
     RaffleComponent,
     AuctionComponent,
@@ -104,7 +104,8 @@ const firebaseConfig = {
   ],
   entryComponents: [
     LoginComponent,
-    BidDialogComponent
+    BidDialogComponent,
+    SignupComponent
   ],
   providers: [
     AdminGuard,

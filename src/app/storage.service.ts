@@ -77,6 +77,10 @@ export class Storage extends Destroyable {
     return this.bidsCol.ref.add({ ...bid, timestamp: firestore.FieldValue.serverTimestamp() });
   }
 
+  updateUserInfo(user: User, userInfo: object) {
+    return this.afStore.doc<UserInfo>(`users/${user.uid}`).update(pick(userInfo, ['phone', 'childDetails', 'notify']));
+  }
+
   private getColChangesWithId<T>(collection: AngularFirestoreCollection<T>) {
     return collection.snapshotChanges().pipe(
       map(changes => withId<T>(changes)),
@@ -127,4 +131,14 @@ function createUserItemBidInfo(item: Item): UserBidding {
 
 function hashToArray(hash: object) {
   return Object.keys(hash).map(key => hash[key]);
+}
+
+function pick(obj: object, props: string[]) {
+  const result = {};
+  props.forEach(key => {
+    if (obj[key] !== undefined) {
+      result[key] = obj[key];
+    }
+  });
+  return result;
 }

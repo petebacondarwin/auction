@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, forwardRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,6 +7,7 @@ import { auth } from 'firebase';
 import { User } from '@firebase/auth-types';
 
 import { LoginComponent, LoginCredentials } from 'app/auth/login/login.component';
+import { SignupComponent, SignupInfo } from 'app/auth/signup/signup.component';
 import { Destroyable } from 'app/destroyable';
 
 import { Observable } from 'rxjs/Observable';
@@ -54,25 +55,49 @@ export class Auth extends Destroyable {
       error(error) { dialog.componentInstance.error = error; }
     };
 
-    dialog.componentInstance.googleLogin.pipe(
+    component.googleLogin.pipe(
       switchMap(() => this.doGoogleLogin()),
       takeUntil(dialog.afterClosed())
     ).subscribe(loginObserver);
 
-    dialog.componentInstance.emailLogin.pipe(
+    component.emailLogin.pipe(
       switchMap(credentials => this.doEmailLogin(credentials)),
+      takeUntil(dialog.afterClosed())
+    ).subscribe(loginObserver);
+
+    component.signup.pipe(
+      switchMap(() => this.showSignup()),
       takeUntil(dialog.afterClosed())
     ).subscribe(loginObserver);
 
     return dialog.afterClosed();
   }
 
-  private doGoogleLogin() {
-    return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  private async doGoogleLogin() {
+    await this.afAuth.auth.setPersistence(auth.Auth.Persistence.LOCAL);
+    return await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 
   private async doEmailLogin(credentials: LoginCredentials) {
     await this.afAuth.auth.setPersistence(credentials.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
     return await this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
+  }
+
+  private showSignup() {
+    const dialog = this.dialog.open(SignupComponent);
+
+    const component = dialog.componentInstance;
+
+    component.signUp.pipe(
+      switchMap(userInfo => this.doSignup(userInfo)),
+      takeUntil(dialog.afterClosed())
+    ).subscribe(result => dialog.close(result), error => dialog.componentInstance.error = error);
+
+    return dialog.afterClosed();
+  }
+
+  private async doSignup(signUpInfo: SignupInfo) {
+    await this.afAuth.auth.setPersistence(signUpInfo.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
+    return await this.afAuth.auth.createUserWithEmailAndPassword(signUpInfo.email, signUpInfo.password);
   }
 }

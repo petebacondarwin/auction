@@ -1,12 +1,16 @@
-<h2>Register now</h2>
+<h2>Register to start bidding</h2>
 
-<span class="error" *ngIf="error" [@fallIn]='state'>{{ error }}</span>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
 
-<form [formGroup]="" (ngSubmit)="onSubmit(formData)">
+  <mat-form-field>
+    <input matInput placeholder="Email Address" formControlName="email">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="password" placeholder="Password" formControlName="password">
+  </mat-form-field>
+  <mat-checkbox formControlName="rememberMe">Remember me</mat-checkbox>
 
-  <input type="text" placeholder="Name.." formControlName="name" name="name" class="txt" required>
-  <input type="text" placeholder="Email address.." formControlName="email" name="email" class="txt" required>
-  <input type="password" placeholder="Password" formControlName="password" name="password" class="txt" required>
+  <div class="error" *ngIf="error">{{ error }}</div>
 
-  <button type="submit" [disabled]="!formData.valid" class="basic-btn">Create my account</button>
+  <button matButton type="submit" [disabled]="!signupForm.valid">Create my account</button>
 </form>

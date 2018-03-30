@@ -24,6 +24,7 @@ export class LoginComponent {
 
   emailLogin = new EventEmitter<LoginCredentials>();
   googleLogin = new EventEmitter();
+  signup = new EventEmitter();
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -39,6 +40,10 @@ export class LoginComponent {
 
   loginViaGoogle() {
     this.googleLogin.emit();
+  }
+
+  doSignup() {
+    this.signup.emit();
   }
 
   firstError(controlName: string) {
