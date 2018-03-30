@@ -31,7 +31,7 @@ import { AuctionComponent } from './auction/auction.component';
 import { MagicBoxComponent } from './magic-box/magic-box.component';
 import { HowItWorksComponent } from './auction/how-it-works/how-it-works.component';
 import { CategoryListComponent } from './auction/category-list/category-list.component';
-import { UserInfoComponent } from './auth/signup/user-info/user-info.component';
+import { UserInfoComponent } from './auth/user-info/user-info.component';
 import { ItemListComponent } from './auction/item-list/item-list.component';
 import { DonorComponent } from './auction/donor/donor.component';
 
