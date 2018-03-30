@@ -1,16 +1,11 @@
 import { Component, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoginCredentials } from 'app/auth/auth.service';
 
 const errorOrder = [
   'required',
   'email'
 ];
-
-export interface LoginCredentials {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
 
 @Component({
   selector: 'app-login',

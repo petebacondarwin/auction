@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Item, Bid } from 'app/models';
-import { Auth } from 'app/auth/auth.service';
+import { Login } from 'app/auth/login.service';
 import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component';
 
 @Component({
@@ -20,12 +20,12 @@ export class BidInfoComponent {
   @Output()
   bid = new EventEmitter<Bid>();
 
-  constructor(private auth: Auth, private dialog: MatDialog) {}
+  constructor(private login: Login, private dialog: MatDialog) {}
 
   async bidNow() {
-    const result = await this.auth.login('Please login to bid for this item');
+    const user = await this.login.login('Please login to bid for this item');
 
-    if (!result) {
+    if (!user) {
       return;
     }
 
@@ -44,7 +44,7 @@ export class BidInfoComponent {
         winningBids.sort((a, b) => b.amount - a.amount);
 
         this.bid.emit({
-          bidder: this.auth.user.uid,
+          bidder: user.uid,
           item: this.item.id,
           amount: bidAmount
         });

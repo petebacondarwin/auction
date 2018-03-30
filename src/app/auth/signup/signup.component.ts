@@ -1,14 +1,6 @@
 import { Component, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
-export interface SignupInfo {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  childDetails: string;
-  rememberMe: boolean;
-}
+import { SignupInfo } from 'app/auth/auth.service';
 
 @Component({
   selector: 'app-signup',

@@ -3,16 +3,16 @@ import { CanActivate } from '@angular/router';
 
 import { map } from 'rxjs/operators';
 
-import { Auth } from 'app/auth/auth.service';
+import { Login } from 'app/auth/login.service';
 import { Storage } from 'app/storage.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private auth: Auth) {}
+  constructor(private login: Login) {}
 
   canActivate() {
-    return this.auth.login('You must be logged in to access this page').then(value => !!value);
+    return this.login.login('You must be logged in to access this page').then(value => !!value);
   }
 }
 
