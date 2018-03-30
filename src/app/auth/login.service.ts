@@ -26,40 +26,6 @@ export class Login {
     const component = dialog.componentInstance;
     component.message = message;
 
-    const loginObserver = {
-      next(result) { dialog.close(result); },
-      error(error) { dialog.componentInstance.error = error; }
-    };
-
-    component.googleLogin.pipe(
-      switchMap(() => this.auth.doGoogleLogin()),
-      takeUntil(dialog.afterClosed())
-    ).subscribe(loginObserver);
-
-    component.emailLogin.pipe(
-      switchMap(credentials => this.auth.doEmailLogin(credentials)),
-      takeUntil(dialog.afterClosed())
-    ).subscribe(loginObserver);
-
-    component.signup.pipe(
-      switchMap(() => this.showSignup()),
-      takeUntil(dialog.afterClosed())
-    ).subscribe(loginObserver);
-
     return dialog.afterClosed();
   }
-
-  private showSignup() {
-    const dialog = this.dialog.open(SignupComponent);
-
-    const component = dialog.componentInstance;
-
-    component.signUp.pipe(
-      switchMap(userInfo => this.auth.doSignup(userInfo)),
-      takeUntil(dialog.afterClosed())
-    ).subscribe(result => dialog.close(result), error => dialog.componentInstance.error = error);
-
-    return dialog.afterClosed();
-  }
-
 }

@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 
 import { Auth } from 'app/auth/auth.service';
+import { Login } from 'app/auth/login.service';
 import { Storage } from 'app/storage.service';
 import { Destroyable } from 'app/destroyable';
 
@@ -18,6 +19,7 @@ export class AppComponent extends Destroyable implements OnInit {
   userInfo = this.storage.userInfoChanges;
 
   constructor(
+    public login: Login,
     public auth: Auth,
     public storage: Storage,
     private breakpoints: BreakpointObserver,

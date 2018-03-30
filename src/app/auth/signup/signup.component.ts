@@ -1,6 +1,7 @@
 import { Component, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SignupInfo } from 'app/auth/auth.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Auth, SignupInfo, User } from 'app/auth/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,12 +18,17 @@ export class SignupComponent {
     rememberMe: new FormControl(true),
   });
 
-  signUp: EventEmitter<SignupInfo> = new EventEmitter();
+  constructor(private auth: Auth, private dialog: MatDialogRef<SignupComponent, User>) {}
 
-  onSubmit() {
+  async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
-      this.signUp.emit(this.signupForm.value);
+      try {
+        const user = await this.auth.doSignup(this.signupForm.value);
+        this.dialog.close(user);
+      } catch (e) {
+        this. error = e;
+      }
     }
   }
 }

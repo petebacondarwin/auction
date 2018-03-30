@@ -1,6 +1,9 @@
 import { Component, EventEmitter } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginCredentials } from 'app/auth/auth.service';
+import { Auth, LoginCredentials, User } from 'app/auth/auth.service';
+import { SignupComponent } from 'app/auth/signup/signup.component';
+
 
 const errorOrder = [
   'required',
@@ -17,28 +20,35 @@ export class LoginComponent {
   message: string;
   error: string;
 
-  emailLogin = new EventEmitter<LoginCredentials>();
-  googleLogin = new EventEmitter();
-  signup = new EventEmitter();
-
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required),
     rememberMe: new FormControl(true),
   });
 
-  loginViaEmail() {
+  constructor(
+    private auth: Auth,
+    private dialog: MatDialog,
+    private dialogRef: MatDialogRef<LoginComponent, User>) {}
+
+  async loginViaEmail() {
     if (this.loginForm.valid) {
-      this.emailLogin.emit(this.loginForm.value as LoginCredentials);
+      try {
+        const user = await this.auth.doEmailLogin(this.loginForm.value as LoginCredentials);
+        this.dialogRef.close(user);
+      } catch (e) {
+        this. error = e;
+      }
     }
   }
 
-  loginViaGoogle() {
-    this.googleLogin.emit();
-  }
-
-  doSignup() {
-    this.signup.emit();
+  async loginViaGoogle() {
+    try {
+      const user = await this.auth.doGoogleLogin();
+      this.dialogRef.close(user);
+    } catch (e) {
+      this. error = e;
+    }
   }
 
   firstError(controlName: string) {
@@ -50,5 +60,10 @@ export class LoginComponent {
         }
       }
     }
+  }
+
+  showSignup() {
+    const dialog: MatDialogRef<SignupComponent, User> = this.dialog.open(SignupComponent);
+    dialog.afterClosed().subscribe(user => this.dialogRef.close(user));
   }
 }

@@ -49,17 +49,17 @@ export class Auth extends Destroyable {
     this.router.navigateByUrl('/');
   }
 
-  public async doGoogleLogin() {
+  public async doGoogleLogin(): Promise<User> {
     await this.afAuth.auth.setPersistence(auth.Auth.Persistence.LOCAL);
     return await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 
-  public async doEmailLogin(credentials: LoginCredentials) {
+  public async doEmailLogin(credentials: LoginCredentials): Promise<User> {
     await this.afAuth.auth.setPersistence(credentials.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
     return await this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
   }
 
-  async doSignup(signUpInfo: SignupInfo) {
+  async doSignup(signUpInfo: SignupInfo): Promise<User> {
     await this.afAuth.auth.setPersistence(signUpInfo.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
     return await this.afAuth.auth.createUserWithEmailAndPassword(signUpInfo.email, signUpInfo.password);
   }
