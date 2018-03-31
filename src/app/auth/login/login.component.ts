@@ -62,6 +62,5 @@ export class LoginComponent {
 
   showSignup() {
     const dialog: MatDialogRef<SignupComponent> = this.dialog.open(SignupComponent);
-    dialog.afterClosed().subscribe(user => this.dialogRef.close(user));
   }
 }
