@@ -3,6 +3,9 @@
     <mat-list-item role="listitem" [routerLink]="[{}]" [class.active]="!current">
       All Items ({{ total }})
     </mat-list-item>
+    <mat-list-item *ngIf="!categories || categories.length === 0">
+      <app-spinner></app-spinner>
+    </mat-list-item>
     <mat-list-item role="listitem" *ngFor="let category of categories" [routerLink]="[{category: category.id}]" [class.active]="current?.id === category.id">
       {{category.name}}  ({{ category.itemCount || 0 }})
     </mat-list-item>

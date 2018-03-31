@@ -1,3 +1,6 @@
+<div *ngIf="!items || items.length === 0">
+  <app-spinner></app-spinner>
+</div>
 <mat-list>
   <mat-list-item
     *ngFor="let item of items"
