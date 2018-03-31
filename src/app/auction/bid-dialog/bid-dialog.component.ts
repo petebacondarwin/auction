@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Item, UserInfo } from 'app/models';
 
@@ -10,8 +10,8 @@ import { Item, UserInfo } from 'app/models';
   styleUrls: ['./bid-dialog.component.css']
 })
 export class BidDialogComponent {
-  item: Item;
-  userInfo: UserInfo;
+  item = this.data.item;
+  userInfo = this.data.userInfo;
   bidAmount: number;
 
   lowestWinningBid = this.item.bidInfo.winningBids[this.item.quantity - 1];
@@ -21,10 +21,13 @@ export class BidDialogComponent {
     amount: new FormControl(this.suggestedBid, [Validators.required, Validators.min(this.minBid)]),
   });
 
-  constructor(private dialog: MatDialogRef<BidDialogComponent>) {}
+  constructor(
+    private dialog: MatDialogRef<BidDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { item: Item, userInfo: UserInfo}
+  ) {
+  }
 
   submitBid() {
-    this.bidAmount = this.bidForm.get('amount').value;
-    this.dialog.close();
+    this.dialog.close(this.bidForm.get('amount').value);
   }
 }

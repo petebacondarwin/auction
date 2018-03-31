@@ -17,6 +17,7 @@ const errorOrder = [
 })
 export class LoginComponent {
 
+  loggingIn = false;
   error: string;
 
   loginForm = new FormGroup({
@@ -34,8 +35,10 @@ export class LoginComponent {
   async loginViaEmail() {
     if (this.loginForm.valid) {
       try {
+        this.loggingIn = true;
         const user = await this.auth.doEmailLogin(this.loginForm.value as LoginCredentials);
       } catch (e) {
+        this.loggingIn = false;
         this. error = e;
       }
     }
@@ -43,8 +46,10 @@ export class LoginComponent {
 
   async loginViaGoogle() {
     try {
+      this.loggingIn = true;
       const user = await this.auth.doGoogleLogin();
     } catch (e) {
+      this.loggingIn = false;
       this. error = e;
     }
   }
@@ -62,5 +67,6 @@ export class LoginComponent {
 
   showSignup() {
     const dialog: MatDialogRef<SignupComponent> = this.dialog.open(SignupComponent);
+    dialog.afterClosed().subscribe(() => this.loggingIn = false);
   }
 }

@@ -18,7 +18,7 @@ import { UserInfoComponent} from './user-info/user-info.component';
 @Injectable()
 export class Login {
   userInfoChanges = this.auth.userChanges.pipe(
-    switchMap(user => user ? this.storage.getUserInfo(user) : of(null)),
+    switchMap(user => user ? this.storage.getUserInfo(user) : of<UserInfo>(null)),
   );
 
   constructor(
@@ -42,12 +42,11 @@ export class Login {
       first(userInfo => !!userInfo),
       tap(userInfo => dialog && dialog.close()),
       takeUntil(stop),
-      defaultIfEmpty(null),
+      defaultIfEmpty<UserInfo>(null),
     );
   }
 
   private showLogin(message?: string): MatDialogRef<LoginComponent> {
     return this.dialog.open(LoginComponent, { autoFocus: false, data: message });
   }
-
 }

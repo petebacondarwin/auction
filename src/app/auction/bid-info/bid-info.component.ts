@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
-import { switchMap, first, tap } from 'rxjs/operators';
+import { combineLatest, switchMap, filter, map, tap } from 'rxjs/operators';
 
 import { Item, Bid, UserInfo } from 'app/models';
 import { Login } from 'app/auth/login.service';
@@ -34,32 +34,33 @@ export class BidInfoComponent extends Destroyable {
     }
 
   bidNow() {
-    return this.login.ensureLoggedIn('Please login to bid for this item').pipe(
-      switchMap(userInfo => this.showBidDialog(userInfo)),
-      first(),
-      tap(console.log.bind(console)),
-      tap(dialog =>  {
-        if (dialog) {
-          const {userInfo, bidAmount} = dialog;
+    this.login.ensureLoggedIn('Please login to bid for this item').pipe(
+      filter(userInfo => !!userInfo),
+      switchMap(userInfo =>
+        this.showBidDialog(userInfo).pipe(
+          map(bidAmount => ({bidAmount, userInfo})),
+        )
+      )
+    ).subscribe(
+      ({bidAmount, userInfo}) => {
+        if (bidAmount) {
           console.log(`bid on ${this.item.title} of £${bidAmount}`);
           this.updateBidItem(bidAmount);
           this.emitBid(userInfo, bidAmount);
         }
-      }),
-      this.takeUntilDestroyed()
-    ).subscribe(
-      x => console.log('next', x),
-      y => console.log('error', y),
+      },
+      error => console.log('error', error),
       () => console.log('complete')
     );
   }
 
   private showBidDialog(userInfo: UserInfo) {
     if (userInfo) {
-      const bidDialog = this.dialog.open(BidDialogComponent);
-      return bidDialog.afterClosed().map(() => bidDialog.componentInstance);
+      const options = { data: { item: this.item, userInfo } };
+      const bidDialog: MatDialogRef<BidDialogComponent, number> = this.dialog.open(BidDialogComponent, options);
+      return bidDialog.afterClosed();
     } else {
-      return of<BidDialogComponent>(null);
+      return empty<number>();
     }
   }
 

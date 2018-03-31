@@ -48,6 +48,7 @@ import { WinningBidsComponent } from './auction/winning-bids/winning-bids.compon
 import { PriceToBeatComponent } from './auction/price-to-beat/price-to-beat.component';
 import { BidCountComponent } from './auction/bid-count/bid-count.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
@@ -79,7 +80,8 @@ const firebaseConfig = {
     WinningBidsComponent,
     PriceToBeatComponent,
     BidCountComponent,
-    ProfileComponent
+    ProfileComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

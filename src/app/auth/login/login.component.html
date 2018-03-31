@@ -1,6 +1,11 @@
 
 <h1>Login</h1>
 
+<div *ngIf="loggingIn">
+  <h2>Logging in. Please wait...</h2>
+  <app-spinner></app-spinner>
+</div>
+<ng-container *ngIf="!loggingIn">
 <p *ngIf="message">{{message}}</p>
 <form [formGroup]="loginForm" (ngSubmit)="loginViaEmail()">
 
@@ -23,3 +28,4 @@
   <button type="button" (click)="loginViaGoogle()" id="google"><img src="/assets/images/google.svg">Login With Google</button>
   <button mat-button (click)="showSignup()"><span>No account?</span> <strong>Create one here</strong></button>
 </form>
+</ng-container>
