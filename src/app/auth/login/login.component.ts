@@ -1,5 +1,5 @@
-import { Component, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Auth, LoginCredentials, User } from 'app/auth/auth.service';
 import { SignupComponent } from 'app/auth/signup/signup.component';
@@ -17,7 +17,6 @@ const errorOrder = [
 })
 export class LoginComponent {
 
-  message: string;
   error: string;
 
   loginForm = new FormGroup({
@@ -29,13 +28,13 @@ export class LoginComponent {
   constructor(
     private auth: Auth,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<LoginComponent, User>) {}
+    private dialogRef: MatDialogRef<LoginComponent, User>,
+    @Inject(MAT_DIALOG_DATA) public message: string) {}
 
   async loginViaEmail() {
     if (this.loginForm.valid) {
       try {
         const user = await this.auth.doEmailLogin(this.loginForm.value as LoginCredentials);
-        this.dialogRef.close(user);
       } catch (e) {
         this. error = e;
       }
@@ -45,7 +44,6 @@ export class LoginComponent {
   async loginViaGoogle() {
     try {
       const user = await this.auth.doGoogleLogin();
-      this.dialogRef.close(user);
     } catch (e) {
       this. error = e;
     }
@@ -63,7 +61,7 @@ export class LoginComponent {
   }
 
   showSignup() {
-    const dialog: MatDialogRef<SignupComponent, User> = this.dialog.open(SignupComponent);
+    const dialog: MatDialogRef<SignupComponent> = this.dialog.open(SignupComponent);
     dialog.afterClosed().subscribe(user => this.dialogRef.close(user));
   }
 }

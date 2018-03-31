@@ -29,10 +29,6 @@ export class Storage extends Destroyable {
   private magicBoxItemsCol = this.afStore.collection<Item>('magic-box-items');
   private bidsCol = this.afStore.collection<Bid>('bids');
 
-  userInfoChanges = this.auth.userChanges.pipe(
-    switchMap(user => this.getUserInfo(user)),
-    shareReplay(1)
-  );
   categoriesChanges = this.getColChangesWithId(this.categoriesCol);
   auctionItemsChanges = combineLatest(
     this.getColChangesWithId(this.auctionItemsCol),
@@ -45,7 +41,6 @@ export class Storage extends Destroyable {
   constructor(private afStore: AngularFirestore, private auth: Auth) {
     super();
   }
-
 
   getAuctionItemsByCategory(categoryId: string) {
     return this.auctionItemsChanges.pipe(
@@ -77,6 +72,19 @@ export class Storage extends Destroyable {
     return this.bidsCol.ref.add({ ...bid, timestamp: firestore.FieldValue.serverTimestamp() });
   }
 
+  getUserInfo(user: User): Observable<UserInfo> {
+    return combineLatest(
+      this.afStore.doc<UserInfo>(`users/${user.uid}`).valueChanges(),
+      this.getUserBiddingInfo(user),
+      this.auctionItemsChanges,
+      (userInfo, userBids, allItems) => combineUserInfo(user, userInfo, userBids, allItems)
+    );
+  }
+
+  getUserBiddingInfo(user: User) {
+    return this.getColChangesWithId(this.afStore.collection<Bid>('bids', ref => ref.where('bidder', '==', user.uid)));
+  }
+
   updateUserInfo(user: User, userInfo: object) {
     return this.afStore.doc<UserInfo>(`users/${user.uid}`).update(pick(userInfo, ['phone', 'childDetails', 'notify']));
   }
@@ -98,39 +106,6 @@ export class Storage extends Destroyable {
       shareReplay(1)
     );
   }
-
-  private getUserInfo(user: User): Observable<UserInfo|null> {
-    if (user) {
-      return combineLatest(
-        this.afStore.doc<UserInfo>(`users/${user.uid}`).valueChanges(),
-        this.getColChangesWithId(this.afStore.collection<Bid>('bids', ref => ref.where('bidder', '==', user.uid))),
-        this.auctionItemsChanges,
-        (userInfo, userBids, allItems) => {
-          const items: UserItemBidInfoMap = {};
-          userBids.forEach(bid => {
-            const itemBidInfo = items[bid.item] = (items[bid.item] || createUserItemBidInfo(allItems.find(i => i.id === bid.item)));
-            itemBidInfo.bids.push(bid);
-            if (itemBidInfo.item.bidInfo.winningBids.find(b => b.bid === bid.id)) {
-              itemBidInfo.winning = true;
-            }
-          });
-          return ({ user, ...userInfo, bidding: hashToArray(items) });
-        }
-      ).pipe(this.takeUntilDestroyed());
-    } else {
-      return Observable.of(null);
-    }
-  }
-
-}
-
-
-function createUserItemBidInfo(item: Item): UserBidding {
-  return { item, winning: false, bids: [] };
-}
-
-function hashToArray(hash: object) {
-  return Object.keys(hash).map(key => hash[key]);
 }
 
 function pick(obj: object, props: string[]) {
@@ -141,4 +116,24 @@ function pick(obj: object, props: string[]) {
     }
   });
   return result;
+}
+
+function combineUserInfo(user, userInfo, userBids, allItems) {
+  const items: UserItemBidInfoMap = {};
+  userBids.forEach(bid => {
+    const itemBidInfo = items[bid.item] = (items[bid.item] || createUserItemBidInfo(allItems.find(i => i.id === bid.item)));
+    itemBidInfo.bids.push(bid);
+    if (itemBidInfo.item.bidInfo.winningBids.find(b => b.bid === bid.id)) {
+      itemBidInfo.winning = true;
+    }
+  });
+  return ({ user, ...userInfo, bidding: hashToArray(items) });
+}
+
+function createUserItemBidInfo(item: Item): UserBidding {
+  return { item, winning: false, bids: [] };
+}
+
+function hashToArray(hash: object) {
+  return Object.keys(hash).map(key => hash[key]);
 }

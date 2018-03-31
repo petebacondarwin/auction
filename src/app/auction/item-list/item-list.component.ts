@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Category, Item, Bid } from 'app/models';
+import { Category, Item, Bid, UserBidding } from 'app/models';
 
 @Component({
   selector: 'app-item-list',
@@ -15,7 +15,7 @@ export class ItemListComponent {
   current: Item;
 
   @Input()
-  userBids: Bid[];
+  userBids: UserBidding[];
 
   @Input()
   category: Category;
@@ -24,6 +24,6 @@ export class ItemListComponent {
   bid = new EventEmitter<Bid>();
 
   getUserBids(item: Item) {
-    return this.userBids && this.userBids.filter(bid => bid.item === item.id);
+    return this.userBids && this.userBids.filter(bidding => bidding.item.id === item.id);
   }
 }

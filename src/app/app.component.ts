@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 
+import { first } from 'rxjs/operators';
+
 import { Auth } from 'app/auth/auth.service';
 import { Login } from 'app/auth/login.service';
 import { Storage } from 'app/storage.service';
@@ -16,7 +18,7 @@ export class AppComponent extends Destroyable implements OnInit {
 
   readonly currentYear = new Date().getFullYear();
   isWide: boolean;
-  userInfo = this.storage.userInfoChanges;
+  userInfo = this.login.userInfoChanges;
 
   constructor(
     public login: Login,
@@ -36,5 +38,9 @@ export class AppComponent extends Destroyable implements OnInit {
 
   setPageTitle(title: string) {
     this.titleService.setTitle(`Coleridge Summer Fair ${this.currentYear} - ${title}`);
+  }
+
+  doLogin() {
+    this.login.ensureLoggedIn('Please choose a method to login.').subscribe();
   }
 }

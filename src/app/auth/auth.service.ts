@@ -5,9 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import { User } from '@firebase/auth-types';
 
-import { Destroyable } from 'app/destroyable';
-
-import { first, switchMap, takeUntil, shareReplay } from 'rxjs/operators';
+import { shareReplay } from 'rxjs/operators';
 
 export { User } from '@firebase/auth-types';
 
@@ -27,34 +25,25 @@ export interface LoginCredentials {
 }
 
 @Injectable()
-export class Auth extends Destroyable {
-  user: User;
-  userChanges = this.afAuth.authState.pipe(
-    this.takeUntilDestroyed(),
-    shareReplay(1)
-  );
+export class Auth {
+  userChanges = this.afAuth.authState.pipe(shareReplay(1));
 
   constructor(
     private afAuth: AngularFireAuth,
-    private router: Router,
-  ) {
-    super();
-    this.userChanges.pipe(this.takeUntilDestroyed()).subscribe(user => {
-      this.user = user;
-    });
-  }
+    private router: Router
+  ) {}
 
   logout() {
     this.afAuth.auth.signOut();
     this.router.navigateByUrl('/');
   }
 
-  public async doGoogleLogin(): Promise<User> {
+  async doGoogleLogin(): Promise<User> {
     await this.afAuth.auth.setPersistence(auth.Auth.Persistence.LOCAL);
     return await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 
-  public async doEmailLogin(credentials: LoginCredentials): Promise<User> {
+  async doEmailLogin(credentials: LoginCredentials): Promise<User> {
     await this.afAuth.auth.setPersistence(credentials.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
     return await this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
   }

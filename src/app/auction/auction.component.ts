@@ -8,6 +8,7 @@ import { AppComponent } from 'app/app.component';
 import { Bid, Category, Item, UserInfo } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
+import { Login } from 'app/auth/login.service';
 
 @Component({
   selector: 'app-auction',
@@ -26,6 +27,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
     public app: AppComponent,
     private activeRoute: ActivatedRoute,
     private storage: Storage,
+    private login: Login
   ) {
     super();
   }
@@ -46,7 +48,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
       shareReplay(1)
     );
 
-    this.userInfo = this.storage.userInfoChanges;
+    this.userInfo = this.login.userInfoChanges;
 
     this.items = this.category.pipe(
       switchMap(category => this.storage.getAuctionItemsByCategory(category && category.id)),
