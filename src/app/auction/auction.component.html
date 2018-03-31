@@ -4,7 +4,10 @@
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav [mode]="app.isWide && 'side' || 'over'" [opened]="app.isWide" #sidenav>
-    <app-category-list [categories]="categories | async" [current]="category | async"></app-category-list>
+    <app-category-list
+        [categories]="categories | async"
+        [current]="category | async"
+        (click)="app.isWide || sidenav.close()"></app-category-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
