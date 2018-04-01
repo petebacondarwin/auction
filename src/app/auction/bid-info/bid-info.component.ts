@@ -26,6 +26,8 @@ export class BidInfoComponent extends Destroyable {
   @Output()
   bid = new EventEmitter<Bid>();
 
+  sendingBid = false;
+
   constructor(
     private login: Login,
     private storage: Storage,
@@ -47,6 +49,7 @@ export class BidInfoComponent extends Destroyable {
           console.log(`bid on ${this.item.title} of £${bidAmount}`);
           this.updateBidItem(bidAmount);
           this.emitBid(userInfo, bidAmount);
+          this.sendingBid = true;
         }
       },
       error => console.log('error', error),
