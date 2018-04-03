@@ -11,10 +11,10 @@ import { UserInfo } from 'app/models';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  userInfo = this.login.userInfoChanges;
+  userInfo = this.user.userInfoChanges;
 
   constructor(
-    private login: UserService,
+    private user: UserService,
     private storage: Storage,
     private dialog: MatDialog
   ) { }

@@ -29,14 +29,14 @@ export class BidInfoComponent extends Destroyable {
   sendingBid = false;
 
   constructor(
-    private login: UserService,
+    private user: UserService,
     private storage: Storage,
     private dialog: MatDialog) {
       super();
     }
 
   bidNow() {
-    this.login.ensureLoggedIn('Please login to bid for this item').pipe(
+    this.user.ensureLoggedIn('Please login to bid for this item').pipe(
       filter(userInfo => !!userInfo),
       switchMap(userInfo =>
         this.showBidDialog(userInfo).pipe(

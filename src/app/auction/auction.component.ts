@@ -27,7 +27,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
     public app: AppComponent,
     private activeRoute: ActivatedRoute,
     private storage: Storage,
-    private login: UserService
+    private user: UserService
   ) {
     super();
   }
@@ -48,7 +48,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
       shareReplay(1)
     );
 
-    this.userInfo = this.login.userInfoChanges;
+    this.userInfo = this.user.userInfoChanges;
 
     this.items = this.category.pipe(
       switchMap(category => this.storage.getAuctionItemsByCategory(category && category.id)),

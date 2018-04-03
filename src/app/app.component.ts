@@ -18,10 +18,10 @@ export class AppComponent extends Destroyable implements OnInit {
 
   readonly currentYear = new Date().getFullYear();
   isWide: boolean;
-  userInfo = this.login.userInfoChanges;
+  userInfo = this.user.userInfoChanges;
 
   constructor(
-    public login: UserService,
+    public user: UserService,
     public auth: Auth,
     public storage: Storage,
     private breakpoints: BreakpointObserver,
@@ -41,6 +41,6 @@ export class AppComponent extends Destroyable implements OnInit {
   }
 
   doLogin() {
-    this.login.ensureLoggedIn('Please choose a method to login.').subscribe();
+    this.user.ensureLoggedIn('Please choose a method to login.').subscribe();
   }
 }

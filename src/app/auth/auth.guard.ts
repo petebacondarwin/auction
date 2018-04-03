@@ -10,11 +10,11 @@ import { UserService } from 'app/auth/user.service';
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private login: UserService,
+    private user: UserService,
     private router: Router) {}
 
   canActivate() {
-    return this.login.ensureLoggedIn('You must be logged in to access this page').pipe(
+    return this.user.ensureLoggedIn('You must be logged in to access this page').pipe(
       // If still not logged in then redirect home
       tap(user => user || this.router.navigateByUrl('/')),
       map(user => !!user)
@@ -25,11 +25,11 @@ export class AuthGuard implements CanActivate {
 @Injectable()
 export class AdminGuard implements CanActivate {
   constructor(
-    private login: UserService,
+    private user: UserService,
     private router: Router) {}
 
   canActivate() {
-    return this.login.userInfoChanges.pipe(
+    return this.user.userInfoChanges.pipe(
       map(userInfo => userInfo && userInfo.roles && userInfo.roles.admin),
       // If not admin then just redirect home
       tap(isAdmin => isAdmin || this.router.navigateByUrl('/')),
