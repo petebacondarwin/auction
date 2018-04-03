@@ -52,4 +52,8 @@ export class Auth {
     await this.afAuth.auth.setPersistence(signUpInfo.rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION);
     return await this.afAuth.auth.createUserWithEmailAndPassword(signUpInfo.email, signUpInfo.password);
   }
+
+  async doReset(email: string) {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
 }

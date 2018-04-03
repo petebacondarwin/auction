@@ -1,0 +1,22 @@
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  max-width: 100%;
+}
+
+input {
+  width: 100%;
+}
+
+button {
+  padding: 10px;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 1.3em;
+}
+
+.error {
+  color: red;
+}

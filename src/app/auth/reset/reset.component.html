@@ -1,0 +1,22 @@
+<div *ngIf="resetting">
+  <h2>Resetting. Please wait...</h2>
+  <app-spinner></app-spinner>
+</div>
+<div *ngIf="reset">
+  <h2>Password Reset Sent</h2>
+  <p>We have sent you a password reset email.</p>
+  <p>Please check your inbox. It may take a few minutes to arrive.</p>
+</div>
+<ng-container *ngIf="!resetting && !reset">
+  <p>Enter the email you used to register and we'll send you a link to reset your password.</p>
+  <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput placeholder="Email Address" formControlName="email">
+      <mat-error *ngIf="resetForm.hasError('required', ['email'])">Email is required.</mat-error>
+    </mat-form-field>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+
+    <button matButton type="submit">Reset password</button>
+  </form>
+</ng-container>

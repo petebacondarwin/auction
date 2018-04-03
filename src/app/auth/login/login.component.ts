@@ -3,7 +3,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Auth, LoginCredentials, User } from 'app/auth/auth.service';
 import { SignupComponent } from 'app/auth/signup/signup.component';
-
+import { ResetComponent } from 'app/auth/reset/reset.component';
+import { touchForm } from 'app/utils';
 
 const errorOrder = [
   'required',
@@ -33,6 +34,7 @@ export class LoginComponent {
     @Inject(MAT_DIALOG_DATA) public message: string) {}
 
   async loginViaEmail() {
+    touchForm(this.loginForm);
     if (this.loginForm.valid) {
       try {
         this.loggingIn = true;
@@ -63,6 +65,11 @@ export class LoginComponent {
         }
       }
     }
+  }
+
+  showReset() {
+    const dialog: MatDialogRef<ResetComponent> = this.dialog.open(ResetComponent, { data: this.loginForm.get('email').value });
+    dialog.afterClosed().subscribe(() => this.loggingIn = false);
   }
 
   showSignup() {

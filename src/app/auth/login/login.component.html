@@ -24,8 +24,9 @@
 
   <div class="error" *ngIf="error">{{ error }}</div>
 
-  <button type="submit" [disabled]="!loginForm.valid" id="email"><img src="/assets/images/email.svg">Log in</button>
+  <button type="submit" id="email"><img src="/assets/images/email.svg">Log in</button>
   <button type="button" (click)="loginViaGoogle()" id="google"><img src="/assets/images/google.svg">Login With Google</button>
-  <button mat-button (click)="showSignup()"><span>No account?</span> <strong>Create one here</strong></button>
+  <a mat-button (click)="showReset()"><span>Forgotten your password?</span> <b>Reset it</b></a>
+  <a mat-button (click)="showSignup()"><span>No account?</span> <b>Create one here</b></a>
 </form>
 </ng-container>
