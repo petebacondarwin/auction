@@ -6,7 +6,7 @@ import { empty } from 'rxjs/observable/empty';
 import { combineLatest, switchMap, filter, map, tap } from 'rxjs/operators';
 
 import { Item, Bid, UserInfo } from 'app/models';
-import { Login } from 'app/auth/login.service';
+import { UserService } from 'app/auth/user.service';
 import { Storage } from 'app/storage.service';
 import { Destroyable } from 'app/destroyable';
 import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component';
@@ -29,7 +29,7 @@ export class BidInfoComponent extends Destroyable {
   sendingBid = false;
 
   constructor(
-    private login: Login,
+    private login: UserService,
     private storage: Storage,
     private dialog: MatDialog) {
       super();

@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { first } from 'rxjs/operators';
 
 import { Auth } from 'app/auth/auth.service';
-import { Login } from 'app/auth/login.service';
+import { UserService } from 'app/auth/user.service';
 import { Storage } from 'app/storage.service';
 import { Destroyable } from 'app/destroyable';
 
@@ -21,7 +21,7 @@ export class AppComponent extends Destroyable implements OnInit {
   userInfo = this.login.userInfoChanges;
 
   constructor(
-    public login: Login,
+    public login: UserService,
     public auth: Auth,
     public storage: Storage,
     private breakpoints: BreakpointObserver,

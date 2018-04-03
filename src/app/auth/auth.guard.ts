@@ -4,13 +4,13 @@ import { CanActivate, Router } from '@angular/router';
 import { of } from 'rxjs/observable/of';
 import { map, tap, switchMap } from 'rxjs/operators';
 
-import { Login } from 'app/auth/login.service';
+import { UserService } from 'app/auth/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private login: Login,
+    private login: UserService,
     private router: Router) {}
 
   canActivate() {
@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
 @Injectable()
 export class AdminGuard implements CanActivate {
   constructor(
-    private login: Login,
+    private login: UserService,
     private router: Router) {}
 
   canActivate() {

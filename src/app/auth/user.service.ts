@@ -16,7 +16,7 @@ import { SignupComponent} from './signup/signup.component';
 import { UserInfoComponent} from './user-info/user-info.component';
 
 @Injectable()
-export class Login {
+export class UserService {
   userInfoChanges = this.auth.userChanges.pipe(
     switchMap(user => user ? this.storage.getUserInfo(user) : of<UserInfo>(null)),
   );

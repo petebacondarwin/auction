@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Login } from 'app/auth/login.service';
+import { UserService } from 'app/auth/user.service';
 import { Storage } from 'app/storage.service';
 import { UserInfoComponent } from 'app/auth/user-info/user-info.component';
 import { UserInfo } from 'app/models';
@@ -14,7 +14,7 @@ export class ProfileComponent {
   userInfo = this.login.userInfoChanges;
 
   constructor(
-    private login: Login,
+    private login: UserService,
     private storage: Storage,
     private dialog: MatDialog
   ) { }

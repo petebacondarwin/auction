@@ -8,7 +8,7 @@ import { AppComponent } from 'app/app.component';
 import { Bid, Category, Item, UserInfo } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
-import { Login } from 'app/auth/login.service';
+import { UserService } from 'app/auth/user.service';
 
 @Component({
   selector: 'app-auction',
@@ -27,7 +27,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
     public app: AppComponent,
     private activeRoute: ActivatedRoute,
     private storage: Storage,
-    private login: Login
+    private login: UserService
   ) {
     super();
   }

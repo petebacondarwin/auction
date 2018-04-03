@@ -39,7 +39,7 @@ import { ScrollIntoViewDirective } from './scrollIntoView.directive';
 
 import { AdminGuard, AuthGuard } from 'app/auth/auth.guard';
 import { Auth } from 'app/auth/auth.service';
-import { Login } from 'app/auth/login.service';
+import { UserService } from 'app/auth/user.service';
 import { Storage } from 'app/storage.service';
 import { routes } from 'app/app.routes';
 import { BidInfoComponent } from './auction/bid-info/bid-info.component';
@@ -115,7 +115,7 @@ const firebaseConfig = {
     AdminGuard,
     Auth,
     AuthGuard,
-    Login,
+    UserService,
     Storage
   ],
   bootstrap: [AppComponent]
