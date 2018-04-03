@@ -1,16 +1,23 @@
-<mat-form-field>
-  <input matInput placeholder="Full Name (required)" formControlName="displayName" #displayName>
-  <mat-error *ngIf="displayName.control.hasError('required')">Please enter your name</mat-error>
-</mat-form-field>
+<h2>User Info</h2>
 
-<mat-form-field>
-  <input formControlName="phone" type="tel" placeholder="Phone (required)" #phone>
-  <mat-error *ngIf="phone.control.hasError('required')">Please enter your name</mat-error>
-  <span class="help-inline" ng-show="bidder.touched && bidderForm.phone.$invalid">Please enter a valid phone number</span>
-</mat-form-field>
+<p>{{ message }}</p>
 
-<mat-form-field>
-  <input formControlName="schoolClass" placeholder="Child Name and Class">
-</mat-form-field>
+<form [formGroup]="userInfoForm" (ngSubmit)="saveUserInfo()">
+  <mat-form-field>
+    <input matInput placeholder="Full Name (required)" formControlName="displayName">
+    <mat-error *ngIf="userInfoForm.hasError('required', ['displayName'])">Please enter your name</mat-error>
+  </mat-form-field>
 
-<mat-checkbox formControlName="notify">Notify me, by email, about my bids</mat-checkbox>
+  <mat-form-field>
+    <input matInput formControlName="phone" type="tel" placeholder="Phone">
+    <mat-error *ngIf="userInfoForm.hasError('required', ['phone'])">Please enter a valid phone number</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="childDetails" placeholder="Child Name and Class">
+  </mat-form-field>
+
+  <mat-checkbox formControlName="notify">Notify me, by email, about my bids</mat-checkbox>
+
+  <button type="submit" [disabled]="!userInfoForm.valid">Save</button>
+</form>

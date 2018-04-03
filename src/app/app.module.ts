@@ -108,7 +108,8 @@ const firebaseConfig = {
   entryComponents: [
     LoginComponent,
     BidDialogComponent,
-    SignupComponent
+    SignupComponent,
+    UserInfoComponent
   ],
   providers: [
     AdminGuard,

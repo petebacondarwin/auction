@@ -1,0 +1,21 @@
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  max-width: 100%;
+}
+
+input {
+  width: 100%;
+}
+
+mat-checkbox {
+  margin: 10px 0 23px 0;
+}
+
+button {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}

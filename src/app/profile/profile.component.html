@@ -14,6 +14,8 @@
       <tr><th>Notify via email</th><td>{{userInfo.notify && 'Yes' || 'No'}}</td></tr>
       <tr *ngIf="userInfo.roles?.admin"><th>Is Admin</th><td>Yes</td></tr>
     </table>
+    <p></p>
+    <button mat-raised-button color="accent" (click)="editUserInfo(userInfo)">Edit User Info</button>
   </mat-card-content>
 </mat-card>
 
