@@ -14,6 +14,7 @@ import { User } from 'app/auth/auth.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent} from './signup/signup.component';
 import { UserInfoComponent} from './user-info/user-info.component';
+import { pick } from 'app/utils';
 
 @Injectable()
 export class UserService {
@@ -46,7 +47,17 @@ export class UserService {
     );
   }
 
+  logout() {
+    this.auth.logout();
+  }
+
+  async updateUserInfo(user: User, userInfo: any) {
+    await user.updateProfile({ displayName: userInfo.displayName } as any);
+    return await this.storage.updateDoc('users', user.uid, pick(userInfo, ['phone', 'childDetails', 'notify']));
+  }
+
   private showLogin(message?: string): MatDialogRef<LoginComponent> {
     return this.dialog.open(LoginComponent, { autoFocus: false, data: message });
   }
 }
+

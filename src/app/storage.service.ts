@@ -42,6 +42,10 @@ export class Storage extends Destroyable {
     super();
   }
 
+  updateDoc(collectionName: string, docId: string, value: object) {
+    return this.afStore.doc(`${collectionName}/${docId}`).set(value, { merge: true });
+  }
+
   getAuctionItemsByCategory(categoryId: string) {
     return this.auctionItemsChanges.pipe(
       map(items => items.filter(item => !categoryId || item.category === categoryId)),
@@ -85,10 +89,6 @@ export class Storage extends Destroyable {
     return this.getColChangesWithId(this.afStore.collection<Bid>('bids', ref => ref.where('bidder', '==', user.uid)));
   }
 
-  updateUserInfo(user: User, userInfo: object) {
-    return this.afStore.doc<UserInfo>(`users/${user.uid}`).update(pick(userInfo, ['phone', 'childDetails', 'notify']));
-  }
-
   private getColChangesWithId<T>(collection: AngularFirestoreCollection<T>) {
     return collection.snapshotChanges().pipe(
       map(changes => withId<T>(changes)),
@@ -106,16 +106,6 @@ export class Storage extends Destroyable {
       shareReplay(1)
     );
   }
-}
-
-function pick(obj: object, props: string[]) {
-  const result = {};
-  props.forEach(key => {
-    if (obj[key] !== undefined) {
-      result[key] = obj[key];
-    }
-  });
-  return result;
 }
 
 function combineUserInfo(user, userInfo, userBids, allItems) {

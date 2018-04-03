@@ -6,3 +6,14 @@ export function withId<T>(changes: DocumentChangeAction[]): T[] {
     ...change.payload.doc.data()
   } as any));
 }
+
+
+export function pick(obj: object, props: string[]) {
+  const result = {};
+  props.forEach(key => {
+    if (obj[key] !== undefined) {
+      result[key] = obj[key];
+    }
+  });
+  return result;
+}
