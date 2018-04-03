@@ -44,6 +44,7 @@ export class UserService {
       tap(userInfo => dialog && dialog.close()),
       takeUntil(stop),
       defaultIfEmpty<UserInfo>(null),
+      switchMap(userInfo => userInfo.initialized ? of(userInfo) : this.initUserInfo(userInfo))
     );
   }
 
@@ -53,7 +54,22 @@ export class UserService {
 
   async updateUserInfo(user: User, userInfo: any) {
     await user.updateProfile({ displayName: userInfo.displayName } as any);
-    return await this.storage.updateDoc('users', user.uid, pick(userInfo, ['phone', 'childDetails', 'notify']));
+    return await this.storage.updateDoc('users', user.uid, pick(userInfo, ['phone', 'childDetails', 'notify', 'initialized']));
+  }
+
+  private initUserInfo(userInfo: UserInfo) {
+    const data = { data: { userInfo, message: 'Please provide some additional information.' } };
+    const dialog: MatDialogRef<UserInfoComponent, UserInfo> = this.dialog.open(UserInfoComponent, data);
+    return dialog.afterClosed().pipe(
+      switchMap(result => {
+        if (result) {
+          result = { ...result, initialized: true };
+          userInfo = { ...userInfo, ...result };
+          return this.updateUserInfo(userInfo.user, result).then(() => userInfo);
+        }
+        return of(userInfo);
+      })
+    );
   }
 
   private showLogin(message?: string): MatDialogRef<LoginComponent> {

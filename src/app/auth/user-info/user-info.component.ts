@@ -13,7 +13,7 @@ export class UserInfoComponent {
     displayName: new FormControl(this.data.userInfo.user.displayName),
     phone: new FormControl(this.data.userInfo.phone),
     childDetails: new FormControl(this.data.userInfo.childDetails),
-    notify: new FormControl(this.data.userInfo.notify)
+    notify: new FormControl(this.data.userInfo.notify || true)
   });
   message = this.data.message;
 

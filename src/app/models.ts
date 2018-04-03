@@ -12,6 +12,7 @@ export interface UserInfo {
   childDetails: string;
   notify: boolean;
   bidding: UserBidding[];
+  initialized?: boolean;
 }
 
 export interface UserBidding {
