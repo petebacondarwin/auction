@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
-import { combineLatest, switchMap, filter, map, tap } from 'rxjs/operators';
+import { switchMap, filter, map } from 'rxjs/operators';
 
 import { Item, Bid, UserInfo } from 'app/models';
 import { UserService } from 'app/auth/user.service';
-import { Storage } from 'app/storage.service';
 import { Destroyable } from 'app/destroyable';
 import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component';
 
@@ -30,7 +28,6 @@ export class BidInfoComponent extends Destroyable {
 
   constructor(
     private user: UserService,
-    private storage: Storage,
     private dialog: MatDialog) {
       super();
     }

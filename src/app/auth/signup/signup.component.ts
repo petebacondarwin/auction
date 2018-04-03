@@ -1,7 +1,7 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Auth, SignupInfo, User } from 'app/auth/auth.service';
+import { Auth, User } from 'app/auth/auth.service';
 import { touchForm } from 'app/utils';
 
 @Component({

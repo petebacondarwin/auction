@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Auth, LoginCredentials, User } from 'app/auth/auth.service';
+import { Auth, LoginCredentials } from 'app/auth/auth.service';
 import { SignupComponent } from 'app/auth/signup/signup.component';
 import { ResetComponent } from 'app/auth/reset/reset.component';
 import { touchForm } from 'app/utils';
@@ -30,7 +30,6 @@ export class LoginComponent {
   constructor(
     private auth: Auth,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<LoginComponent, User>,
     @Inject(MAT_DIALOG_DATA) public message: string) {}
 
   async loginViaEmail() {
@@ -38,7 +37,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       try {
         this.loggingIn = true;
-        const user = await this.auth.doEmailLogin(this.loginForm.value as LoginCredentials);
+        await this.auth.doEmailLogin(this.loginForm.value as LoginCredentials);
       } catch (e) {
         this.loggingIn = false;
         this. error = e;
@@ -49,7 +48,7 @@ export class LoginComponent {
   async loginViaGoogle() {
     try {
       this.loggingIn = true;
-      const user = await this.auth.doGoogleLogin();
+      await this.auth.doGoogleLogin();
     } catch (e) {
       this.loggingIn = false;
       this. error = e;
@@ -68,12 +67,12 @@ export class LoginComponent {
   }
 
   showReset() {
-    const dialog: MatDialogRef<ResetComponent> = this.dialog.open(ResetComponent, { data: this.loginForm.get('email').value });
+    const dialog = this.dialog.open(ResetComponent, { data: this.loginForm.get('email').value });
     dialog.afterClosed().subscribe(() => this.loggingIn = false);
   }
 
   showSignup() {
-    const dialog: MatDialogRef<SignupComponent> = this.dialog.open(SignupComponent);
+    const dialog = this.dialog.open(SignupComponent);
     dialog.afterClosed().subscribe(() => this.loggingIn = false);
   }
 }

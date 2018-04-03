@@ -6,9 +6,8 @@ import { User } from '@firebase/auth-types';
 
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
-import { Auth } from 'app/auth/auth.service';
 import { Destroyable } from 'app/destroyable';
 import { Category, Item, BidInfo, Bid, UserInfo, UserBidding } from 'app/models';
 import { withId } from 'app/utils';
@@ -38,7 +37,7 @@ export class Storage extends Destroyable {
   raffleItemsChanges = this.getColChangesWithId(this.raffleItemsCol);
   magicBoxItemsChanges = this.getColChangesWithId(this.magicBoxItemsCol);
 
-  constructor(private afStore: AngularFirestore, private auth: Auth) {
+  constructor(private afStore: AngularFirestore) {
     super();
   }
 
