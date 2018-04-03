@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 
-import { first } from 'rxjs/operators';
-
-import { Auth } from 'app/auth/auth.service';
 import { UserService } from 'app/auth/user.service';
-import { Storage } from 'app/storage.service';
 import { Destroyable } from 'app/destroyable';
 
 @Component({
@@ -22,8 +18,6 @@ export class AppComponent extends Destroyable implements OnInit {
 
   constructor(
     public user: UserService,
-    public auth: Auth,
-    public storage: Storage,
     private breakpoints: BreakpointObserver,
     private titleService: Title
   ) {

@@ -26,7 +26,7 @@
   <ng-container *ngIf="userInfo | async as userInfo; else loginBlock">
     <a *ngIf="userInfo.roles?.admin" routerLinkActive="active" routerLink="/admin">Admin</a>
     <a routerLinkActive="active" routerLink="/profile">Profile</a>
-    <a (click)="auth.logout()">Logout</a>
+    <a (click)="user.logout()">Logout</a>
   </ng-container>
   <ng-template #loginBlock>
     <a (click)="doLogin()">Login</a>
