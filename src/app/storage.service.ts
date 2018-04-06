@@ -47,7 +47,10 @@ export class Storage extends Destroyable {
 
   getAuctionItemsByCategory(categoryId: string) {
     return this.auctionItemsChanges.pipe(
-      map(items => items.filter(item => !categoryId || item.category === categoryId)),
+      map(items => items
+        .filter(item => !categoryId || item.category === categoryId)
+        .sort((a, b) => itemValue(b) - itemValue(a))
+      ),
       shareReplay(1),
     );
   }
@@ -125,4 +128,12 @@ function createUserItemBidInfo(item: Item): UserBidding {
 
 function hashToArray(hash: object) {
   return Object.keys(hash).map(key => hash[key]);
+}
+
+function itemValue(item: Item) {
+  let value = item.value;
+  if (item.bidInfo.winningBids && item.bidInfo.winningBids[0] && item.bidInfo.winningBids[0] && item.bidInfo.winningBids[0].amount) {
+    value = Math.max(item.value, item.bidInfo.winningBids[0].amount);
+  }
+  return value;
 }
