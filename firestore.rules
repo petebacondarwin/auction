@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isAdmin() {
-      return exists(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.admin == true;
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.admin == true;
     }
 
     function isLoggedIn() {
