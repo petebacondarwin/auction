@@ -32,7 +32,7 @@ const COLUMN_FIELD_MAPPING = {
 };
 
 const DEFAULTS = {
-  'Image name': 'Coleridgelogo.jpg',
+  'Image name': 'coleridge-logo.jpg',
   'Website': '',
 };
 
