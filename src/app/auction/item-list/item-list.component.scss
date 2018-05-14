@@ -7,16 +7,18 @@ mat-list-item {
   font-size: 80%;
 }
 
-.mat-list .mat-list-item .mat-list-avatar {
-  width: 80px;
-  height: 80px;
-}
-
-.selected {
+.mat-list .mat-list-item {
   .mat-list-avatar {
-    width: 200px;
-    height: auto;
-    max-width: 100%;
-    border-radius: 0;
+    width: 80px;
+    height: 80px;
+  }
+
+  &.selected {
+    .mat-list-avatar {
+      width: 200px;
+      height: auto;
+      max-width: 100%;
+      border-radius: 0;
+    }
   }
 }
