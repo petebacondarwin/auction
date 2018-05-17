@@ -7,6 +7,10 @@ mat-list-item {
   font-size: 80%;
 }
 
+.long-description {
+  max-width: 600px;
+}
+
 .mat-list .mat-list-item {
   .mat-list-avatar {
     width: 80px;

@@ -14,10 +14,14 @@
       {{item.title}}
       <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
     </h3>
-    <p matLine class="lot">Lot No: {{item.lot}}</p>
-    <p matLine [innerHTML]="item.shortDescription"></p>
-    <app-donor matLine *ngIf="item.donor" [donor]="item.donor"></app-donor>
-    <div matLine *ngIf="current?.id === item.id">
+    <p matLine *ngIf="current?.id !== item.id" class="lot">Lot No: {{item.lot}}</p>
+    <p matLine *ngIf="current?.id !== item.id" [innerHTML]="item.shortDescription"></p>
+    <app-donor matLine *ngIf="current?.id !== item.id && item.donor" [donor]="item.donor"></app-donor>
+    <div *ngIf="current?.id === item.id">
+      <p class="long-description" [innerHtml]="item.longDescription"></p>
+      <p class="lot">Lot No: {{item.lot}}</p>
+      <p [innerHTML]="item.shortDescription"></p>
+      <app-donor *ngIf="item.donor" [donor]="item.donor"></app-donor>
       <app-bid-info [item]="item" [userBids]="getUserBids(item)" (bid)="bid.emit($event)"></app-bid-info>
     </div>
   </mat-list-item>

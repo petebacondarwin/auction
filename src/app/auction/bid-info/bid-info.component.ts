@@ -60,7 +60,7 @@ export class BidInfoComponent extends Destroyable {
       const bidDialog: MatDialogRef<BidDialogComponent, number> = this.dialog.open(BidDialogComponent, options);
       return bidDialog.afterClosed();
     } else {
-      return empty<number>();
+      return empty();
     }
   }
 
