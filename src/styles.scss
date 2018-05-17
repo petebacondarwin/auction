@@ -10,6 +10,10 @@ app-root {
   min-height: 100vh;
 }
 
+.mat-sidenav-container {
+  min-height: 100vh;
+}
+
 /* Make sure that all routed components fill the space */
 article > router-outlet + * {
   width: 100%;
@@ -17,26 +21,4 @@ article > router-outlet + * {
 
 .filler {
   flex: 1 1 auto;
-}
-
-.mat-list .mat-list-item:focus {
-  outline: none;
-}
-
-.mat-list .selected.mat-list-item .mat-list-item-content {
-  flex-direction: column;
-  align-items: flex-start;
-
-  .mat-list-text {
-    padding-top: 16px;
-    padding-left: 0 !important;
-  }
-}
-
-.mat-list .mat-list-item .mat-list-item-content {
-  transition: all 1s;
-
-  img {
-    transition: all 1s;
-  }
 }

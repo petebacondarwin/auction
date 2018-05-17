@@ -24,6 +24,7 @@
         [current]="item | async"
         [category]="category | async"
         [userBids]="(userInfo | async)?.bidding"
-        (bid)="bid($event)"></app-item-list>
+        (bid)="bid($event)"
+        (select)="select($event)"></app-item-list>
   </mat-sidenav-content>
 </mat-sidenav-container>

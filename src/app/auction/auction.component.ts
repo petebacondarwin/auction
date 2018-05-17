@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { combineLatest, map, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
@@ -9,6 +9,11 @@ import { Bid, Category, Item, UserInfo } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
 import { UserService } from 'app/auth/user.service';
+
+interface ItemSelected {
+  item: Item;
+  category?: Category;
+}
 
 @Component({
   selector: 'app-auction',
@@ -26,6 +31,7 @@ export class AuctionComponent extends Destroyable implements OnInit {
   constructor(
     public app: AppComponent,
     private activeRoute: ActivatedRoute,
+    private router: Router,
     private storage: Storage,
     private user: UserService
   ) {
@@ -66,5 +72,13 @@ export class AuctionComponent extends Destroyable implements OnInit {
   bid(bid: Bid) {
     console.log('bid', bid);
     this.storage.bidOnItem(bid);
+  }
+
+  select({category, item}: ItemSelected) {
+    const routeCommand: any = { item: item.id };
+    if (category) {
+      routeCommand.category = category.id;
+    }
+    this.router.navigate([routeCommand], {relativeTo: this.activeRoute});
   }
 }

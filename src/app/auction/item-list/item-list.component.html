@@ -1,28 +1,28 @@
 <div *ngIf="!items || items.length === 0">
   <app-spinner></app-spinner>
 </div>
-<mat-list>
-  <mat-list-item
-    *ngFor="let item of items"
-    [appScrollIntoView]="current?.id === item.id"
-    [routerLink]="[{category: category?.id, item: item.id}]"
-    [class.selected]="current?.id === item.id"
-    >
-    <mat-divider></mat-divider>
-    <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
-    <h3 matLine>
-      {{item.title}}
-      <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
-    </h3>
-    <p matLine *ngIf="current?.id !== item.id" class="lot">Lot No: {{item.lot}}</p>
-    <p matLine *ngIf="current?.id !== item.id" [innerHTML]="item.shortDescription"></p>
-    <app-donor matLine *ngIf="current?.id !== item.id && item.donor" [donor]="item.donor"></app-donor>
-    <div *ngIf="current?.id === item.id">
-      <p class="long-description" [innerHtml]="item.longDescription"></p>
-      <p class="lot">Lot No: {{item.lot}}</p>
-      <p [innerHTML]="item.shortDescription"></p>
-      <app-donor *ngIf="item.donor" [donor]="item.donor"></app-donor>
-      <app-bid-info [item]="item" [userBids]="getUserBids(item)" (bid)="bid.emit($event)"></app-bid-info>
-    </div>
-  </mat-list-item>
-</mat-list>
+
+<mat-accordion>
+  <div class="auction-items"
+     *ngFor="let item of items"
+     [appScrollIntoView]="current?.id === item.id"
+>
+    <mat-expansion-panel class="auction-item" (opened)="onSelect(item)" [expanded]="current?.id === item.id">
+    <mat-expansion-panel-header collapsedHeight="100px" expandedHeight="100px">
+      <mat-panel-title>
+        <img [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
+        <p>{{item.title}}&nbsp;<span *ngIf="item.value && item.showValue"> (worth&nbsp;&pound;{{item.value}})</span>
+          <br>
+          <span class="lot">Lot No: {{item.lot}}</span>
+        </p>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <p [innerHTML]="item.shortDescription"></p>
+    <app-donor *ngIf="item.donor" [donor]="item.donor"></app-donor>
+    <p class="long-description" [innerHtml]="item.longDescription"></p>
+    <app-bid-info [item]="item" [userBids]="getUserBids(item)" (bid)="bid.emit($event)"></app-bid-info>
+  </mat-expansion-panel>
+</div>
+
+</mat-accordion>

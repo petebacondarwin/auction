@@ -22,7 +22,7 @@ export class ScrollIntoViewDirective implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.appScrollIntoView) {
-      (this.element.nativeElement as Element).scrollIntoView({block: 'center'});
+      setTimeout(() => (this.element.nativeElement as Element).scrollIntoView({block: 'center'}), 500);
    }
   }
 }

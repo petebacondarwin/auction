@@ -1,28 +1,22 @@
-mat-list-item {
-  cursor: pointer;
-}
-
-.lot {
-  color: gray;
-  font-size: 80%;
-}
-
-.long-description {
+.auction-item {
   max-width: 600px;
-}
+  margin-bottom: 12px;
 
-.mat-list .mat-list-item {
-  .mat-list-avatar {
-    width: 80px;
-    height: 80px;
+  .lot {
+    color: gray;
+    font-size: 80%;
   }
 
-  &.selected {
-    .mat-list-avatar {
-      width: 200px;
-      height: auto;
-      max-width: 100%;
-      border-radius: 0;
+  mat-panel-title {
+    flex-direction: row;
+    img {
+      flex: 0 0 auto;
+      width: 80px;
+      height: 80px;
+      margin: 0 10px 0 0;
+      border-radius: 10px;
+      border: solid 2px gray;
+      object-fit: cover;
     }
   }
 }
