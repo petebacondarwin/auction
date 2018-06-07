@@ -34,7 +34,9 @@ export class Storage extends Destroyable {
     this.getCollectionMap(this.bidInfoCol),
     (items, bidInfo) => items.map(item => ({ ...item, bidInfo: (bidInfo[item.id] || emptyBidInfo) }))
   );
-  raffleItemsChanges = this.getColChangesWithId(this.raffleItemsCol);
+  raffleItemsChanges = this.getColChangesWithId(this.raffleItemsCol).pipe(
+    map(items => items.sort((a, b) => b.value - a.value))
+  );
   magicBoxItemsChanges = this.getColChangesWithId(this.magicBoxItemsCol);
 
   constructor(private afStore: AngularFirestore) {
