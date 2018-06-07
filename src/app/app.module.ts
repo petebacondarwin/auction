@@ -24,7 +24,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
 import { SignupComponent } from 'app/auth/signup/signup.component';
-import { AdminComponent } from 'app/admin/admin.component';
+import { ImportComponent } from 'app/admin/import/import.component';
 import { AppComponent } from 'app/app.component';
 import { RaffleComponent } from './raffle/raffle.component';
 import { AuctionComponent } from './auction/auction.component';
@@ -50,6 +50,8 @@ import { BidCountComponent } from './auction/bid-count/bid-count.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ResetComponent } from './auth/reset/reset.component';
+import { BidReportComponent } from './admin/bid-report/bid-report.component';
+import { AdminComponent } from './admin/admin.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
@@ -66,7 +68,7 @@ const firebaseConfig = {
     HomeComponent,
     LoginComponent,
     SignupComponent,
-    AdminComponent,
+    ImportComponent,
     RaffleComponent,
     AuctionComponent,
     MagicBoxComponent,
@@ -83,7 +85,9 @@ const firebaseConfig = {
     BidCountComponent,
     ProfileComponent,
     SpinnerComponent,
-    ResetComponent
+    ResetComponent,
+    BidReportComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

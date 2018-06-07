@@ -1,7 +1,10 @@
-li a {
-  cursor: pointer;
-}
-
-.active {
-  font-weight: bold;
+mat-toolbar {
+  width: 100%;
+  a {
+    padding: 2px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: inherit;
+  }
 }

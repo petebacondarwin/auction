@@ -1,0 +1,32 @@
+<h2>Coleridge Summer Fair - Bid Summary Report</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th rowspan="2">Lot No.</th>
+      <th rowspan="2">Item Title</th>
+      <th rowspan="2">Quantity</th>
+      <th colspan="6">Winning Bids</th>
+    </tr>
+    <tr>
+      <th>Amount</th>
+      <th>Bidder</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Class</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[[$item->lot]]</td>
+      <td>[[$item->title]]</td>
+      <td>[[$item->quantity]]</td>
+      <td>[[$bid->amount]]</td>
+      <td>[[$bid->bidder->fullName]]</td>
+      <td>[[$bid->bidder->email]]</td>
+      <td>[[$bid->bidder->phoneNumber]]</td>
+      <td>[[$bid->bidder->schoolClass]]</td>
+      <td>[[$bid->created_at]]</td>
+    </tr>
+  </tbody>
+</table>
