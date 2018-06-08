@@ -1,4 +1,26 @@
-.heading-logo {
-  padding-top: 5px;
-  max-width: 100%;
+.page-header {
+  display: flex;
+  flex-wrap: wrap-reverse;
+
+  .header-item {
+    flex: 1 1;
+    margin: 10px;
+    min-width: 400px;
+    img {
+      padding-top: 5px;
+      max-width: 100%;
+      max-height: 300px;
+    }
+  }
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+
+  mat-card {
+    flex: 1;
+    margin: 5px;
+    min-width: 200px;
+  }
 }

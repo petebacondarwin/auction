@@ -17,10 +17,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from '@angular/cdk/layout';
 
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+import { RootComponent } from 'app/root.component';
 import { HomeComponent } from 'app/home/home.component';
 import { LoginComponent } from 'app/auth/login/login.component';
 import { SignupComponent } from 'app/auth/signup/signup.component';
@@ -52,6 +54,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { ResetComponent } from './auth/reset/reset.component';
 import { BidReportComponent } from './admin/bid-report/bid-report.component';
 import { AdminComponent } from './admin/admin.component';
+import { CatalogueComponent } from './catalogue/catalogue.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
@@ -64,6 +67,7 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
+    RootComponent,
     AppComponent,
     HomeComponent,
     LoginComponent,
@@ -87,7 +91,8 @@ const firebaseConfig = {
     SpinnerComponent,
     ResetComponent,
     BidReportComponent,
-    AdminComponent
+    AdminComponent,
+    CatalogueComponent
   ],
   imports: [
     BrowserModule,
@@ -125,6 +130,6 @@ const firebaseConfig = {
     UserService,
     Storage
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [RootComponent]
 })
 export class AppModule { }

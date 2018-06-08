@@ -57,6 +57,17 @@ export class Storage extends Destroyable {
     );
   }
 
+  getBidReport() {
+    combineLatest(
+      this.getColChangesWithId(this.bidsCol),
+      this.auctionItemsChanges,
+      (bids, items) => items.map(item => {
+        const winningBids = item.bidInfo.winningBids.map(bid => bids.find(b => b.id === bid.bid));
+        // TODO!!!
+        return { ...item, bidInfo: { ...item.bidInfo, winningBids } };
+      }));
+  }
+
   deleteAllItems(collection: string) {
     return this.afStore.collection<Item>(collection).ref.get().then(itemsSnaphot => {
       const batch = this.afStore.firestore.batch();

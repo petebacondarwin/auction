@@ -1,0 +1,11 @@
+<div class="auction-item" *ngFor="let item of items | async; index as index">
+  <div *ngIf="index > 0 && index % 4 == 0" class="page-break"></div>
+  <mat-card>
+    <img [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
+    <div class="lot">Lot No: {{item.lot}} ({{item.category}})</div>
+    <h3><b>{{item.title}}&nbsp;<span *ngIf="item.value && item.showValue"> (worth&nbsp;&pound;{{item.value}})</span></b></h3>
+
+    <p class="description" [innerHTML]="item.shortDescription"></p>
+    <app-donor *ngIf="item.donor" [donor]="item.donor"></app-donor>
+  </mat-card>
+</div>

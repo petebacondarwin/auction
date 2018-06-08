@@ -11,9 +11,11 @@
     <mat-expansion-panel-header collapsedHeight="100px" expandedHeight="100px">
       <mat-panel-title>
         <img [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
-        <p>{{item.title}}&nbsp;<span *ngIf="item.value && item.showValue"> (worth&nbsp;&pound;{{item.value}})</span>
+        <p><b>{{item.title}}&nbsp;<span *ngIf="item.value && item.showValue"> (worth&nbsp;&pound;{{item.value}})</span></b>
           <br>
           <span class="lot">Lot No: {{item.lot}}</span>
+          <br>
+          <app-price-to-beat [item]="item"></app-price-to-beat>
         </p>
       </mat-panel-title>
     </mat-expansion-panel-header>

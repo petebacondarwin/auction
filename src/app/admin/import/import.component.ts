@@ -37,7 +37,8 @@ const DEFAULTS = {
 };
 
 const TRANSFORMS = {
-  'Show Value': (value: string) => value.toLowerCase() === 'yes'
+  'Show Value': (value: string) => value.toLowerCase() === 'yes',
+  'Long description': (value: string) => value.replace(/\n/g, '<br>'),
 };
 
 class ExcelFileReader extends FileReader {

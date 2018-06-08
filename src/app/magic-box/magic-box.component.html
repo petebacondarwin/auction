@@ -1,17 +1,21 @@
 <mat-toolbar>
   <h1>Magic Box Prizes</h1>
 </mat-toolbar>
-<p>This year we are introducing Magic Boxes to the fair. Like a lucky dip you are guaranteed to win a prize worth £10 or over for £5 a go. Check out some of the prizes</p>
+<mat-card>
+  <h3>Look out for the <strong>Magic Box stall</strong> at the fair.</h3>
+  <p>Like a lucky dip, where you are guaranteed to win a prize worth more than the ticket price of £5 or £10 a go.</p>
+  <p>Check out some of the prizes below. There will be even more avalable on the day.</p>
+</mat-card>
 
 <mat-list>
-    <mat-list-item *ngFor="let item of items | async">
-      <mat-divider></mat-divider>
-      <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
-      <h3 matLine>
-        {{item.title}}
-        <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
-      </h3>
-      <p matLine [innerHTML]="item.shortDescription"></p>
-      <app-donor matLine *ngIf="item.donor" [donor]="item.donor"></app-donor>
-    </mat-list-item>
-  </mat-list>
+  <mat-list-item *ngFor="let item of items | async">
+    <mat-divider></mat-divider>
+    <img matListAvatar [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
+    <h3 matLine>
+      {{item.title}}
+      <span *ngIf="item.value && item.showValue">(worth &pound;{{item.value}})</span>
+    </h3>
+    <p matLine [innerHTML]="item.shortDescription"></p>
+    <app-donor matLine *ngIf="item.donor" [donor]="item.donor"></app-donor>
+  </mat-list-item>
+</mat-list>

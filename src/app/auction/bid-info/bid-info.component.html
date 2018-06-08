@@ -9,5 +9,4 @@
     {{ sendingBid && 'Sending bid' || 'Bid Now' }}
     <app-spinner *ngIf="sendingBid"></app-spinner>
   </button></p>
-<app-price-to-beat [item]="item"></app-price-to-beat>
 <app-bid-count [bidInfo]="item.bidInfo"></app-bid-count>

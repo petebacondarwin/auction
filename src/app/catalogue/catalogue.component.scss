@@ -1,0 +1,28 @@
+@media print {
+  .page-break { display: block; page-break-before: always; }
+}
+
+mat-card {
+  margin: 5px;
+  min-height: 160px;
+}
+
+.lot {
+  color: #999999;
+  margin: 0;
+}
+
+.pull-right {
+  margin-left: 10px;
+}
+
+.description {
+  max-height: 120px;
+  overflow: hidden;
+}
+
+img {
+  max-height: 150px;
+  max-width: 300px;
+  float: right;
+}

@@ -13,12 +13,6 @@
     <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
     <h2>{{ (category | async)?.name || 'All Items' }}</h2>
 
-    <p>
-      <!-- <strong>Bidders: </strong>{{auctionService.stats.bidders}}
-      <strong>Bids: </strong>{{auctionService.stats.bids}}
-      <strong>Total: &pound;</strong>{{auctionService.stats.total}} -->
-    </p>
-
     <app-item-list
         [items]="items | async"
         [current]="item | async"
