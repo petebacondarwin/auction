@@ -55,6 +55,7 @@ import { ResetComponent } from './auth/reset/reset.component';
 import { BidReportComponent } from './admin/bid-report/bid-report.component';
 import { AdminComponent } from './admin/admin.component';
 import { CatalogueComponent } from './catalogue/catalogue.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
@@ -92,7 +93,8 @@ const firebaseConfig = {
     ResetComponent,
     BidReportComponent,
     AdminComponent,
-    CatalogueComponent
+    CatalogueComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,
