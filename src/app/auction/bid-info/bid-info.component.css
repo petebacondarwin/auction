@@ -1,0 +1,9 @@
+.winning {
+  color: green;
+  font-weight: bold;
+}
+
+.losing {
+  color: orangered;
+  font-weight: bold;
+}

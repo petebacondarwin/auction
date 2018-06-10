@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { empty } from 'rxjs/observable/empty';
 import { switchMap, filter, map } from 'rxjs/operators';
 
-import { Item, Bid, UserInfo } from 'app/models';
+import { Item, Bid, UserBidding, UserInfo } from 'app/models';
 import { UserService } from 'app/auth/user.service';
 import { Destroyable } from 'app/destroyable';
 import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component';
@@ -14,15 +14,18 @@ import { BidDialogComponent } from 'app/auction/bid-dialog/bid-dialog.component'
   templateUrl: './bid-info.component.html',
   styleUrls: ['./bid-info.component.css']
 })
-export class BidInfoComponent extends Destroyable {
+export class BidInfoComponent extends Destroyable implements OnInit {
   @Input()
   item: Item;
 
   @Input()
-  userBids: Bid[];
+  userBids: UserBidding[];
 
   @Output()
   bid = new EventEmitter<Bid>();
+
+  isWinning = false;
+  isLosing = false;
 
   sendingBid = false;
 
@@ -31,6 +34,11 @@ export class BidInfoComponent extends Destroyable {
     private dialog: MatDialog) {
       super();
     }
+
+  ngOnInit() {
+    this.isWinning = this.userBids && this.userBids.some(userBid => userBid.winning);
+    this.isLosing = this.userBids && this.userBids.length && !this.isWinning;
+  }
 
   bidNow() {
     this.user.ensureLoggedIn('Please login to bid for this item').pipe(

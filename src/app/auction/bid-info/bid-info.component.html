@@ -2,6 +2,8 @@
   <p><em><b>There are {{item.quantity}} items available.</b> The top {{item.quantity}} bids will win the item.</em></p>
   <app-winning-bids [item]="item"></app-winning-bids>
 </div>
+<p class="winning" *ngIf="isWinning">You are currently winning this item.</p>
+<p class="losing" *ngIf="isLosing">You have been outbid on this item.</p>
 <p><button
   mat-raised-button
   [disabled]="sendingBid"
@@ -9,4 +11,4 @@
     {{ sendingBid && 'Sending bid' || 'Bid Now' }}
     <app-spinner *ngIf="sendingBid"></app-spinner>
   </button></p>
-<app-bid-count [bidInfo]="item.bidInfo"></app-bid-count>
+  <app-price-to-beat [item]="item"></app-price-to-beat>
