@@ -1,0 +1,35 @@
+.leaderboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  align-content: stretch;
+}
+
+mat-card {
+  box-sizing: border-box;
+  width: 48%;
+  height: 100%;
+  margin-bottom: 10px;
+}
+
+.lot {
+  color: #222;
+  font-style: italic;
+  font-size: 90%;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+img {
+  max-height: 150px;
+  max-width: 100%;
+}
+
+app-price-to-beat {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 2.5em;
+}

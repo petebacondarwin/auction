@@ -1,3 +1,9 @@
-<p>
-  leaderboard works!
-</p>
+<section class="leaderboard">
+  <mat-card *ngFor="let item of items | async" @easeInOut>
+    <img [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
+    <div class="lot">Lot No: {{item.lot}} ({{item.category}})</div>
+    <h3>{{item.title}}</h3>
+    <app-price-to-beat [item]="item"></app-price-to-beat>
+    <app-donor *ngIf="item.donor" [donor]="item.donor"></app-donor>
+  </mat-card>
+</section>

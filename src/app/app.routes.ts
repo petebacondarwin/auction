@@ -7,6 +7,7 @@ import { AuctionComponent } from 'app/auction/auction.component';
 import { MagicBoxComponent } from 'app/magic-box/magic-box.component';
 import { RaffleComponent } from 'app/raffle/raffle.component';
 import { CatalogueComponent } from 'app/catalogue/catalogue.component';
+import { LeaderboardComponent } from 'app/leaderboard/leaderboard.component';
 
 import { AdminComponent } from 'app/admin/admin.component';
 import { ImportComponent } from 'app/admin/import/import.component';
@@ -29,6 +30,7 @@ export const router: Routes = [
     ]},
   ] },
   { path: 'catalogue', component: CatalogueComponent },
+  { path: 'leaderboard', component: LeaderboardComponent },
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);
