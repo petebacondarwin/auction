@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Bid, Category, Item, UserInfo } from 'app/models';
+import { Item } from 'app/models';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
 
