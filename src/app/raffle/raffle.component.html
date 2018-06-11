@@ -8,6 +8,10 @@
   <p>Tickets only cost 50p and will also be sold throughout the fair, please come along to the draw to hear if you've won, 3.15pm in the Main Hall.</p>
 </mat-card>
 
+<div *ngIf="!(items | async) || (items | async).length === 0">
+    <app-spinner></app-spinner>
+  </div>
+
 <mat-list>
   <mat-list-item *ngFor="let item of items | async">
     <mat-divider></mat-divider>

@@ -7,6 +7,10 @@
   <p>Check out some of the prizes below. There will be even more avalable on the day.</p>
 </mat-card>
 
+<div *ngIf="!(items | async) || (items | async).length === 0">
+  <app-spinner></app-spinner>
+</div>
+
 <mat-list>
   <mat-list-item *ngFor="let item of items | async">
     <mat-divider></mat-divider>
