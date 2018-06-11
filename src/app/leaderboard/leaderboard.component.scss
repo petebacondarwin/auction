@@ -1,7 +1,26 @@
+mat-toolbar {
+  h1 {
+    flex: 1 1;
+  }
+
+  img {
+    height: 100%;
+    background: white;
+    border: solid 1px #3f51b5;
+    box-sizing: border-box;
+  }
+
+  app-bid-overview {
+    flex: 1 1;
+    text-align: right;
+  }
+}
+
 .leaderboard {
+  background: #f5f5f5;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
   align-content: stretch;
 }
@@ -9,8 +28,8 @@
 mat-card {
   box-sizing: border-box;
   width: 48%;
-  height: 100%;
-  margin-bottom: 10px;
+  height: 380px;
+  margin: 10px;
 }
 
 .lot {

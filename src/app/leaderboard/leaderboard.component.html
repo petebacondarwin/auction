@@ -1,3 +1,8 @@
+<mat-toolbar color="primary">
+  <h1>Summer Fair Auction</h1>
+  <!-- <img src="assets/images/coleridge-logo.png"> -->
+  <app-bid-overview [items]="allItems | async"></app-bid-overview>
+</mat-toolbar>
 <section class="leaderboard">
   <mat-card *ngFor="let item of items | async" @easeInOut>
     <img [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
