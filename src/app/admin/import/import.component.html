@@ -11,4 +11,8 @@
   <button *ngIf="selectedSheet" (click)="processSheet(selectedSheet)">Process Sheet</button>
 
   <button *ngIf="items" (click)="writeItems()">Write Items</button>
+
+  <pre>
+    <div *ngFor="let message of messages">{{ message }}</div>
+  </pre>
 </div>

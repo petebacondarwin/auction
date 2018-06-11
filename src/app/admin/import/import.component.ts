@@ -61,7 +61,8 @@ export class ImportComponent extends Destroyable {
   workbook: WorkBook;
   selectedSheet: string;
   items: Item[];
-  messages: string[];
+  categories: string[];
+  messages: string[] = [];
 
   private reader = new ExcelFileReader();
 
@@ -69,7 +70,7 @@ export class ImportComponent extends Destroyable {
     super();
 
     this.reader.workbook.pipe(this.takeUntilDestroyed()).subscribe(workbook => {
-      console.log('workbook loaded');
+      this.log('workbook loaded');
       this.workbook = workbook;
       this.selectedSheet = null;
     });
@@ -92,14 +93,27 @@ export class ImportComponent extends Destroyable {
     }
     const data = utils.sheet_to_json(this.workbook.Sheets[sheetName], {blankrows: false, raw: true});
     const items: Item[] = data.map(convertToItem);
-    console.log(items);
+    this.log(items);
     this.items = items;
+
+    const categories = { 'Raffle': true, 'Magic Box': true };
+    this.items.forEach(item => { if (item.category) { categories[item.category] = true; } });
+    this.categories = Object.keys(categories);
+    this.log(Object.keys(categories));
+  }
+
+  async writeCategories() {
+    await this.storage.deleteAllItems('categories');
+    await this.storage.writeCategories(this.categories);
+    this.log(`written ${this.categories.length} categories`);
   }
 
   async writeItems() {
     if (!this.items) {
       throw new Error('Nothing to write.');
     }
+
+    this.writeCategories();
 
     await this.replaceItems('auction-items', this.items.filter(item => item.category !== 'Raffle' && item.category !== 'Magic Box'));
     await this.replaceItems('raffle-items', this.items.filter(item => item.category === 'Raffle'));
@@ -108,9 +122,13 @@ export class ImportComponent extends Destroyable {
 
   async replaceItems(collection: string, items: Item[]) {
     await this.storage.deleteAllItems(collection);
-    console.log(`deleted previous ${collection}`);
+    this.log(`deleted previous ${collection}`);
     await this.storage.addItems(collection, items);
-    console.log(`added ${items.length} new ${collection}`);
+    this.log(`added ${items.length} new ${collection}`);
+  }
+
+  log(value) {
+    this.messages.push(JSON.stringify(value));
   }
 }
 

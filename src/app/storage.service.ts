@@ -87,6 +87,11 @@ export class Storage extends Destroyable {
     return batch.commit();
   }
 
+  async writeCategories(categories: string[]) {
+    await this.deleteAllItems('categories');
+    await Promise.all(categories.map(category => this.categoriesCol.doc(category).set({ name: category, itemCount: 0 })));
+  }
+
   bidOnItem(bid: Bid) {
     return this.bidsCol.ref.add({ ...bid, timestamp: firestore.FieldValue.serverTimestamp() });
   }
@@ -128,7 +133,7 @@ function combineUserInfo(user, userInfo, userBids, allItems) {
   userBids.forEach(bid => {
     const itemBidInfo = items[bid.item] = (items[bid.item] || createUserItemBidInfo(allItems.find(i => i.id === bid.item)));
     itemBidInfo.bids.push(bid);
-    if (itemBidInfo.item.bidInfo.winningBids.find(b => b.bid === bid.id)) {
+    if (itemBidInfo.item && itemBidInfo.item.bidInfo.winningBids.find(b => b.bid === bid.id)) {
       itemBidInfo.winning = true;
     }
   });
