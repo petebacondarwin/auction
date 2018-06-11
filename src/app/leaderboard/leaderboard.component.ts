@@ -1,8 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { combineLatest, timer } from 'rxjs';
-import { Item } from 'app/models';
+import { switchMap } from 'rxjs/operators';
 import { Destroyable } from 'app/destroyable';
 import { Storage } from 'app/storage.service';
 
@@ -11,43 +11,30 @@ import { Storage } from 'app/storage.service';
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.scss'],
   animations: [
-      trigger('easeInOut', [
-        transition(':enter', [
-          style({
-            opacity: 0
-          }),
-          animate('1s ease-in-out', style({
-            opacity: 1
-          }))
-        ]),
-        transition(':leave', [
-          style({
-            opacity: 1
-          }),
-          animate('1s ease-in-out', style({
-            opacity: 0
-          }))
-        ])
+    trigger('easeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1s ease-in-out', style({ opacity: 1 }))
       ])
+    ])
   ]
 })
-export class LeaderboardComponent extends Destroyable implements OnInit {
+export class LeaderboardComponent extends Destroyable {
 
-  items: Observable<Item[]>;
-  tick = timer(0, 10000);
+  // Create a timer based on the value given in the "t" query param.
+  tick = this.route.queryParamMap.pipe(
+    switchMap(params => timer(0, Number(params.get('t') || 6) * 1000))
+  );
+  allItems = this.storage.auctionItemsChanges;
+  items = combineLatest(
+    this.route.queryParamMap,
+    this.allItems,
+    this.tick,
+    (params, allItems) => getRandomSample(allItems, Number(params.get('n') || 4))
+  );
 
-  constructor(
-    private storage: Storage,
-  ) {
+  constructor(private storage: Storage, private route: ActivatedRoute) {
     super();
-   }
-
-  ngOnInit() {
-    this.items = combineLatest(
-      this.tick,
-      this.storage.auctionItemsChanges,
-      (seed, allItems) => getRandomSample(allItems, 4)
-    );
   }
 }
 
