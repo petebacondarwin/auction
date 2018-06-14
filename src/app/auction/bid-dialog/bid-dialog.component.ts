@@ -15,8 +15,12 @@ export class BidDialogComponent {
   bidAmount: number;
 
   lowestWinningBid = this.item.bidInfo.winningBids[this.item.quantity - 1];
-  minBid = (this.lowestWinningBid ? this.lowestWinningBid.amount : 0) + 1;
-  suggestedBid = Math.max((this.item.showValue && this.item.value), this.minBid);
+  lowestWinningBidAmount = this.lowestWinningBid ? this.lowestWinningBid.amount : 0;
+  minBid = this.lowestWinningBidAmount + 1;
+  suggestedIncrement = this.minBid > 200 ? 25 :
+                       this.minBid > 50 ? 5 :
+                       1;
+  suggestedBid = this.lowestWinningBidAmount + this.suggestedIncrement;
   bidForm = new FormGroup({
     amount: new FormControl(this.suggestedBid, [Validators.required, Validators.min(this.minBid)]),
   });
