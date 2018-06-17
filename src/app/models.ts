@@ -5,6 +5,7 @@ export type Identifier = string;
 export interface UserInfo {
   id: Identifier;
   user: User;
+  email: string;
   phone: string;
   roles?: {
     admin?: boolean;

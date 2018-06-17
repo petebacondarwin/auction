@@ -22,7 +22,14 @@ export class UserService {
   constructor(
     private storage: Storage,
     private auth: Auth,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog) {
+      // Update the userInfo email address with the actual user email whenever they log in
+      this.auth.userChanges.subscribe(user => {
+        if (user && user.email) {
+          this.storage.updateDoc('users', user.uid, { email: user.email });
+        }
+      });
+    }
 
   ensureLoggedIn(message?: string) {
     const stop = new Subject();
@@ -72,5 +79,6 @@ export class UserService {
   private showLogin(message?: string): MatDialogRef<LoginComponent> {
     return this.dialog.open(LoginComponent, { autoFocus: false, data: message });
   }
+
 }
 
