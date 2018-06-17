@@ -14,8 +14,9 @@
 <div class="cards">
   <mat-card>
     <h1>Online Auction</h1>
-    <p>The auction is now <strong><a routerLink="/auction">online!</a></strong></p>
-    <p><strong><a routerLink="/auction">Click Here to view and bid on the Auction Prizes</a></strong></p>
+    <p *ngIf="app.config.biddingOpen">The auction is now <strong><a routerLink="/auction">online!</a></strong></p>
+    <p *ngIf="!app.config.biddingOpen">The auction is now <strong>closed</strong>.<br>If you won an item then you should be contacted to for payment and collection.</p>
+    <p><strong><a routerLink="/auction">Click Here to view <span *ngIf="app.config.biddingOpen">and bid on </span>the Auction Prizes</a></strong></p>
     <p>Bidding on the website will continue at the Fair on 23rd June.</p>
   </mat-card>
   <mat-card>

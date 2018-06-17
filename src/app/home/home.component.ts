@@ -6,7 +6,7 @@ import { AppComponent } from 'app/app.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  constructor(app: AppComponent) {
+  constructor(public app: AppComponent) {
     app.setPageTitle('Home');
   }
 }

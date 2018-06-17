@@ -23,7 +23,7 @@
     <p [innerHTML]="item.shortDescription"></p>
     <app-donor *ngIf="item.donor" [donor]="item.donor"></app-donor>
     <p class="long-description" [innerHtml]="item.longDescription"></p>
-    <app-bid-info [item]="item" [userBids]="getUserBids(item)" (bid)="bid.emit($event)"></app-bid-info>
+    <app-bid-info *ngIf="biddingOpen" [item]="item" [userBids]="getUserBids(item)" (bid)="bid.emit($event)"></app-bid-info>
     <img class="main-image" [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
   </mat-expansion-panel>
 </div>

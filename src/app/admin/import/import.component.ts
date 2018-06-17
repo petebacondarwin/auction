@@ -28,7 +28,8 @@ const COLUMN_FIELD_MAPPING = {
   'Terms and conditions?': undefined,
   'Received donation?': undefined,
   'Location of prize?': undefined,
-  'Image name': 'imageName'
+  'Image name': 'imageName',
+  'Active': 'active',
 };
 
 const DEFAULTS = {
@@ -38,6 +39,7 @@ const DEFAULTS = {
 
 const TRANSFORMS = {
   'Show Value': (value: string) => value.toLowerCase() === 'yes',
+  'Active': (value: string) => value.toLowerCase() !== 'no',
   'Long description': (value: string) => value.replace(/\n/g, '<br>'),
 };
 

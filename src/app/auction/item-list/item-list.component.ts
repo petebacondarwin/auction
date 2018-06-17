@@ -21,6 +21,9 @@ export class ItemListComponent {
   @Input()
   category: Category;
 
+  @Input()
+  biddingOpen: boolean;
+
   @Output()
   bid = new EventEmitter<Bid>();
 

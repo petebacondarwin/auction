@@ -63,3 +63,7 @@ export interface Bid {
   item: Identifier;
   amount: number;
 }
+
+export interface Config {
+  biddingOpen: boolean;
+}

@@ -10,7 +10,10 @@
         (click)="app.isWide || sidenav.close()"></app-category-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <p>Welcome to the auction page for this year's Summer Fair. There are some amazing prizes available for you to bid on.</p>
+    <p>Welcome to the auction page for this year's Summer Fair.
+      <span *ngIf="app.config?.biddingOpen === true">There are some amazing prizes available for you to bid on.</span>
+      <span *ngIf="app.config?.biddingOpen === false">The auction is now <strong>closed</strong>.<br>If you won an item then you should be contacted to for payment and collection.</span>
+    </p>
     <h2>{{ (category | async)?.name || 'All Items' }}</h2>
     <app-bid-overview [items]="items | async"></app-bid-overview>
 
@@ -20,6 +23,7 @@
         [category]="category | async"
         [userBids]="(userInfo | async)?.bidding"
         (bid)="bid($event)"
-        (select)="select($event)"></app-item-list>
+        (select)="select($event)"
+        [biddingOpen]="app.config?.biddingOpen"></app-item-list>
   </mat-sidenav-content>
 </mat-sidenav-container>

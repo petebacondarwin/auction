@@ -9,7 +9,7 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { Destroyable } from 'app/destroyable';
-import { Category, Item, BidInfo, Bid, UserInfo, UserBidding } from 'app/models';
+import { Category, Item, BidInfo, Bid, UserInfo, UserBidding, Config } from 'app/models';
 import { withId } from 'app/utils';
 
 const emptyBidInfo: BidInfo = { bidCount: 0, winningBids: [] };
@@ -27,17 +27,19 @@ export class Storage extends Destroyable {
   private raffleItemsCol = this.afStore.collection<Item>('raffle-items');
   private magicBoxItemsCol = this.afStore.collection<Item>('magic-box-items');
   private bidsCol = this.afStore.collection<Bid>('bids');
+  private configCol = this.afStore.collection<Config>('config');
 
   categoriesChanges = this.getColChangesWithId(this.categoriesCol);
   auctionItemsChanges = combineLatest(
     this.getColChangesWithId(this.auctionItemsCol),
     this.getCollectionMap(this.bidInfoCol),
-    (items, bidInfo) => items.map(item => ({ ...item, bidInfo: (bidInfo[item.id] || emptyBidInfo) }))
+    (items, bidInfo) => items.filter(item => item.active !== false).map(item => ({ ...item, bidInfo: (bidInfo[item.id] || emptyBidInfo) }))
   );
   raffleItemsChanges = this.getColChangesWithId(this.raffleItemsCol).pipe(
     map(items => items.sort((a, b) => b.value - a.value))
   );
   magicBoxItemsChanges = this.getColChangesWithId(this.magicBoxItemsCol);
+  configChanges = this.getColChangesWithId(this.configCol);
 
   constructor(private afStore: AngularFirestore) {
     super();

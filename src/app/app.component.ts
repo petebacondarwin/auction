@@ -4,6 +4,8 @@ import { Title } from '@angular/platform-browser';
 
 import { UserService } from 'app/auth/user.service';
 import { Destroyable } from 'app/destroyable';
+import { Config } from 'app/models';
+import { Storage } from 'app/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +17,11 @@ export class AppComponent extends Destroyable implements OnInit {
   readonly currentYear = new Date().getFullYear();
   isWide: boolean;
   userInfo = this.user.userInfoChanges;
+  config: Config;
 
   constructor(
     public user: UserService,
+    private storage: Storage,
     private breakpoints: BreakpointObserver,
     private titleService: Title
   ) {
@@ -28,6 +32,9 @@ export class AppComponent extends Destroyable implements OnInit {
     this.breakpoints.observe([Breakpoints.Large, Breakpoints.XLarge])
       .pipe(this.takeUntilDestroyed())
       .subscribe(breakpoint => this.isWide = breakpoint.matches);
+    this.storage.configChanges
+      .pipe(this.takeUntilDestroyed())
+      .subscribe(config => this.config = config[0]);
   }
 
   setPageTitle(title: string) {
