@@ -40,7 +40,9 @@ export const auctionItemAdded = firestore.document('auction-items/{itemId}')
     const category = action.data.get('category');
     db = db || admin.firestore();
     const itemsInCategory = await db.collection('auction-items').where('category', '==', category).get();
-    const itemCount = itemsInCategory.size;
+    console.log(itemsInCategory.docs.length);
+    console.log(itemsInCategory.docs.filter(item => item.data().active).length);
+    const itemCount = itemsInCategory.docs.filter(item => item.data().active).length;
     const params = action.params || {}; // this is a hack to avoid a bug in tslint
     console.log(`change to ${params['itemId']}: updating ${category} to ${itemCount}`);
     return await db.doc(`categories/${category}`).update('itemCount', itemCount);
