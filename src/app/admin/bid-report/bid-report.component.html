@@ -1,32 +1,34 @@
 <h2>Coleridge Summer Fair - Bid Summary Report</h2>
-<table class="table">
+<table class="mat-table mat-elevation-z8">
   <thead>
-    <tr>
-      <th rowspan="2">Lot No.</th>
-      <th rowspan="2">Item Title</th>
-      <th rowspan="2">Quantity</th>
-      <th colspan="6">Winning Bids</th>
+    <tr class="mat-header-row">
+      <th class="mat-header-cell" rowspan="2">Lot No.</th>
+      <th class="mat-header-cell" rowspan="2">Item Title</th>
+      <th class="mat-header-cell" rowspan="2">Quantity</th>
+      <th class="mat-header-cell" rowspan="2">No. Bids</th>
+      <th class="mat-header-cell" rowspan="2">Top Bid</th>
+      <th class="mat-header-cell" colspan="6">Winning Bids</th>
     </tr>
-    <tr>
-      <th>Amount</th>
-      <th>Bidder</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Class</th>
-      <th>Date</th>
+    <tr class="mat-header-row">
+      <th class="mat-header-cell">Amount</th>
+      <th class="mat-header-cell">Bidder Email</th>
+      <th class="mat-header-cell">Bidder Phone</th>
+      <th class="mat-header-cell">Bidder Class</th>
+      <th class="mat-header-cell">Date</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>[[$item->lot]]</td>
-      <td>[[$item->title]]</td>
-      <td>[[$item->quantity]]</td>
-      <td>[[$bid->amount]]</td>
-      <td>[[$bid->bidder->fullName]]</td>
-      <td>[[$bid->bidder->email]]</td>
-      <td>[[$bid->bidder->phoneNumber]]</td>
-      <td>[[$bid->bidder->schoolClass]]</td>
-      <td>[[$bid->created_at]]</td>
+    <tr class="mat-row" *ngFor="let row of rows | async as rows; index as index">
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.item.lot }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.item.title }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.item.quantity }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.winningBids.length }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">&pound;{{ row.bidValue }}</td>
+      <td class="mat-cell">{{ row.bid ? '&pound;' + row.bid.bid.amount : '' }}</td>
+      <td class="mat-cell">{{ row.bid?.user.email || '' }}</td>
+      <td class="mat-cell">{{ row.bid?.user.phone || '' }}</td>
+      <td class="mat-cell">{{ row.bid?.user.childDetails || '' }}</td>
+      <td class="mat-cell">{{ row.bid?.bid.timestamp | date : 'd MMM y - h:mm a' || '' }}</td>
     </tr>
   </tbody>
 </table>

@@ -9,7 +9,7 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { Destroyable } from 'app/destroyable';
-import { Category, Item, BidInfo, Bid, UserInfo, UserBidding, Config } from 'app/models';
+import { BidWithUser, Category, Item, BidInfo, Bid, UserInfo, UserBidding, Config } from 'app/models';
 import { withId } from 'app/utils';
 
 const emptyBidInfo: BidInfo = { bidCount: 0, winningBids: [] };
@@ -28,6 +28,7 @@ export class Storage extends Destroyable {
   private magicBoxItemsCol = this.afStore.collection<Item>('magic-box-items');
   private bidsCol = this.afStore.collection<Bid>('bids');
   private configCol = this.afStore.collection<Config>('config');
+  private userInfoCol = this.afStore.collection<UserInfo>('users');
 
   categoriesChanges = this.getColChangesWithId(this.categoriesCol);
   auctionItemsChanges = combineLatest(
@@ -60,14 +61,19 @@ export class Storage extends Destroyable {
   }
 
   getBidReport() {
-    combineLatest(
+    return combineLatest(
+      this.getColChangesWithId(this.userInfoCol),
       this.getColChangesWithId(this.bidsCol),
-      this.auctionItemsChanges,
-      (bids, items) => items.map(item => {
-        const winningBids = item.bidInfo.winningBids.map(bid => bids.find(b => b.id === bid.bid));
-        // TODO!!!
-        return { ...item, bidInfo: { ...item.bidInfo, winningBids } };
-      }));
+      this.getColChangesWithId(this.auctionItemsCol),
+      (users, bids, items) => items.map(item => {
+        const bidsWithUserInfo = bids.map(bid => ({ bid, user: users.find(user => user.id === bid.bidder) }));
+        const winningBids: BidWithUser[] = bidsWithUserInfo
+          .filter(bid => bid.bid.item === item.id)
+          .slice(0, item.quantity)
+          .fill({} as any, bidsWithUserInfo.length, item.quantity);
+        return { item, winningBids };
+      }).sort((left, right) => +left.item.id - +right.item.id)
+    );
   }
 
   deleteAllItems(collection: string) {

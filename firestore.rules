@@ -19,7 +19,7 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, write: if isCurrentUser(userId);
+      allow read, write: if isCurrentUser(userId) || isAdmin();
     }
 
     match /categories/{category} {

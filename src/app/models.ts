@@ -65,6 +65,11 @@ export interface Bid {
   amount: number;
 }
 
+export interface BidWithUser {
+  bid: Bid;
+  user: UserInfo;
+}
+
 export interface Config {
   biddingOpen: boolean;
 }
