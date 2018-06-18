@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
 import { Category, Item, Bid, UserBidding } from 'app/models';
 
 @Component({
@@ -24,11 +22,19 @@ export class ItemListComponent {
   @Input()
   biddingOpen: boolean;
 
+  @Input()
+  isWide: boolean;
+
   @Output()
   bid = new EventEmitter<Bid>();
 
   @Output()
   select = new EventEmitter<{category?: Category, item: Item}>();
+
+
+  headerHeight() {
+    return this.isWide ? '100px' : '150px';
+  }
 
   getUserBids(item: Item) {
     return this.userBids && this.userBids.filter(bidding => bidding.item.id === item.id);

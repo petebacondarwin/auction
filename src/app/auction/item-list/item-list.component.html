@@ -8,7 +8,7 @@
      [appScrollIntoView]="current?.id === item.id"
 >
     <mat-expansion-panel class="auction-item" (opened)="onSelect(item)" [expanded]="current?.id === item.id">
-    <mat-expansion-panel-header collapsedHeight="100px" expandedHeight="100px">
+    <mat-expansion-panel-header [collapsedHeight]="headerHeight()" [expandedHeight]="headerHeight()">
       <mat-panel-title>
         <img [src]="'assets/images/items/' + item.imageName" alt="{{ item.title }}">
         <p><b>{{item.title}}&nbsp;<span *ngIf="item.value && item.showValue"> (worth&nbsp;&pound;{{item.value}})</span></b>

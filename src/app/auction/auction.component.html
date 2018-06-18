@@ -22,6 +22,7 @@
         [current]="item | async"
         [category]="category | async"
         [userBids]="(userInfo | async)?.bidding"
+        [isWide]="app.isWide"
         (bid)="bid($event)"
         (select)="select($event)"
         [biddingOpen]="app.config?.biddingOpen"></app-item-list>
