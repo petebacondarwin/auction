@@ -57,6 +57,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { BidOverviewComponent } from './auction/bid-overview/bid-overview.component';
+import { AuctionRulesComponent } from './auction/auction-rules/auction-rules.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB9hEev-uMrgTQilyuHCtKcEUFMcVOFcpM',
@@ -96,7 +97,8 @@ const firebaseConfig = {
     AdminComponent,
     CatalogueComponent,
     LeaderboardComponent,
-    BidOverviewComponent
+    BidOverviewComponent,
+    AuctionRulesComponent
   ],
   imports: [
     BrowserModule,

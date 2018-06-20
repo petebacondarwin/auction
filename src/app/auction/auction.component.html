@@ -14,8 +14,10 @@
       <span *ngIf="app.config?.biddingOpen === true">There are some amazing prizes available for you to bid on.</span>
       <span *ngIf="app.config?.biddingOpen === false">The auction is now <strong>closed</strong>.<br>If you won an item then you should be contacted to for payment and collection.</span>
     </p>
+    <app-auction-rules></app-auction-rules>
     <h2>{{ (category | async)?.name || 'All Items' }}</h2>
     <app-bid-overview [items]="items | async"></app-bid-overview>
+
 
     <app-item-list
         [items]="items | async"
