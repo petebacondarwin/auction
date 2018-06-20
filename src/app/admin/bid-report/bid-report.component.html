@@ -5,8 +5,7 @@
       <th class="mat-header-cell" rowspan="2">Lot No.</th>
       <th class="mat-header-cell" rowspan="2">Item Title</th>
       <th class="mat-header-cell" rowspan="2">Quantity</th>
-      <th class="mat-header-cell" rowspan="2">No. Bids</th>
-      <th class="mat-header-cell" rowspan="2">Top Bid</th>
+      <th class="mat-header-cell" rowspan="2">Total Bids</th>
       <th class="mat-header-cell" colspan="6">Winning Bids</th>
     </tr>
     <tr class="mat-header-row">
@@ -19,16 +18,15 @@
   </thead>
   <tbody>
     <tr class="mat-row" *ngFor="let row of rows | async as rows; index as index">
-      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.item.lot }}</td>
-      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.item.title }}</td>
-      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.item.quantity }}</td>
-      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">{{ row.winningBids.length }}</td>
-      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningBids.length || 1">&pound;{{ row.bidValue }}</td>
-      <td class="mat-cell">{{ row.bid ? '&pound;' + row.bid.bid.amount : '' }}</td>
-      <td class="mat-cell">{{ row.bid?.user.email || '' }}</td>
-      <td class="mat-cell">{{ row.bid?.user.phone || '' }}</td>
-      <td class="mat-cell">{{ row.bid?.user.childDetails || '' }}</td>
-      <td class="mat-cell">{{ row.bid?.bid.timestamp | date : 'd MMM y - h:mm a' || '' }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningCount || 1">{{ row.lot }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningCount || 1">{{ row.title }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningCount || 1">{{ row.quantity }}</td>
+      <td class="mat-cell" *ngIf="firstBidRow(rows, index)" [attr.rowspan]="row.winningCount || 1">{{ row.bidCount }}</td>
+      <td class="mat-cell">{{ row.amount ? '&pound;' + row.amount : '' }}</td>
+      <td class="mat-cell">{{ row?.email || '' }}</td>
+      <td class="mat-cell">{{ row?.phone || '' }}</td>
+      <td class="mat-cell">{{ row?.childDetails || '' }}</td>
+      <td class="mat-cell">{{ row?.timestamp | date : 'd MMM y - h:mm a' || '' }}</td>
     </tr>
   </tbody>
 </table>

@@ -63,6 +63,7 @@ export interface Bid {
   bidder: Identifier;
   item: Identifier;
   amount: number;
+  timestamp: Date;
 }
 
 export interface BidWithUser {

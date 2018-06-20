@@ -60,19 +60,33 @@ export class Storage extends Destroyable {
     );
   }
 
-  getBidReport() {
+  getBidReport(): Observable<(Bid&Item&UserInfo&{bidCount: number, winningCount: number})[]> {
     return combineLatest(
       this.getColChangesWithId(this.userInfoCol),
       this.getColChangesWithId(this.bidsCol),
       this.getColChangesWithId(this.auctionItemsCol),
-      (users, bids, items) => items.map(item => {
-        const bidsWithUserInfo = bids.map(bid => ({ bid, user: users.find(user => user.id === bid.bidder) }));
-        const winningBids: BidWithUser[] = bidsWithUserInfo
-          .filter(bid => bid.bid.item === item.id)
-          .slice(0, item.quantity)
-          .fill({} as any, bidsWithUserInfo.length, item.quantity);
-        return { item, winningBids };
-      }).sort((left, right) => +left.item.id - +right.item.id)
+      (users, bids, items) => items
+        .reduce((result, item) => {
+          const itemBids = bids
+            .filter(bid => bid.item === item.id)
+            .sort((a, b) => b.amount - a.amount || a.timestamp.valueOf() - b.timestamp.valueOf());
+          const winningBids = itemBids
+            .filter((_item, index) => index < item.quantity);
+          const flatBids = winningBids.map(bid => ({
+              ...bid,
+              ...users.find(user => user.id === bid.bidder),
+              ...item,
+              bidCount: itemBids.length,
+              winningCount: winningBids.length,
+            }));
+          // Ensure that we have slots for all the bids
+          if (flatBids.length === 0) {
+            flatBids.push({ ...item, bidCount: 0, winningCount: 0 } as any);
+          }
+          if (item.lot === 2) { console.log('item:', item.lot, itemBids, winningBids, flatBids); }
+          return result.concat(flatBids);
+        }, [])
+        .sort((a, b) => a.lot - b.lot || b.amount - a.amount || a.timestamp.valueOf() - b.timestamp.valueOf())
     );
   }
 

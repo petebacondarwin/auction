@@ -87,7 +87,8 @@ export class BidInfoComponent extends Destroyable implements OnInit {
     this.bid.emit({
       bidder: userInfo.user.uid,
       item: this.item.id,
-      amount: bidAmount
+      amount: bidAmount,
+      timestamp: new Date()
     });
   }
 }
