@@ -73,32 +73,32 @@ export const bidEntered = firestore.document('bids/{bidId}')
     await sendBidEmail(user, userInfo, item, bid);
   });
 
-  export const bidInfoUpdated = firestore.document('bid-info/{bidInfoId}')
-    .onWrite(async (action: Event<firestore.DeltaDocumentSnapshot>) => {
-      db = db || admin.firestore();
-      auth = auth || admin.auth();
+export const bidInfoUpdated = firestore.document('bid-info/{bidInfoId}')
+  .onWrite(async (action: Event<firestore.DeltaDocumentSnapshot>) => {
+    db = db || admin.firestore();
+    auth = auth || admin.auth();
 
-      const newWinningBids: WinningBid[] = action.data.get('winningBids');
-      const newWinningBidSet = new Set(newWinningBids.map(winningBid => winningBid.bid));
-      const bidToBeatId = newWinningBids[newWinningBids.length - 1].bid;
-      const bidToBeat = (await db.doc(`bids/${bidToBeatId}`).get()).data() as Bid;
+    const newWinningBids: WinningBid[] = action.data.get('winningBids');
+    const newWinningBidSet = new Set(newWinningBids.map(winningBid => winningBid.bid));
+    const bidToBeatId = newWinningBids[newWinningBids.length - 1].bid;
+    const bidToBeat = (await db.doc(`bids/${bidToBeatId}`).get()).data() as Bid;
 
-      const oldWinningBids: WinningBid[] = action.data.previous.get('winningBids') || [];
-      const oldWinningBidSet = new Set(oldWinningBids.map(winningBid => winningBid.bid));
+    const oldWinningBids: WinningBid[] = action.data.previous.get('winningBids') || [];
+    const oldWinningBidSet = new Set(oldWinningBids.map(winningBid => winningBid.bid));
 
-      newWinningBidSet.forEach(bidId => oldWinningBidSet.delete(bidId));
+    newWinningBidSet.forEach(bidId => oldWinningBidSet.delete(bidId));
 
-      console.log(oldWinningBidSet);
-      for(const bidId of oldWinningBidSet) {
-        // email the bidder who was outbid
-        const bid = (await db.doc(`bids/${bidId}`).get()).data() as Bid;
-        const user = await auth.getUser(bid.bidder);
-        const userInfo = await getUserInfo(bid.bidder);
-        const item = await getItem(bid.item);
-        console.log('Emailing ', user.email);
-        await sendOutBidEmail(user, userInfo, item, bidToBeat, bid);
-      }
-    });
+    console.log(oldWinningBidSet);
+    for(const bidId of oldWinningBidSet) {
+      // email the bidder who was outbid
+      const bid = (await db.doc(`bids/${bidId}`).get()).data() as Bid;
+      const user = await auth.getUser(bid.bidder);
+      const userInfo = await getUserInfo(bid.bidder);
+      const item = await getItem(bid.item);
+      console.log('Emailing ', user.email);
+      await sendOutBidEmail(user, userInfo, item, bidToBeat, bid);
+    }
+  });
 
 async function getUserInfo(userId: string) {
   db = db || admin.firestore();
