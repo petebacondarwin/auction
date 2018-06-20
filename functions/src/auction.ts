@@ -26,7 +26,9 @@ interface WinningBid {
   amount: number;
 }
 
-interface UserInfo {
+export interface UserInfo {
+  id?: string;
+  email: string;
   phone: string;
   roles?: {
     admin?: boolean;
