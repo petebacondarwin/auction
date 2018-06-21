@@ -1,18 +1,19 @@
 import { Event, firestore } from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { sendEmail } from './email';
+import { sendEmail, getFooter, getTableStyling } from './email';
 
 let db: FirebaseFirestore.Firestore;
 let auth: admin.auth.Auth;
 
-interface Bid {
+export interface Bid {
   id: string;
   bidder: string;
   item: string;
   amount: number;
+  timestamp: Date;
 }
 
-interface Item {
+export interface Item {
   id: string;
   lot: string;
   title: string;
@@ -21,7 +22,7 @@ interface Item {
   quantity: number;
 }
 
-interface WinningBid {
+export interface WinningBid {
   bid: string;
   amount: number;
 }
@@ -127,22 +128,7 @@ async function sendBidEmail(user: admin.auth.UserRecord, userInfo: UserInfo, ite
     <head>
       <meta charset="utf-8" http-equiv="Content-Type" content="text/html" />
       <title>Coleridge Summer Fair - Auction Bids</title>
-      <style>
-        table {
-          border-collapse: collapse;
-          border: solid 1px black;
-          text-align: left;
-          vertical-align: top;
-        }
-        tr {
-          text-align: left;
-          vertical-align: top;
-        }
-        th, td {
-          border: solid 1px black;
-          padding: 2px
-        }
-      </style>
+      ${getTableStyling()}
     </head>
     <body>
     <p>
@@ -208,22 +194,7 @@ async function sendOutBidEmail(user: admin.auth.UserRecord, userInfo: UserInfo, 
     <head>
       <meta charset="utf-8" http-equiv="Content-Type" content="text/html" />
       <title>Coleridge Summer Fair - Auction Bids</title>
-      <style>
-        table {
-          border-collapse: collapse;
-          border: solid 1px black;
-          text-align: left;
-          vertical-align: top;
-        }
-        tr {
-          text-align: left;
-          vertical-align: top;
-        }
-        th, td {
-          border: solid 1px black;
-          padding: 2px
-        }
-      </style>
+      ${getTableStyling()}
     </head>
     <body>
     <p>
@@ -264,13 +235,3 @@ async function sendOutBidEmail(user: admin.auth.UserRecord, userInfo: UserInfo, 
   `);
 }
 
-function getFooter() {
-  return `
-  <p>
-  <small>
-    You are receiving this email because you ticked the "Notify me, by email, about my bids" checkbox when you submitted the bid.<br/>
-    If you do not wish to receive further emails then please <a href="https://coleridge-summer-fair.org/profile">update your profile</a>, contact us by email, <a href="mailto:auction@coleridge-summer-fair.org?subject=Do not notify me">auction@coleridge-summer-fair.org</a> or phone, 07957157280</em>
-  </small>
-  </p>
-  `
-}
