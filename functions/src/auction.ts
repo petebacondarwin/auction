@@ -20,6 +20,7 @@ export interface Item {
   shortDescription?: string;
   longDescription: string;
   quantity: number;
+  topItem: boolean;
 }
 
 export interface WinningBid {

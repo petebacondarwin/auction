@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin';
 import { setApiKey } from '@sendgrid/mail';
 import { sendWelcomeEmail } from './auth';
 import { auctionItemAdded, bidEntered, bidInfoUpdated } from './auction';
-import { processQueue } from './queue';
+import { processQueue } from './queue/queue';
 
 setApiKey(config().sendgrid.api_key);
 admin.initializeApp(config().firebase);
